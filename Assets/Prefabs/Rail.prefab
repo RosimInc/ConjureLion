@@ -9,7 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 409956}
   - 114: {fileID: 11409956}
-  m_Layer: 8
+  m_Layer: 14
   m_Name: RailDecorator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - 33: {fileID: 3354190}
   - 136: {fileID: 13654190}
   - 23: {fileID: 2354190}
-  m_Layer: 8
+  m_Layer: 14
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83,7 +83,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 154190}
   m_LocalRotation: {x: .707106829, y: 0, z: 0, w: .707106829}
-  m_LocalPosition: {x: 0, y: 0, z: 2}
+  m_LocalPosition: {x: 0, y: -0, z: .150000006}
   m_LocalScale: {x: .5, y: .100000001, z: .5}
   m_Children: []
   m_Father: {fileID: 409956}
@@ -100,7 +100,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: 0bfbb6d309f367d4b9cadfdf72ee838b, type: 2}
+  - {fileID: 2100000, guid: 070b41e4bab326a4c85dd72e78521d26, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -130,6 +130,8 @@ MonoBehaviour:
   lineOptions:
     lineWidth: .200000003
     lineMaterial: {fileID: 2100000, guid: 0bfbb6d309f367d4b9cadfdf72ee838b, type: 2}
+    lineIntWidth: .100000001
+    lineIntMaterial: {fileID: 2100000, guid: 690884d0ed7462c42a99f77afdd665b5, type: 2}
   spline: {fileID: 11409958}
 --- !u!114 &11409958
 MonoBehaviour:
