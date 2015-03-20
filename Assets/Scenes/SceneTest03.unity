@@ -1671,7 +1671,7 @@ MonoBehaviour:
   ball: {fileID: 343120920}
   activated: 0
   staticDetection: {fileID: 0}
-  PlayerNumber: 1
+  PlayerNumber: 0
 --- !u!114 &302814388
 MonoBehaviour:
   m_ObjectHideFlags: 0

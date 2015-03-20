@@ -1,5 +1,21 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &143344
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 443344}
+  - 61: {fileID: 6143344}
+  m_Layer: 14
+  m_Name: StaticDetection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &160020
 GameObject:
   m_ObjectHideFlags: 0
@@ -148,6 +164,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &443344
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 143344}
+  m_LocalRotation: {x: .707106829, y: 0, z: 0, w: .707106829}
+  m_LocalPosition: {x: 0, y: -0, z: .15000011}
+  m_LocalScale: {x: .200000003, y: .199999958, z: 1}
+  m_Children: []
+  m_Father: {fileID: 499782}
+  m_RootOrder: 0
 --- !u!4 &460020
 Transform:
   m_ObjectHideFlags: 1
@@ -259,9 +287,10 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 199782}
   m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106829}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.66999996, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 443344}
   m_Father: {fileID: 460028}
   m_RootOrder: 1
 --- !u!50 &5068798
@@ -294,6 +323,17 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
+--- !u!61 &6143344
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 143344}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Size: {x: 1, y: 1}
+  m_Center: {x: 0, y: 0}
 --- !u!61 &6170978
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -316,12 +356,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 036872f91dd56b349908b3ea676ae096, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerNumber: 2
+  PlayerNumber: 1
   WindParticles: {fileID: 19860034}
   MinimumParticlesVelocity: -5
   MaximumParticlesVelocity: -20
   rotateSpeed: 1
   Body: {fileID: 460028}
+  StaticDetection: {fileID: 6143344}
 --- !u!114 &11445714
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -334,12 +375,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 8
-  force: 5000
-  vision: 10
+  force: 7000
+  vision: 50
   attract: 1
   aim: {fileID: 199782}
   ball: {fileID: 0}
   activated: 0
+  staticDetection: {fileID: 143344}
+  PlayerNumber: 1
 --- !u!114 &11460034
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -352,7 +395,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spline: {fileID: 0}
-  PlayerNumber: 2
+  PlayerNumber: 1
   speed: 1
   defaultProgress: 0
   fix: {fileID: 160020}
