@@ -57,7 +57,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 460026}
   - 114: {fileID: 11460034}
-  - 114: {fileID: 11460032}
+  - 114: {fileID: 11402716}
+  - 114: {fileID: 11445714}
   m_Layer: 0
   m_Name: Aspi
   m_TagString: Untagged
@@ -250,7 +251,7 @@ PolygonCollider2D:
       - {x: -.103609852, y: .137112305}
       - {x: -.256017029, y: .465538114}
       - {x: -.751828134, y: 1.55679691}
---- !u!114 &11460032
+--- !u!114 &11402716
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -258,15 +259,33 @@ MonoBehaviour:
   m_GameObject: {fileID: 160026}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fac7245d3c9f8ed43b442cb21799456d, type: 3}
+  m_Script: {fileID: 11500000, guid: 036872f91dd56b349908b3ea676ae096, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerNumber: 2
+  PlayerNumber: 1
   WindParticles: {fileID: 19860034}
   MinimumParticlesVelocity: -5
-  MaximumParticlesVelocity: -10
+  MaximumParticlesVelocity: -20
   rotateSpeed: 1
   Body: {fileID: 460028}
+--- !u!114 &11445714
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 160026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c54ee5038cebf524789f8809344a01b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 0
+  force: 0
+  vision: 0
+  attract: 0
+  aim: {fileID: 0}
+  ball: {fileID: 0}
+  activated: 0
 --- !u!114 &11460034
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -279,7 +298,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spline: {fileID: 0}
-  PlayerNumber: 2
+  PlayerNumber: 1
   speed: 1
   defaultProgress: 0
   fix: {fileID: 160020}
@@ -473,7 +492,7 @@ ParticleSystem:
         rgba: 4294967295
       minMaxState: 0
     startSize:
-      scalar: .200000003
+      scalar: .0799999982
       maxCurve:
         serializedVersion: 2
         m_Curve:
