@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class BallEffect : MonoBehaviour {
 
@@ -8,15 +9,16 @@ public class BallEffect : MonoBehaviour {
 	public float vision;
 	public bool attract;
 	public GameObject aim;
-	public GameObject ball;
+	private GameObject ball;
 	public bool activated;
     public GameObject staticDetection;
-    public int PlayerNumber;
+    public int PlayerNumber = 1;
 
     private bool _stayStatic = false;
 
 	// Use this for initialization
 	void Start () {
+		ball = GameObject.FindGameObjectWithTag ("Ball");
 		ResourceManager.Instance.AddMovingObject(ball);
 	}
 
@@ -89,10 +91,13 @@ public class BallEffect : MonoBehaviour {
 			radius))
 		{
 			if (hit.collider.gameObject.layer == 8) return;
+			
+			float maxTriggerValue = Mathf.Max( Input.GetAxisRaw("TriggersL_" + PlayerNumber), Input.GetAxisRaw("TriggersR_" + PlayerNumber));
+			maxTriggerValue = Mathf.Max ( maxTriggerValue, Math.Abs(Input.GetAxisRaw("TriggersLR_" + PlayerNumber)));
 
 			ball.rigidbody2D.AddForce(force * mod * toBall.normalized *
 					(radius - distance) / radius * Time.fixedDeltaTime *
-                    Mathf.Max( Input.GetAxisRaw("TriggersL_" + PlayerNumber), Input.GetAxisRaw("TriggersR_" + PlayerNumber)), ForceMode2D.Force);
+                    maxTriggerValue, ForceMode2D.Force);
 		}
 	}
 

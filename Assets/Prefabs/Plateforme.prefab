@@ -8,8 +8,9 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 409562}
-  - 136: {fileID: 13609564}
-  - 114: {fileID: 11409564}
+  - 50: {fileID: 5089576}
+  - 61: {fileID: 6189576}
+  - 114: {fileID: 11489576}
   m_Layer: 0
   m_Name: Plateforme
   m_TagString: Untagged
@@ -26,7 +27,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 409564}
   - 212: {fileID: 21209564}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Plateforme_Barre
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,7 +59,33 @@ Transform:
   m_Children: []
   m_Father: {fileID: 409562}
   m_RootOrder: 0
---- !u!114 &11409564
+--- !u!50 &5089576
+Rigidbody2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 109562}
+  m_Mass: 1e+06
+  m_LinearDrag: 0
+  m_AngularDrag: .0500000007
+  m_GravityScale: 1
+  m_FixedAngle: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+--- !u!61 &6189576
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 109562}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Size: {x: 5.80000019, y: 1}
+  m_Center: {x: 0, y: 0}
+--- !u!114 &11489576
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -66,26 +93,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 109562}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dccfd43f1684a2344a619561c92bc66c, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d48eb6ec79db57408fa3d4f6ae36f7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   spline: {fileID: 0}
   duration: 10
-  lookForward: 0
-  mode: 2
---- !u!136 &13609564
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 109562}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: .5
-  m_Height: 6
-  m_Direction: 0
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!212 &21209564
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -6,6 +6,8 @@ public class SplinePipe : MonoBehaviour {
 	private LineRenderer lineRend;
 	private LineRenderer lineIntRend;
 	public Transform toe;
+	public bool isBlowable = true;
+	public float powerBlow = 2;
 	
 	[System.Serializable]
 	public class LineOptions
@@ -18,14 +20,30 @@ public class SplinePipe : MonoBehaviour {
 	
 	//Line options
 	public LineOptions lineOptions = new LineOptions();
+	public Blower blower = new Blower();
+	
+	public float blowIntensity = 0f;
 	
 	public BezierSpline spline;
 	
+	private GameObject ball;
+	private bool ballIsIn = false;
+	
 	private void Start () {
+		//Pour les tests 
+		blower.intensity = 1;
+		blower.isAtBeginning = true;
+		
+		//Général
 		float lineRadius = (lineOptions.pipeInteriorRadius + lineOptions.pipeRadius )/2;
-		PolygonCollider2D borderCol = this.gameObject.AddComponent<PolygonCollider2D>();
+		GameObject borders = new GameObject();
+		borders.transform.parent = this.transform;
+		
+		PolygonCollider2D borderCol = borders.AddComponent<PolygonCollider2D>();
 		borderCol.pathCount = 2;
 		float borderWidth = lineOptions.pipeRadius - lineOptions.pipeInteriorRadius;
+		
+		ball = GameObject.FindGameObjectWithTag ("Ball");
 		
 		//Butées :
 		Transform beginToe = Instantiate(toe) as Transform;
@@ -37,6 +55,7 @@ public class SplinePipe : MonoBehaviour {
 		endPosition.z = 1.1f;
 		toe.transform.position = endPosition;
 		
+	//Partie intérieure
 		//Affichage intérieur
 		GameObject pipeInt = new GameObject();
 		pipeInt.transform.parent = this.transform;
@@ -56,11 +75,38 @@ public class SplinePipe : MonoBehaviour {
 			lineRend.SetPosition(i, position);
 		}
 		
+	//Partie intérieure collider
+		Vector2[] interiorPath = new Vector2[200];
+		for(int i = 0; i < 100; i++ )
+		{
+			Vector3 position = spline.GetPoint((float)i/100);
+			Vector3 direction = spline.GetDirection((float)i/100);
+			Vector3 translation = new Vector3 (
+				-direction.y * lineOptions.pipeInteriorRadius, 
+				direction.x * lineOptions.pipeInteriorRadius, 
+				0);
+			interiorPath[i] = Vector3to2(position + translation - this.transform.parent.transform.position);
+		}
+		for(int i = 99; i >= 0; i-- )
+		{
+			Vector3 position = spline.GetPoint((float)i/100);
+			Vector3 direction = spline.GetDirection((float)i/100);
+			Vector3 translation = new Vector3 (
+				direction.y * lineOptions.pipeInteriorRadius, 
+				-direction.x * lineOptions.pipeInteriorRadius, 
+				0);
+			
+			interiorPath[199 - i] = Vector3to2 (position + translation - this.transform.parent.transform.position );
+		}
+		PolygonCollider2D interiorCol = this.gameObject.AddComponent<PolygonCollider2D>();
+		interiorCol.pathCount = 1;
+		interiorCol.SetPath(0, interiorPath);
+		interiorCol.isTrigger = true;
+		
 	//Partie supérieure
 		//Partie supérieure affichage
 		GameObject borderSup = new GameObject();
 		borderSup.transform.parent = this.transform;
-		borderSup.transform.position = this.transform.position;
 		
 		LineRenderer lineSupRend = borderSup.AddComponent<LineRenderer>();
 		lineSupRend.useWorldSpace = true;
@@ -88,7 +134,7 @@ public class SplinePipe : MonoBehaviour {
 				-direction.y * lineOptions.pipeInteriorRadius, 
 				direction.x * lineOptions.pipeInteriorRadius, 
 				0);
-			borderSupPath[i] = Vector3to2(position + translation - this.transform.parent.transform.position);
+			borderSupPath[i] = Vector3to2(position + translation );
 		}
 		for(int i = 99; i >= 0; i-- )
 		{
@@ -99,14 +145,13 @@ public class SplinePipe : MonoBehaviour {
 				direction.x * lineOptions.pipeRadius, 
 				0);
 			
-			borderSupPath[199 - i] = Vector3to2 (position + translation - this.transform.parent.transform.position );
+			borderSupPath[199 - i] = Vector3to2 (position + translation );
 		}
 		borderCol.SetPath(0, borderSupPath);
 		
 		//Partie inférieure
 		GameObject borderInf = new GameObject();
 		borderInf.transform.parent = this.transform;
-		borderSup.transform.position = this.transform.position;
 		
 		LineRenderer lineInfRend = borderInf.AddComponent<LineRenderer>();
 		lineInfRend.useWorldSpace = true;
@@ -134,7 +179,7 @@ public class SplinePipe : MonoBehaviour {
 				direction.y * lineOptions.pipeInteriorRadius, 
 				-direction.x * lineOptions.pipeInteriorRadius, 
 				0);
-			borderInfPath[i] = Vector3to2(position+translation - this.transform.parent.transform.position);
+			borderInfPath[i] = Vector3to2(position+translation );
 		}
 		for(int i = 99; i >= 0; i-- )
 		{
@@ -144,7 +189,7 @@ public class SplinePipe : MonoBehaviour {
 				direction.y * lineOptions.pipeRadius, 
 				-direction.x * lineOptions.pipeRadius, 
 				0);
-			borderInfPath[199 - i] = Vector3to2 (position+translation - this.transform.parent.transform.position);
+			borderInfPath[199 - i] = Vector3to2 (position+translation );
 		}
 		borderCol.SetPath(1, borderInfPath);
 	}
@@ -152,4 +197,85 @@ public class SplinePipe : MonoBehaviour {
 	private Vector2 Vector3to2 (Vector3 u) {
 		return new Vector2(u.x, u.y);	
 	}
+	
+	private void Update() {
+		//Checking player is blowing in the player
+		if(blower == null)
+			return;
+		if(blower.intensity == 0) 
+			return;
+		
+		if(blower.isAtBeginning)
+			blowIntensity = blower.intensity;
+		else
+			blowIntensity = - (blower.intensity);
+			
+		//Afficher des particules d'air
+		
+		
+		//Déplacer la balle
+		if(ballIsIn && blowIntensity != 0) {
+			//Récupérer la progression de la balle dans le tuyau
+			float progression = GetProgression(ball.transform.position);
+			Vector2 direction = spline.GetDirection(progression);
+			Vector2 force = direction * blowIntensity * 150* powerBlow* Time.deltaTime;
+			ball.rigidbody2D.AddForce( force );
+			//Debug.Log("blow itnensity "+blowIntensity + " force "+force.x+" y "+force.y);
+			
+		}
+	}
+	
+	private void OnTriggerEnter2D (Collider2D coll)
+	{
+		if(coll.gameObject.tag != "Ball")
+			return;
+		else 
+			ballIsIn = true;
+		
+		Debug.Log("ballIsIn "+ballIsIn);
+	}
+	
+	private void OnTriggerStay2D (Collider2D coll)
+	{
+		if(coll.gameObject.tag != "Ball")
+			return;
+		else 
+			ballIsIn = true;
+			
+		Debug.Log("ballIsIn "+ballIsIn);
+	}
+	
+	private void OnTriggerExit2D (Collider2D coll)
+	{
+		if(coll.gameObject.tag != "Ball")
+			return;
+		else 
+			ballIsIn = false;
+			
+		Debug.Log("Leave ballIsIn "+ballIsIn);
+	}
+	
+	[System.Serializable]
+	public class Blower
+	{
+		public float intensity; //-1 to 1
+		public bool isAtBeginning = false;
+	}
+	
+	public float GetProgression (Vector2 pos) {
+		float minDistance = 99;
+		float progression = 0;
+		
+		for(float i = 0.01f; i < 1f; i = i+0.01f) 
+		{
+			float distance = Vector2.Distance(pos, spline.GetPoint(i));
+			if(distance < minDistance )
+			{
+				minDistance = distance;
+				progression = i;
+			}			
+		}
+		return progression;
+	}
+	
 }
