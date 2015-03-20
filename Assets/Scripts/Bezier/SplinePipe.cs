@@ -60,6 +60,7 @@ public class SplinePipe : MonoBehaviour {
 		//Partie supérieure affichage
 		GameObject borderSup = new GameObject();
 		borderSup.transform.parent = this.transform;
+		borderSup.transform.position = this.transform.position;
 		
 		LineRenderer lineSupRend = borderSup.AddComponent<LineRenderer>();
 		lineSupRend.useWorldSpace = true;
@@ -102,10 +103,11 @@ public class SplinePipe : MonoBehaviour {
 		borderCol.SetPath(0, borderSupPath);
 		
 		//Partie inférieure
-		GameObject lineInf = new GameObject();
-		lineInf.transform.parent = this.transform;
+		GameObject borderInf = new GameObject();
+		borderInf.transform.parent = this.transform;
+		borderSup.transform.position = this.transform.position;
 		
-		LineRenderer lineInfRend = lineInf.AddComponent<LineRenderer>();
+		LineRenderer lineInfRend = borderInf.AddComponent<LineRenderer>();
 		lineInfRend.useWorldSpace = true;
 		
 		lineInfRend.SetWidth(borderWidth, borderWidth);
