@@ -26,6 +26,7 @@ GameObject:
   - 4: {fileID: 460954}
   - 198: {fileID: 19860954}
   - 199: {fileID: 19960954}
+  - 114: {fileID: 11403734}
   m_Layer: 12
   m_Name: WindParticles
   m_TagString: Untagged
@@ -250,6 +251,17 @@ PolygonCollider2D:
       - {x: -.0809895396, y: .142919526}
       - {x: -.280257136, y: .524734676}
       - {x: -1.51881266, y: 3.05946064}
+--- !u!114 &11403734
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 160956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02414aaf502b62045bb1ac489f86721e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11460954
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1321,8 +1333,8 @@ ParticleSystem:
       minMaxState: 1
     range: {x: 0, y: 1}
   CollisionModule:
-    enabled: 0
-    type: 0
+    enabled: 1
+    type: 1
     plane0: {fileID: 0}
     plane1: {fileID: 0}
     plane2: {fileID: 0}
@@ -1332,14 +1344,14 @@ ParticleSystem:
     dampen: 0
     bounce: 1
     energyLossOnCollision: 0
-    minKillSpeed: 0
+    minKillSpeed: 100
     particleRadius: .00999999978
     collidesWith:
       serializedVersion: 2
       m_Bits: 4294967295
     quality: 0
     voxelSize: .5
-    collisionMessages: 0
+    collisionMessages: 1
   SubModule:
     enabled: 0
     subEmitterBirth: {fileID: 0}
