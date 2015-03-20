@@ -10,15 +10,43 @@ public class BallEffect : MonoBehaviour {
 	public GameObject aim;
 	public GameObject ball;
 	public bool activated;
+    public GameObject staticDetection;
+    public int PlayerNumber;
+
+    private bool _stayStatic = false;
 
 	// Use this for initialization
 	void Start () {
 		
 	}
-	
+
+    void Update()
+    {
+        if (!activated)
+        {
+            _stayStatic = false;
+        }
+
+        if (_stayStatic)
+        {
+            ball.transform.position = staticDetection.transform.position;
+            ball.rigidbody2D.gravityScale = 0f;
+        }
+        else
+        {
+            ball.rigidbody2D.gravityScale = 0.5f;
+        }
+    }
+
 	// Update is called once per frame
 	void FixedUpdate () {
 		if (ball == null) return;
+
+        if (_stayStatic)
+        {
+            return;
+        }
+
         if (!activated)
         {
             return;
@@ -58,8 +86,17 @@ public class BallEffect : MonoBehaviour {
 				if (hit.collider.gameObject.layer == 8) return;
 
 				ball.rigidbody2D.AddForce(force * mod * toBall.normalized *
-					(radius - distance) / radius * Time.fixedDeltaTime, ForceMode2D.Force);
+					(radius - distance) / radius * Time.fixedDeltaTime *
+                    Mathf.Max( Input.GetAxisRaw("TriggersL_" + PlayerNumber), Input.GetAxisRaw("TriggersR_" + PlayerNumber)), ForceMode2D.Force);
 			}
 		}
 	}
+
+    void OnTriggerStay2D(Collider2D collider)
+    {
+        if (collider.gameObject == ball && attract && activated)
+        {
+            _stayStatic = true;
+        }
+    }
 }
