@@ -269,7 +269,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 116216, guid: ed4a63605aabb444b81b912c78520f67, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ed4a63605aabb444b81b912c78520f67, type: 2}
@@ -861,7 +861,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 702254623}
   - 212: {fileID: 702254624}
-  m_Layer: 13
+  - 50: {fileID: 702254625}
+  - 61: {fileID: 702254626}
+  m_Layer: 11
   m_Name: Souffli_Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -905,6 +907,32 @@ SpriteRenderer:
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 53a7a3c7943701a49ad46b95e59827c2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+--- !u!50 &702254625
+Rigidbody2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 702254622}
+  m_Mass: 1e+06
+  m_LinearDrag: 1e+06
+  m_AngularDrag: .0500000007
+  m_GravityScale: 0
+  m_FixedAngle: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+--- !u!61 &702254626
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 702254622}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Size: {x: 1.42999995, y: 2.49000001}
+  m_Center: {x: 0, y: 0}
 --- !u!1 &790559871
 GameObject:
   m_ObjectHideFlags: 0
@@ -1174,7 +1202,6 @@ GameObject:
   - 114: {fileID: 1315052963}
   - 114: {fileID: 1315052965}
   - 114: {fileID: 1315052964}
-  - 50: {fileID: 1315052966}
   m_Layer: 11
   m_Name: Souffli
   m_TagString: Untagged
@@ -1249,21 +1276,6 @@ MonoBehaviour:
   MaximumParticlesVelocity: 15
   rotateSpeed: 1
   Body: {fileID: 1958050847}
---- !u!50 &1315052966
-Rigidbody2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1315052961}
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: .0500000007
-  m_GravityScale: 0
-  m_FixedAngle: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
 --- !u!1 &1317636748
 GameObject:
   m_ObjectHideFlags: 0
@@ -1498,7 +1510,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 193398, guid: 6d49bd739b41e8549a73b833d613c4b8, type: 2}
       propertyPath: m_Layer
-      value: 13
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 193396, guid: 6d49bd739b41e8549a73b833d613c4b8, type: 2}
       propertyPath: m_Layer
@@ -2051,7 +2063,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &1993202562
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2161,6 +2173,7 @@ GameObject:
   - 4: {fileID: 2046420971}
   - 198: {fileID: 2046420972}
   - 199: {fileID: 2046420973}
+  - 114: {fileID: 2046420974}
   m_Layer: 13
   m_Name: WindParticles
   m_TagString: Untagged
@@ -3207,8 +3220,8 @@ ParticleSystem:
       minMaxState: 1
     range: {x: 0, y: 1}
   CollisionModule:
-    enabled: 0
-    type: 0
+    enabled: 1
+    type: 1
     plane0: {fileID: 0}
     plane1: {fileID: 0}
     plane2: {fileID: 0}
@@ -3218,14 +3231,14 @@ ParticleSystem:
     dampen: 0
     bounce: 1
     energyLossOnCollision: 0
-    minKillSpeed: 0
+    minKillSpeed: 100
     particleRadius: .00999999978
     collidesWith:
       serializedVersion: 2
       m_Bits: 4294967295
     quality: 0
     voxelSize: .5
-    collisionMessages: 0
+    collisionMessages: 1
   SubModule:
     enabled: 0
     subEmitterBirth: {fileID: 0}
@@ -3267,3 +3280,15 @@ ParticleSystemRenderer:
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
+--- !u!114 &2046420974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11403734, guid: 6d49bd739b41e8549a73b833d613c4b8,
+    type: 2}
+  m_PrefabInternal: {fileID: 1567695902}
+  m_GameObject: {fileID: 2046420970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02414aaf502b62045bb1ac489f86721e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
