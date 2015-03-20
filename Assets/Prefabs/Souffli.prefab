@@ -83,7 +83,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &193398
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
@@ -204,8 +204,8 @@ Transform:
   m_Children:
   - {fileID: 493396}
   - {fileID: 460958}
-  m_Father: {fileID: 493402}
-  m_RootOrder: 2
+  m_Father: {fileID: 493400}
+  m_RootOrder: 0
 --- !u!4 &493400
 Transform:
   m_ObjectHideFlags: 1
@@ -215,7 +215,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 493398}
   m_Father: {fileID: 493402}
   m_RootOrder: 1
 --- !u!4 &493402
@@ -230,7 +231,6 @@ Transform:
   m_Children:
   - {fileID: 493394}
   - {fileID: 493400}
-  - {fileID: 493398}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!60 &6060954
@@ -261,10 +261,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fac7245d3c9f8ed43b442cb21799456d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerNumber: 2
+  PlayerNumber: 1
   WindParticles: {fileID: 19860954}
   MinimumParticlesVelocity: 5
-  MaximumParticlesVelocity: 20
+  MaximumParticlesVelocity: 15
+  rotateSpeed: 1
+  Body: {fileID: 493400}
 --- !u!114 &11493394
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -277,6 +279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spline: {fileID: 0}
+  PlayerNumber: 1
   speed: 1
   defaultProgress: 0
   fix: {fileID: 193394}
@@ -310,7 +313,7 @@ ParticleSystem:
   InitialModule:
     enabled: 1
     startLifetime:
-      scalar: 1.35000002
+      scalar: .5
       maxCurve:
         serializedVersion: 2
         m_Curve:

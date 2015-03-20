@@ -25,42 +25,37 @@ public abstract class Robot : MonoBehaviour
 
     protected void Update()
     {
-        /*
         _ratio = Time.deltaTime / 1f;
 
-        float minAngle = Mathf.Min(Body.localEulerAngles.z, _targetAngle);
-        float maxAngle = Mathf.Max(Body.localEulerAngles.z, _targetAngle);
-        
-        float newAngle = Mathf.LerpAngle(minAngle, maxAngle, maxAngle / minAngle);
+        if (Body.localEulerAngles.z < 0f)
+        {
+            Body.localEulerAngles = new Vector3(0f, 0f, Body.localEulerAngles.z + 360f);
+        }
 
-        Debug.Log(minAngle);
-        Debug.Log(maxAngle);*/
-        /*
+        if (_targetAngle < 0f)
+        {
+            _targetAngle += 360f;
+        }
+
+        float newAngle = Mathf.LerpAngle(Body.localEulerAngles.z, _targetAngle, Time.deltaTime * 10f);
+        
         if (_targetAngle != Body.localEulerAngles.z)
         {
             Body.localEulerAngles = new Vector3(0f, 0f, newAngle);
-        }*/
-
-        float maxTriggerValue = 0f;
-
-        if (PlayerNumber == 1)
-        {
-            maxTriggerValue = Mathf.Max(Input.GetAxisRaw("TriggersL_1"), Input.GetAxisRaw("TriggersR_1"));
-
-            _targetAngle = -(Mathf.Atan2(Input.GetAxisRaw("R_YAxis_1"), Input.GetAxisRaw("R_XAxis_1")) * Mathf.Rad2Deg) - 90f;
-        }
-        else
-        {
-            maxTriggerValue = Mathf.Max(Input.GetAxisRaw("TriggersL_2"), Input.GetAxisRaw("TriggersR_2"));
-
-            _targetAngle = -Mathf.Atan2(Input.GetAxisRaw("R_YAxis_2"), Input.GetAxisRaw("R_XAxis_2")) * Mathf.Rad2Deg;
         }
 
-        Body.localEulerAngles = new Vector3(0f, 0f, _targetAngle);
+        float maxTriggerValue = Mathf.Max(Input.GetAxisRaw("TriggersL_" + PlayerNumber), Input.GetAxisRaw("TriggersR_" + PlayerNumber));
+
+        Debug.Log("TriggersL_" + PlayerNumber);
+
+        if (Mathf.Abs(Input.GetAxisRaw("R_YAxis_" + PlayerNumber)) > 0f || Mathf.Abs(Input.GetAxisRaw("R_XAxis_" + PlayerNumber)) > 0f)
+        {
+            _targetAngle = -(Mathf.Atan2(Input.GetAxisRaw("R_YAxis_" + PlayerNumber), Input.GetAxisRaw("R_XAxis_" + PlayerNumber)) * Mathf.Rad2Deg) - 90f;
+        }
 
         if (maxTriggerValue > 0f)
         {
-            WindParticles.startSpeed = MinimumParticlesVelocity + maxTriggerValue * MaximumParticlesVelocity;
+            WindParticles.startSpeed = MinimumParticlesVelocity + maxTriggerValue * (MaximumParticlesVelocity - MinimumParticlesVelocity);
 
             float ratio = WindParticles.startSpeed / _previousParticlesVelocity;
 
