@@ -3,89 +3,99 @@ using System.Collections;
 
 public abstract class Robot : MonoBehaviour
 {
-    public int PlayerNumber;
+	public int PlayerNumber;
+	public ParticleSystem WindParticles;
+	public float MinimumParticlesVelocity;
+	public float MaximumParticlesVelocity;
+	public float rotateSpeed = 1f;
+	public Transform Body;
 
-    public ParticleSystem WindParticles;
-
-    public float MinimumParticlesVelocity;
-    public float MaximumParticlesVelocity;
-
-    protected bool _isActivated;
-
-    private float _initialParticlesVelocity = 10f;
-    private float _initialParticlesLifetime = 1.35f;
-
-    private float _previousTriggerValue = 0f;
-    private float _previousParticlesVelocity = 0f;
+	protected bool _isActivated = false;
 	private BallEffect _ballEffect;
 
-    void Awake()
-    {
-        _previousParticlesVelocity = WindParticles.startSpeed;
-    }
+	private float _previousParticlesVelocity = 0f;
+
+	private float _targetAngle;
+	private float _ratio = 0f;
+
+	void Awake()
+	{
+		_previousParticlesVelocity = WindParticles.startSpeed;
+		_targetAngle = Body.localEulerAngles.z;
+	}
 
 	void Start()
 	{
 		_ballEffect = GetComponent<BallEffect>();
 	}
 
-    protected void Update()
-    {
-        float maxTriggerValue = 0f;
+	protected void Update()
+	{
+		_ratio = Time.deltaTime / 1f;
 
-        Debug.Log(Input.GetAxisRaw("TriggersL_1"));
+		if (Body.localEulerAngles.z < 0f)
+		{
+			Body.localEulerAngles = new Vector3(0f, 0f, Body.localEulerAngles.z + 360f);
+		}
 
-        if (PlayerNumber == 1)
-        {
-            maxTriggerValue = Mathf.Max(Input.GetAxisRaw("TriggersL_1"), Input.GetAxisRaw("TriggersR_1"));
+		if (_targetAngle < 0f)
+		{
+			_targetAngle += 360f;
+		}
 
-            Debug.Log(Input.GetAxisRaw("TriggersL_1"));
+		float newAngle = Mathf.LerpAngle(Body.localEulerAngles.z, _targetAngle, Time.deltaTime * 10f);
 
-            float angle = -Mathf.Atan2(Input.GetAxisRaw("R_YAxis_1"), Input.GetAxisRaw("R_XAxis_1")) * Mathf.Rad2Deg + 90;
-            transform.rotation = Quaternion.Euler(0, 0, angle);
-        }
-        else
-        {
-            maxTriggerValue = Mathf.Max(Input.GetAxisRaw("TriggersL_2"), Input.GetAxisRaw("TriggersR_2"));
+		if (_targetAngle != Body.localEulerAngles.z)
+		{
+			Body.localEulerAngles = new Vector3(0f, 0f, newAngle);
+		}
 
-            float angle = -Mathf.Atan2(Input.GetAxisRaw("R_YAxis_2"), Input.GetAxisRaw("R_XAxis_2")) * Mathf.Rad2Deg + 90;
-            transform.rotation = Quaternion.Euler(0, 0, angle);
-        }
+		float maxTriggerValue = Mathf.Max(Input.GetAxisRaw("TriggersL_" + PlayerNumber), Input.GetAxisRaw("TriggersR_" + PlayerNumber));
 
-        if (maxTriggerValue > 0f)
-        {
-            WindParticles.startSpeed = MinimumParticlesVelocity + maxTriggerValue * MaximumParticlesVelocity;
+		Debug.Log("TriggersL_" + PlayerNumber);
 
-            float ratio = WindParticles.startSpeed / _previousParticlesVelocity;
+		if (Mathf.Abs(Input.GetAxisRaw("R_YAxis_" + PlayerNumber)) > 0f || Mathf.Abs(Input.GetAxisRaw("R_XAxis_" + PlayerNumber)) > 0f)
+		{
+			_targetAngle = -(Mathf.Atan2(Input.GetAxisRaw("R_YAxis_" + PlayerNumber), Input.GetAxisRaw("R_XAxis_" + PlayerNumber)) * Mathf.Rad2Deg) - 90f;
+		}
 
-            WindParticles.startLifetime /= ratio;
-            WindParticles.emissionRate *= ratio;
+		if (maxTriggerValue > 0f)
+		{
+			WindParticles.startSpeed = MinimumParticlesVelocity + maxTriggerValue * (MaximumParticlesVelocity - MinimumParticlesVelocity);
 
-            if (!_isActivated)
-            {
-                ActivateAbility(true);
-            }
+			float ratio = WindParticles.startSpeed / _previousParticlesVelocity;
 
-            _previousParticlesVelocity = WindParticles.startSpeed;
-        }
-        else if (_isActivated)
-        {
-            ActivateAbility(false);
-        }
-    }
+			WindParticles.startLifetime /= ratio;
+			WindParticles.emissionRate *= ratio;
+			Debug.Log(_isActivated);
+			if (!_isActivated)
+			{
+				ActivateAbility(true);
+			}
 
-    public void ActivateAbility(bool state)
-    {
-        _isActivated = state;
+			_previousParticlesVelocity = WindParticles.startSpeed;
+		}
+		else if (_isActivated)
+		{
+			ActivateAbility(false);
+		}
+	}
+
+	public void ActivateAbility(bool state)
+	{
+		Debug.Log("abc");
+		_isActivated = state;
 		_ballEffect.activated = state;
 
-        if (state)
-        {
-            WindParticles.Play();
-        }
-        else
-        {
-            WindParticles.Stop();
-        }
-    }
+		if (state)
+		{
+			Debug.Log("abcd");
+			WindParticles.Play();
+		}
+		else
+		{
+			WindParticles.Stop();
+			Debug.Log("def");
+		}
+	}
 }

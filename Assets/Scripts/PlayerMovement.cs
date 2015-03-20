@@ -4,6 +4,7 @@ using System.Collections;
 public class PlayerMovement : MonoBehaviour {
 
 	public BezierSpline spline;
+    public int PlayerNumber;
 	public float speed = 1f;
 	public float defaultProgress = 0f;
 	public GameObject fix;
@@ -16,13 +17,15 @@ public class PlayerMovement : MonoBehaviour {
 	}
 	
 	private void Update () {
-		if (Input.GetKey (KeyCode.RightArrow)) {
+        if (Input.GetKey(KeyCode.RightArrow) || Input.GetAxisRaw("L_XAxis_" + PlayerNumber) > 0f)
+        {
 			progress += Time.deltaTime * speed;
 			if (progress > 1f) {
 					progress = 1f;
 			}
 		}
-		else if (Input.GetKey (KeyCode.LeftArrow) ) {
+        else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetAxisRaw("L_XAxis_" + PlayerNumber) < 0f)
+        {
 			progress -= Time.deltaTime * speed;
 			if (progress < 0f) {
 				progress = 0f;
