@@ -1569,6 +1569,10 @@ Prefab:
       propertyPath: spline
       value: 
       objectReference: {fileID: 865013596}
+    - target: {fileID: 11445714, guid: 8c221524e172f2b4297b6dcf963c854b, type: 2}
+      propertyPath: attract
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8c221524e172f2b4297b6dcf963c854b, type: 2}
   m_RootGameObject: {fileID: 1263290755}

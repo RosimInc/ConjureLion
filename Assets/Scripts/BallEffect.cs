@@ -19,7 +19,10 @@ public class BallEffect : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 		if (ball == null) return;
-		if (!activated) return;
+        if (!activated)
+        {
+            return;
+        }
 
 		float angle = Vector3.Angle(aim.transform.forward,
 			ball.transform.position - aim.transform.position);
@@ -46,13 +49,14 @@ public class BallEffect : MonoBehaviour {
 			//Determine if there's no shadowing obstacle in the way
 			RaycastHit hit;
 
-            Debug.DrawRay(transform.position, ball.transform.position);
+            Debug.DrawRay(transform.position, (ball.transform.position - transform.position));
+            //1 << 8 - 1 << 10
 
-			if (Physics.Raycast(transform.position, ball.transform.position, out hit,
-				radius, 1 << 8 + 1 << 10))
+            if (Physics.Raycast(transform.position, (ball.transform.position - transform.position), out hit,
+				radius))
 			{
 				if (hit.collider.gameObject.layer == 8) return;
-				
+
 				ball.rigidbody2D.AddForce(force * mod * toBall.normalized *
 					(radius - distance) / radius * Time.fixedDeltaTime, ForceMode2D.Force);
 			}
