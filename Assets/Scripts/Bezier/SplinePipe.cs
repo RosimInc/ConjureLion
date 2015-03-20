@@ -13,6 +13,7 @@ public class SplinePipe : MonoBehaviour {
 		public float pipeRadius = 0.6f;
 		public float pipeInteriorRadius = 0.5f;
 		public Material borderMaterial;
+		public Material interiorMaterial;
 	}
 	
 	//Line options
@@ -22,6 +23,9 @@ public class SplinePipe : MonoBehaviour {
 	
 	private void Start () {
 		float lineRadius = (lineOptions.pipeInteriorRadius + lineOptions.pipeRadius )/2;
+		PolygonCollider2D borderCol = this.gameObject.AddComponent<PolygonCollider2D>();
+		borderCol.pathCount = 2;
+		float borderWidth = lineOptions.pipeRadius - lineOptions.pipeInteriorRadius;
 		
 		//Butées :
 		Transform beginToe = Instantiate(toe) as Transform;
@@ -33,31 +37,45 @@ public class SplinePipe : MonoBehaviour {
 		endPosition.z = 1.1f;
 		toe.transform.position = endPosition;
 		
-	//Partie supérieure
-		//Partie supérieure affichage
-		GameObject borderSup = new GameObject();
-		borderSup.transform.parent = this.transform;
+		//Affichage intérieur
+		GameObject pipeInt = new GameObject();
+		pipeInt.transform.parent = this.transform;
 		
-		Vector3 lineExtPos = borderSup.transform.position;
-		lineRend = borderSup.AddComponent<LineRenderer>();
+		lineRend = pipeInt.AddComponent<LineRenderer>();
 		lineRend.useWorldSpace = true;
 		
-		float borderWidth = lineOptions.pipeRadius - lineOptions.pipeInteriorRadius;
-		lineRend.SetWidth(borderWidth, borderWidth);
-		lineRend.material = lineOptions.borderMaterial;
+		
+		lineRend.SetWidth(lineOptions.pipeInteriorRadius*2, lineOptions.pipeInteriorRadius*2);
+		lineRend.material = lineOptions.interiorMaterial;
 		
 		lineRend.SetVertexCount(1000);
 		
 		for(int i = 0; i < 1000; i++ )
 		{
 			Vector3 position = spline.GetPoint((float)i/1000);
-			Vector3 direction = spline.GetDirection((float)i/1000);
-			Vector3 translation = new Vector3 (-direction.y * lineRadius, direction.x * lineRadius, 0);
-			lineRend.SetPosition(i, position+translation);
+			lineRend.SetPosition(i, position);
 		}
 		
-		PolygonCollider2D borderCol = this.gameObject.AddComponent<PolygonCollider2D>();
-		borderCol.pathCount = 2;
+	//Partie supérieure
+		//Partie supérieure affichage
+		GameObject borderSup = new GameObject();
+		borderSup.transform.parent = this.transform;
+		
+		LineRenderer lineSupRend = borderSup.AddComponent<LineRenderer>();
+		lineSupRend.useWorldSpace = true;
+		
+		lineSupRend.SetWidth(borderWidth, borderWidth);
+		lineSupRend.material = lineOptions.borderMaterial;
+		
+		lineSupRend.SetVertexCount(1000);
+		
+		for(int i = 0; i < 1000; i++ )
+		{
+			Vector3 position = spline.GetPoint((float)i/1000);
+			Vector3 direction = spline.GetDirection((float)i/1000);
+			Vector3 translation = new Vector3 (-direction.y * lineRadius, direction.x * lineRadius, 0);
+			lineSupRend.SetPosition(i, position+translation);
+		}
 		
 		//Partie supérieure collider
 		Vector2[] borderSupPath = new Vector2[200];

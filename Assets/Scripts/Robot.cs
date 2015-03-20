@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public abstract class Robot : MonoBehaviour
 {
@@ -63,13 +64,14 @@ public abstract class Robot : MonoBehaviour
 			Body.localEulerAngles = new Vector3(0f, 0f, newAngle);
 		}
 
-		float maxTriggerValue = Mathf.Max(Input.GetAxisRaw("TriggersL_" + PlayerNumber), Input.GetAxisRaw("TriggersR_" + PlayerNumber));
+		float maxTriggerValue = Mathf.Max( Input.GetAxisRaw("TriggersL_" + PlayerNumber), Input.GetAxisRaw("TriggersR_" + PlayerNumber));
+		maxTriggerValue = Mathf.Max ( maxTriggerValue, Math.Abs(Input.GetAxisRaw("TriggersLR_" + PlayerNumber)));
 
 		if (Mathf.Abs(Input.GetAxisRaw("R_YAxis_" + PlayerNumber)) > 0f || Mathf.Abs(Input.GetAxisRaw("R_XAxis_" + PlayerNumber)) > 0f)
 		{
 			_targetAngle = -(Mathf.Atan2(Input.GetAxisRaw("R_YAxis_" + PlayerNumber), Input.GetAxisRaw("R_XAxis_" + PlayerNumber)) * Mathf.Rad2Deg) - 90f;
 		}
-
+		Debug.Log(maxTriggerValue);
 		if (maxTriggerValue > 0f)
 		{
 			WindParticles.startSpeed = MinimumParticlesVelocity + maxTriggerValue * (MaximumParticlesVelocity - MinimumParticlesVelocity);
