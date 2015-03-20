@@ -25,6 +25,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 497768}
+  - 60: {fileID: 6046836}
   m_Layer: 0
   m_Name: WindParticlesContainer
   m_TagString: Untagged
@@ -59,8 +60,9 @@ GameObject:
   - 33: {fileID: 3397772}
   - 65: {fileID: 6597772}
   - 23: {fileID: 2397772}
+  - 114: {fileID: 11492686}
   m_Layer: 0
-  m_Name: Vaccum
+  m_Name: Aspi
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,7 +75,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 197766}
   m_LocalRotation: {x: -.707106829, y: 2.38795117e-09, z: -2.38795117e-09, w: .707106829}
-  m_LocalPosition: {x: 0, y: 2.57999992, z: 0}
+  m_LocalPosition: {x: 0, y: 2.48000002, z: 0}
   m_LocalScale: {x: .0200000033, y: .0200000014, z: .0200000014}
   m_Children:
   - {fileID: 497770}
@@ -85,7 +87,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 197768}
-  m_LocalRotation: {x: 0, y: 0, z: 1, w: -4.37113883e-08}
+  m_LocalRotation: {x: 0, y: 0, z: -1, w: -4.37113883e-08}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -110,8 +112,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 197772}
-  m_LocalRotation: {x: 0, y: 0, z: .425700337, w: .904864192}
-  m_LocalPosition: {x: -2.4000001, y: 69, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 497768}
@@ -144,6 +146,23 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 197772}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!60 &6046836
+PolygonCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 197768}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Poly:
+    m_Paths:
+    - - {x: 1.45288873, y: 3.04857779}
+      - {x: .238972157, y: .00392413232}
+      - {x: -.0191079956, y: .0639975667}
+      - {x: -.207607567, y: .116851091}
+      - {x: -.410599172, y: .413012981}
+      - {x: -1.51881266, y: 3.05946064}
 --- !u!65 &6597772
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -156,6 +175,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &11492686
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 197772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 036872f91dd56b349908b3ea676ae096, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerNumber: 1
+  WindParticles: {fileID: 19897772}
+  MinimumParticlesVelocity: -5
+  MaximumParticlesVelocity: -20
 --- !u!182 &18297772
 WindZone:
   m_ObjectHideFlags: 1
@@ -163,8 +197,8 @@ WindZone:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 197770}
   m_Enabled: 1
-  m_Mode: 0
-  m_Radius: 20
+  m_Mode: 1
+  m_Radius: 0
   m_WindMain: 20
   m_WindTurbulence: 1
   m_WindPulseMagnitude: 0
@@ -181,12 +215,12 @@ ParticleSystem:
   randomSeed: 0
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   moveWithTransform: 1
   InitialModule:
     enabled: 1
     startLifetime:
-      scalar: 1.70000005
+      scalar: 1.35000002
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -219,7 +253,7 @@ ParticleSystem:
         m_PostInfinity: 2
       minMaxState: 0
     startSpeed:
-      scalar: -10.3000002
+      scalar: -10
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -418,8 +452,8 @@ ParticleSystem:
     serializedVersion: 2
     enabled: 1
     type: 9
-    radius: 63.4630814
-    angle: 20.6999626
+    radius: 59
+    angle: 22.5
     length: 37.1199989
     boxX: 1
     boxY: 1
