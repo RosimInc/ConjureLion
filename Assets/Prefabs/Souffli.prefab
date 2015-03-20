@@ -9,7 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 493394}
   - 212: {fileID: 21293394}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Souffli_Fix
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25,7 +25,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 493396}
   - 212: {fileID: 21293396}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Souffli_Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 493398}
   - 212: {fileID: 21293398}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Souffli_Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 493400}
   - 212: {fileID: 21293400}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 493402}
   - 114: {fileID: 11493394}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Souffli
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91,7 +91,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 493402}
-  m_RootOrder: 0
+  m_RootOrder: 1
 --- !u!4 &493396
 Transform:
   m_ObjectHideFlags: 1
@@ -127,7 +127,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 493402}
-  m_RootOrder: 1
+  m_RootOrder: 0
 --- !u!4 &493402
 Transform:
   m_ObjectHideFlags: 1
@@ -138,8 +138,8 @@ Transform:
   m_LocalPosition: {x: -.780098021, y: .393793195, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 493394}
   - {fileID: 493400}
+  - {fileID: 493394}
   - {fileID: 493398}
   - {fileID: 493396}
   m_Father: {fileID: 0}
