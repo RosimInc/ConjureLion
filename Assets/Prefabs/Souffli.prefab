@@ -1,5 +1,20 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &129270
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 429270}
+  m_Layer: 13
+  m_Name: Souffli_Aim
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &160954
 GameObject:
   m_ObjectHideFlags: 1
@@ -8,8 +23,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 460958}
-  - 60: {fileID: 6060954}
-  m_Layer: 12
+  m_Layer: 13
   m_Name: WindParticlesContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +41,7 @@ GameObject:
   - 198: {fileID: 19860954}
   - 199: {fileID: 19960954}
   - 114: {fileID: 11403734}
-  m_Layer: 12
+  m_Layer: 13
   m_Name: WindParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +57,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 460956}
   - 182: {fileID: 18260954}
-  m_Layer: 12
+  m_Layer: 13
   m_Name: WindZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,7 +73,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 493394}
   - 212: {fileID: 21293394}
-  m_Layer: 12
+  m_Layer: 13
   m_Name: Souffli_Fix
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,7 +89,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 493396}
   - 212: {fileID: 21293396}
-  m_Layer: 12
+  m_Layer: 13
   m_Name: Souffli_Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91,7 +105,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 493398}
   - 212: {fileID: 21293398}
-  m_Layer: 12
+  - 50: {fileID: 5029270}
+  - 61: {fileID: 6129270}
+  m_Layer: 11
   m_Name: Souffli_Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +123,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 493400}
   - 212: {fileID: 21293400}
-  m_Layer: 12
+  m_Layer: 13
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,13 +141,26 @@ GameObject:
   - 114: {fileID: 11493394}
   - 114: {fileID: 11460954}
   - 114: {fileID: 11412340}
-  m_Layer: 12
+  - 50: {fileID: 5029268}
+  m_Layer: 13
   m_Name: Souffli
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &429270
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 129270}
+  m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106829}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 493400}
+  m_RootOrder: 1
 --- !u!4 &460954
 Transform:
   m_ObjectHideFlags: 1
@@ -219,6 +248,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 493398}
+  - {fileID: 429270}
   m_Father: {fileID: 493402}
   m_RootOrder: 1
 --- !u!4 &493402
@@ -235,23 +265,47 @@ Transform:
   - {fileID: 493400}
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!60 &6060954
-PolygonCollider2D:
+--- !u!50 &5029268
+Rigidbody2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 160954}
+  m_GameObject: {fileID: 193402}
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: .0500000007
+  m_GravityScale: 0
+  m_FixedAngle: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+--- !u!50 &5029270
+Rigidbody2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 193398}
+  m_Mass: 1e+06
+  m_LinearDrag: 1e+06
+  m_AngularDrag: .0500000007
+  m_GravityScale: 0
+  m_FixedAngle: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+--- !u!61 &6129270
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 193398}
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Poly:
-    m_Paths:
-    - - {x: .646772385, y: 1.53026152}
-      - {x: .0825616866, y: .137990251}
-      - {x: -.0116598727, y: .131030649}
-      - {x: -.0809895396, y: .142919526}
-      - {x: -.280257136, y: .524734676}
-      - {x: -.673564613, y: 1.51766539}
+  m_Size: {x: 1.42999995, y: 2.49000001}
+  m_Center: {x: 0, y: 0}
 --- !u!114 &11403734
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -274,11 +328,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c54ee5038cebf524789f8809344a01b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 0
-  force: 0
-  vision: 0
-  attract: 0
-  aim: {fileID: 0}
+  radius: 8
+  force: 5000
+  vision: 10
+  attract: 1
+  aim: {fileID: 129270}
   ball: {fileID: 0}
   activated: 0
 --- !u!114 &11460954

@@ -11,7 +11,7 @@ GameObject:
   - 33: {fileID: 3365664}
   - 135: {fileID: 13565664}
   - 23: {fileID: 2365664}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,7 +28,7 @@ GameObject:
   - 4: {fileID: 465664}
   - 50: {fileID: 5065664}
   - 58: {fileID: 5865664}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Ball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,7 +54,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 165664}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.56999993, z: 0}
+  m_LocalPosition: {x: 5.42000008, y: 12.3299999, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 465662}
