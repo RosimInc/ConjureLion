@@ -3,6 +3,7 @@ using System.Collections;
 
 public class SplineDecorator : MonoBehaviour {
 	private LineRenderer lineRend;
+	public Transform toe;
 	
 	[System.Serializable]
 	public class LineOptions
@@ -27,6 +28,12 @@ public class SplineDecorator : MonoBehaviour {
 	        //Debug.Log("position "+  position.x);
 			lineRend.SetPosition(i, position);
 		}
+		
+		//Butées :
+		Transform beginToe = Instantiate(toe) as Transform;
+		beginToe.transform.localPosition = spline.GetPoint(0);
+		
+		toe.transform.localPosition = spline.GetPoint(1);
 	}
 	
 	/*
