@@ -52,8 +52,6 @@ public abstract class Robot : MonoBehaviour
 
 		float maxTriggerValue = Mathf.Max(Input.GetAxisRaw("TriggersL_" + PlayerNumber), Input.GetAxisRaw("TriggersR_" + PlayerNumber));
 
-		Debug.Log("TriggersL_" + PlayerNumber);
-
 		if (Mathf.Abs(Input.GetAxisRaw("R_YAxis_" + PlayerNumber)) > 0f || Mathf.Abs(Input.GetAxisRaw("R_XAxis_" + PlayerNumber)) > 0f)
 		{
 			_targetAngle = -(Mathf.Atan2(Input.GetAxisRaw("R_YAxis_" + PlayerNumber), Input.GetAxisRaw("R_XAxis_" + PlayerNumber)) * Mathf.Rad2Deg) - 90f;
@@ -67,7 +65,7 @@ public abstract class Robot : MonoBehaviour
 
 			WindParticles.startLifetime /= ratio;
 			WindParticles.emissionRate *= ratio;
-			Debug.Log(_isActivated);
+
 			if (!_isActivated)
 			{
 				ActivateAbility(true);
@@ -83,19 +81,16 @@ public abstract class Robot : MonoBehaviour
 
 	public void ActivateAbility(bool state)
 	{
-		Debug.Log("abc");
 		_isActivated = state;
 		_ballEffect.activated = state;
 
 		if (state)
 		{
-			Debug.Log("abcd");
 			WindParticles.Play();
 		}
 		else
 		{
 			WindParticles.Stop();
-			Debug.Log("def");
 		}
 	}
 }
