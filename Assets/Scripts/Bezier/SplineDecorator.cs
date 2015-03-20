@@ -64,6 +64,7 @@ public class SplineDecorator : MonoBehaviour {
 		Vector3 endPosition = spline.GetPoint(1);
 		endPosition.z = 1.1f;
 		toe.transform.position = endPosition;
+		
 	}
 	
 }
