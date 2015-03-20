@@ -43,8 +43,16 @@ public class BallEffect : MonoBehaviour {
 
 		if (distance < radius)
 		{
-			ball.rigidbody2D.AddForce(force * mod * toBall.normalized *
-				(radius - distance) / radius * Time.fixedDeltaTime, ForceMode2D.Force);
+			//Determine if there's no shadowing obstacle in the way
+			RaycastHit hit;
+			if (Physics.Raycast(transform.position, ball.transform.position, out hit,
+				radius, 1 << 8 + 1 << 10))
+			{
+				if (hit.collider.gameObject.layer == 8) return;
+				
+				ball.rigidbody2D.AddForce(force * mod * toBall.normalized *
+					(radius - distance) / radius * Time.fixedDeltaTime, ForceMode2D.Force);
+			}
 		}
 	}
 }

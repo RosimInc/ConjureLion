@@ -35,6 +35,9 @@ public class PlayerMovement : MonoBehaviour {
 		Vector3 position = spline.GetPoint(progress);
 		position.z = 0;
 		transform.localPosition = position;
+
+		//TODO Here fix the movement so it uses MovePosition
+		//rigidbody2D.MovePosition(transform.forward - position);
 		
 		//Orientation du fix
 		fix.transform.LookAt(position + spline.GetDirection(progress) );

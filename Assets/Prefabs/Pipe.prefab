@@ -9,7 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 410436}
   - 114: {fileID: 11410438}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SplinePipe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25,7 +25,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 410438}
   - 114: {fileID: 11410440}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Spline
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 410440}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Pipe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
