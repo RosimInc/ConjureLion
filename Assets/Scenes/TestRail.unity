@@ -218,7 +218,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 461730967}
   - 114: {fileID: 461730966}
-  m_Layer: 8
+  m_Layer: 14
   m_Name: RailDecorator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -241,6 +241,8 @@ MonoBehaviour:
   lineOptions:
     lineWidth: .200000003
     lineMaterial: {fileID: 2100000, guid: 0bfbb6d309f367d4b9cadfdf72ee838b, type: 2}
+    lineIntWidth: .100000001
+    lineIntMaterial: {fileID: 2100000, guid: 690884d0ed7462c42a99f77afdd665b5, type: 2}
   spline: {fileID: 568325514}
 --- !u!4 &461730967
 Transform:
@@ -341,6 +343,34 @@ Prefab:
     - target: {fileID: 409958, guid: 2588245300ed0b244a089eb18679a250, type: 2}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11409956, guid: 2588245300ed0b244a089eb18679a250, type: 2}
+      propertyPath: lineOptions.lineIntMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 690884d0ed7462c42a99f77afdd665b5, type: 2}
+    - target: {fileID: 11409956, guid: 2588245300ed0b244a089eb18679a250, type: 2}
+      propertyPath: lineOptions.lineIntWidth
+      value: .100000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 154190, guid: 2588245300ed0b244a089eb18679a250, type: 2}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 109956, guid: 2588245300ed0b244a089eb18679a250, type: 2}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 2354190, guid: 2588245300ed0b244a089eb18679a250, type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 070b41e4bab326a4c85dd72e78521d26, type: 2}
+    - target: {fileID: 454190, guid: 2588245300ed0b244a089eb18679a250, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: .150000006
+      objectReference: {fileID: 0}
+    - target: {fileID: 454190, guid: 2588245300ed0b244a089eb18679a250, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2588245300ed0b244a089eb18679a250, type: 2}
@@ -497,6 +527,69 @@ Prefab:
   m_RootGameObject: {fileID: 1315052961}
   m_IsPrefabParent: 0
   m_IsExploded: 1
+--- !u!1 &1282741115
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1282741117}
+  - 108: {fileID: 1282741116}
+  m_Layer: 0
+  m_Name: Directional light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!108 &1282741116
+Light:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1282741115}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Type: 1
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: .5
+  m_Range: 10
+  m_SpotAngle: 30
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_Strength: 1
+    m_Bias: .0500000007
+    m_Softness: 4
+    m_SoftnessFade: 1
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_ActuallyLightmapped: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_Lightmapping: 1
+  m_ShadowSamples: 1
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+  m_IndirectIntensity: 1
+  m_AreaSize: {x: 1, y: 1}
+--- !u!4 &1282741117
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1282741115}
+  m_LocalRotation: {x: .408217937, y: -.234569728, z: .109381661, w: .875426114}
+  m_LocalPosition: {x: -6.27275467, y: -1.0276072, z: 1.47450268}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
 --- !u!1 &1315052961
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,7 +649,7 @@ GameObject:
   - 33: {fileID: 1317636752}
   - 136: {fileID: 1317636751}
   - 23: {fileID: 1317636750}
-  m_Layer: 8
+  m_Layer: 14
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -570,7 +663,7 @@ Transform:
   m_PrefabInternal: {fileID: 649905906}
   m_GameObject: {fileID: 1317636748}
   m_LocalRotation: {x: .707106829, y: 0, z: 0, w: .707106829}
-  m_LocalPosition: {x: 0, y: 0, z: 2}
+  m_LocalPosition: {x: 0, y: -0, z: .150000006}
   m_LocalScale: {x: .5, y: .100000001, z: .5}
   m_Children: []
   m_Father: {fileID: 461730967}
@@ -588,7 +681,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: 0bfbb6d309f367d4b9cadfdf72ee838b, type: 2}
+  - {fileID: 2100000, guid: 070b41e4bab326a4c85dd72e78521d26, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
