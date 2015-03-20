@@ -17,7 +17,7 @@ public class BallEffect : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		ResourceManager.Instance.AddMovingObject(ball);
+
 	}
 
     void Update()
@@ -42,11 +42,46 @@ public class BallEffect : MonoBehaviour {
 	void FixedUpdate () {
 
  		if (_stayStatic) return;
-        		if (!activated) return;
+        if (!activated) return;
 
-		foreach(GameObject obj in ResourceManager.Instance.MovingObjects)
+		checkEffects(ball);
+		checkPivotEffects();
+	}
+
+	private void checkPivotEffects()
+	{
+		//Raycast in front
+
+		RaycastHit hit;
+		if (Physics.Raycast(gameObject.transform.position, aim.transform.forward, out hit, radius, (1 << 15)))
 		{
-			checkEffects(obj);
+			Debug.Log("HINGE!");
+			//Detected hinge
+			GameObject platform = hit.collider.gameObject;
+
+			Vector3 centrePos = platform.transform.position;
+			Vector3 hitPos = hit.point;
+			Vector3 dirCentre = centrePos - aim.transform.position;
+			Vector3 dirHit = hitPos - aim.transform.position;
+
+			float angle = Vector3.Angle(dirCentre, dirHit);
+
+			/*Vector3 local =
+				aim.transform.InverseTransformPoint(obj.transform.position);
+
+			if (local.x < 0)
+				angle = -angle;*/
+			//Angle between 0 (right) and 180 (left) and 90 (up) and -90 (down)
+
+			if (angle > 180)
+				angle = -(360 - angle);
+			//Angle between 0 (up) and 180 (down) and -90 (left) and 90 (right)
+
+			int forceSide = (angle > 0) ? 1 : -1;
+
+			platform.rigidbody2D.AddTorque(forceSide * force *
+					(radius - dirHit.magnitude) / radius * Time.fixedDeltaTime *
+                    Mathf.Max( Input.GetAxisRaw("TriggersL_" + PlayerNumber), Input.GetAxisRaw("TriggersR_" + PlayerNumber)), ForceMode2D.Force);
 		}
 	}
 
@@ -86,7 +121,7 @@ public class BallEffect : MonoBehaviour {
 		//1 << 8 - 1 << 10
 
 		if (Physics.Raycast(transform.position, (obj.transform.position - transform.position), out hit,
-			radius, (1 << 8) | (1 << 10)))
+			radius, (1 << 8) | (1 << 10) | (1 << 15)))
 		{
 			if (hit.collider.gameObject.layer == 8) return;
 
