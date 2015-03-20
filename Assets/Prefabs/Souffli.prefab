@@ -9,7 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 460958}
   - 60: {fileID: 6060954}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: WindParticlesContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,7 +26,7 @@ GameObject:
   - 4: {fileID: 460954}
   - 198: {fileID: 19860954}
   - 199: {fileID: 19960954}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: WindParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 460956}
   - 182: {fileID: 18260954}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: WindZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,7 +58,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 493394}
   - 212: {fileID: 21293394}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Souffli_Fix
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 493396}
   - 212: {fileID: 21293396}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Souffli_Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 493398}
   - 212: {fileID: 21293398}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Souffli_Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 493400}
   - 212: {fileID: 21293400}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -123,7 +123,7 @@ GameObject:
   - 4: {fileID: 493402}
   - 114: {fileID: 11493394}
   - 114: {fileID: 11460954}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Souffli
   m_TagString: Untagged
   m_Icon: {fileID: 0}
