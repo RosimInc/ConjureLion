@@ -13,22 +13,35 @@ public class BallEffect : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+		ResourceManager.Instance.AddMovingObject(ball);
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		if (ball == null) return;
-        if (!activated)
-        {
-            return;
-        }
+
+		if (!activated) return;
+
+		foreach(GameObject obj in ResourceManager.Instance.MovingObjects)
+		{
+			checkEffects(obj);
+		}
+	}
+
+	private void checkEffects(GameObject obj)
+	{
+		if (obj == null) return;
+
+		Vector3 toBall = obj.transform.position - transform.position;
+		float distance = toBall.magnitude;
+
+		//Out of ranges
+		if (distance > radius) return;
 
 		float angle = Vector3.Angle(aim.transform.forward,
-			ball.transform.position - aim.transform.position);
+			obj.transform.position - aim.transform.position);
 
 		Vector3 local =
-			aim.transform.InverseTransformPoint(ball.transform.position);
+			aim.transform.InverseTransformPoint(obj.transform.position);
 
 		if (local.x < 0)
 			angle = -angle;
@@ -40,26 +53,22 @@ public class BallEffect : MonoBehaviour {
 
 		if (angle * angle > vision * vision) return;
 
-		Vector3 toBall = ball.transform.position - transform.position;
-		float distance = toBall.magnitude;
+		
 		int mod = attract ? -1 : 1;
 
-		if (distance < radius)
+		//Determine if there's no shadowing obstacle in the way
+		RaycastHit hit;
+
+		Debug.DrawRay(transform.position, (obj.transform.position - transform.position));
+		//1 << 8 - 1 << 10
+
+		if (Physics.Raycast(transform.position, (obj.transform.position - transform.position), out hit,
+			radius, (1 << 8) | (1 << 10)))
 		{
-			//Determine if there's no shadowing obstacle in the way
-			RaycastHit hit;
+			if (hit.collider.gameObject.layer == 8) return;
 
-            Debug.DrawRay(transform.position, (ball.transform.position - transform.position));
-            //1 << 8 - 1 << 10
-
-            if (Physics.Raycast(transform.position, (ball.transform.position - transform.position), out hit,
-				radius))
-			{
-				if (hit.collider.gameObject.layer == 8) return;
-
-				ball.rigidbody2D.AddForce(force * mod * toBall.normalized *
-					(radius - distance) / radius * Time.fixedDeltaTime, ForceMode2D.Force);
-			}
+			obj.rigidbody2D.AddForce(force * mod * toBall.normalized *
+				(radius - distance) / radius * Time.fixedDeltaTime, ForceMode2D.Force);
 		}
 	}
 }
