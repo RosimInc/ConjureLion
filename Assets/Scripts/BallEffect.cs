@@ -31,6 +31,7 @@ public class BallEffect : MonoBehaviour {
         {
             ball.transform.position = staticDetection.transform.position;
             ball.rigidbody2D.gravityScale = 0f;
+            ball.rigidbody2D.velocity = Vector3.zero;
         }
         else
         {
