@@ -215,7 +215,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 160032}
   m_LocalRotation: {x: -.707106829, y: 2.38795117e-09, z: -2.38795117e-09, w: .707106829}
-  m_LocalPosition: {x: 0, y: .860000014, z: 0}
+  m_LocalPosition: {x: 0, y: .970000029, z: 0}
   m_LocalScale: {x: .0200000033, y: .0200000014, z: .0200000014}
   m_Children:
   - {fileID: 460034}
@@ -244,12 +244,12 @@ PolygonCollider2D:
   m_IsTrigger: 0
   m_Poly:
     m_Paths:
-    - - {x: 1.45288873, y: 3.04857779}
-      - {x: .0768650994, y: .0618195646}
-      - {x: -.0191079956, y: .0639975667}
-      - {x: -.0879570022, y: .0666750297}
-      - {x: -.310801595, y: .465538085}
-      - {x: -1.51881266, y: 3.05946064}
+    - - {x: .717209518, y: 1.57721984}
+      - {x: .131649777, y: .132256955}
+      - {x: -.0269343387, y: .118782245}
+      - {x: -.103609852, y: .137112305}
+      - {x: -.256017029, y: .465538114}
+      - {x: -.751828134, y: 1.55679691}
 --- !u!114 &11460032
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -545,8 +545,8 @@ ParticleSystem:
     serializedVersion: 2
     enabled: 1
     type: 9
-    radius: 20.3405666
-    angle: 20.9450016
+    radius: 23.8624725
+    angle: 22.5085697
     length: 37.1199989
     boxX: 1
     boxY: 1
