@@ -17,11 +17,17 @@ public abstract class Robot : MonoBehaviour
 
     private float _previousTriggerValue = 0f;
     private float _previousParticlesVelocity = 0f;
+	private BallEffect _ballEffect;
 
     void Awake()
     {
         _previousParticlesVelocity = WindParticles.startSpeed;
     }
+
+	void Start()
+	{
+		_ballEffect = GetComponent<BallEffect>();
+	}
 
     protected void Update()
     {
@@ -71,6 +77,7 @@ public abstract class Robot : MonoBehaviour
     public void ActivateAbility(bool state)
     {
         _isActivated = state;
+		_ballEffect.activated = state;
 
         if (state)
         {
