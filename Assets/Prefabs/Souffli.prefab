@@ -331,7 +331,7 @@ MonoBehaviour:
   radius: 8
   force: 5000
   vision: 10
-  attract: 1
+  attract: 0
   aim: {fileID: 129270}
   ball: {fileID: 0}
   activated: 0

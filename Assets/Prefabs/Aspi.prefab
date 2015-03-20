@@ -9,7 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 460020}
   - 212: {fileID: 21260028}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Souffli_Fix
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25,7 +25,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 460022}
   - 212: {fileID: 21260030}
-  m_Layer: 0
+  - 50: {fileID: 5070978}
+  - 61: {fileID: 6170978}
+  m_Layer: 11
   m_Name: Souffli_Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +43,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 460024}
   - 212: {fileID: 21260032}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Souffli_Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,7 +61,8 @@ GameObject:
   - 114: {fileID: 11460034}
   - 114: {fileID: 11402716}
   - 114: {fileID: 11445714}
-  m_Layer: 0
+  - 50: {fileID: 5068798}
+  m_Layer: 13
   m_Name: Aspi
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,7 +78,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 460028}
   - 212: {fileID: 21260034}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +93,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 460030}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: WindParticlesContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +110,7 @@ GameObject:
   - 4: {fileID: 460032}
   - 198: {fileID: 19860034}
   - 199: {fileID: 19960034}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: WindParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -123,7 +126,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 460034}
   - 182: {fileID: 18260034}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: WindZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -167,9 +170,8 @@ Transform:
   m_LocalPosition: {x: 0, y: .419999987, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 460030}
   - {fileID: 460024}
-  - {fileID: 499782}
+  - {fileID: 460030}
   m_Father: {fileID: 460028}
   m_RootOrder: 0
 --- !u!4 &460024
@@ -183,7 +185,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 460022}
-  m_RootOrder: 1
+  m_RootOrder: 0
 --- !u!4 &460026
 Transform:
   m_ObjectHideFlags: 1
@@ -209,6 +211,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 460022}
+  - {fileID: 499782}
   m_Father: {fileID: 460026}
   m_RootOrder: 1
 --- !u!4 &460030
@@ -223,7 +226,7 @@ Transform:
   m_Children:
   - {fileID: 460032}
   m_Father: {fileID: 460022}
-  m_RootOrder: 0
+  m_RootOrder: 1
 --- !u!4 &460032
 Transform:
   m_ObjectHideFlags: 1
@@ -256,11 +259,52 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 199782}
   m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106829}
-  m_LocalPosition: {x: -6.71009779, y: -.416206986, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 460022}
-  m_RootOrder: 2
+  m_Father: {fileID: 460028}
+  m_RootOrder: 1
+--- !u!50 &5068798
+Rigidbody2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 160026}
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: .0500000007
+  m_GravityScale: 0
+  m_FixedAngle: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+--- !u!50 &5070978
+Rigidbody2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 160022}
+  m_Mass: 1e+06
+  m_LinearDrag: 1e+06
+  m_AngularDrag: .0500000007
+  m_GravityScale: 0
+  m_FixedAngle: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+--- !u!61 &6170978
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 160022}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Size: {x: 1.42999995, y: 2.49000001}
+  m_Center: {x: 0, y: 0}
 --- !u!114 &11402716
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -289,11 +333,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c54ee5038cebf524789f8809344a01b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 0
-  force: 0
-  vision: 0
-  attract: 0
-  aim: {fileID: 0}
+  radius: 8
+  force: 5000
+  vision: 10
+  attract: 1
+  aim: {fileID: 199782}
   ball: {fileID: 0}
   activated: 0
 --- !u!114 &11460034
