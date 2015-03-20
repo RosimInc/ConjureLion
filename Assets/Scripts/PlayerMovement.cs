@@ -33,6 +33,7 @@ public class PlayerMovement : MonoBehaviour {
 		}
 		
 		Vector3 position = spline.GetPoint(progress);
+		position.z = 0;
 		transform.localPosition = position;
 		
 		//Orientation du fix
