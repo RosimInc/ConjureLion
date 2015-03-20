@@ -3,28 +3,34 @@ using System.Collections;
 
 public abstract class Robot : MonoBehaviour
 {
-    public int PlayerNumber;
-    public ParticleSystem WindParticles;
-    public float MinimumParticlesVelocity;
-    public float MaximumParticlesVelocity;
-    public float rotateSpeed = 1f;
-    public Transform Body;
+	public int PlayerNumber;
+	public ParticleSystem WindParticles;
+	public float MinimumParticlesVelocity;
+	public float MaximumParticlesVelocity;
+	public float rotateSpeed = 1f;
+	public Transform Body;
 
-    protected bool _isActivated = false;
+	protected bool _isActivated = false;
+	private BallEffect _ballEffect;
 
-    private float _previousParticlesVelocity = 0f;
+	private float _previousParticlesVelocity = 0f;
 
-    private float _targetAngle;
-    private float _ratio = 0f;
+	private float _targetAngle;
+	private float _ratio = 0f;
 
-    void Awake()
-    {
-        _previousParticlesVelocity = WindParticles.startSpeed;
-        _targetAngle = Body.localEulerAngles.z;
-    }
+	void Awake()
+	{
+		_previousParticlesVelocity = WindParticles.startSpeed;
+		_targetAngle = Body.localEulerAngles.z;
+	}
 
-    protected void Update()
-    {
+	void Start()
+	{
+		_ballEffect = GetComponent<BallEffect>();
+	}
+
+	protected void Update()
+	{
         ParticleSystem.Particle[] particles = new ParticleSystem.Particle[WindParticles.particleCount];
 
         int num = WindParticles.GetParticles(particles);
@@ -36,72 +42,68 @@ public abstract class Robot : MonoBehaviour
 
         //WindParticles.SetParticles(particles, num);
 
-        Debug.Log(num);
+        //Debug.Log(num);
 
         _ratio = Time.deltaTime / 1f;
 
-        if (Body.localEulerAngles.z < 0f)
-        {
-            Body.localEulerAngles = new Vector3(0f, 0f, Body.localEulerAngles.z + 360f);
-        }
+		if (Body.localEulerAngles.z < 0f)
+		{
+			Body.localEulerAngles = new Vector3(0f, 0f, Body.localEulerAngles.z + 360f);
+		}
 
-        if (_targetAngle < 0f)
-        {
-            _targetAngle += 360f;
-        }
+		if (_targetAngle < 0f)
+		{
+			_targetAngle += 360f;
+		}
 
-        float newAngle = Mathf.LerpAngle(Body.localEulerAngles.z, _targetAngle, Time.deltaTime * 10f);
-        
-        if (_targetAngle != Body.localEulerAngles.z)
-        {
-            Body.localEulerAngles = new Vector3(0f, 0f, newAngle);
-        }
+		float newAngle = Mathf.LerpAngle(Body.localEulerAngles.z, _targetAngle, Time.deltaTime * 10f);
 
-        float maxTriggerValue = Mathf.Max(Input.GetAxisRaw("TriggersL_" + PlayerNumber), Input.GetAxisRaw("TriggersR_" + PlayerNumber));
+		if (_targetAngle != Body.localEulerAngles.z)
+		{
+			Body.localEulerAngles = new Vector3(0f, 0f, newAngle);
+		}
 
-        Debug.Log("TriggersL_" + PlayerNumber);
+		float maxTriggerValue = Mathf.Max(Input.GetAxisRaw("TriggersL_" + PlayerNumber), Input.GetAxisRaw("TriggersR_" + PlayerNumber));
 
-        if (Mathf.Abs(Input.GetAxisRaw("R_YAxis_" + PlayerNumber)) > 0f || Mathf.Abs(Input.GetAxisRaw("R_XAxis_" + PlayerNumber)) > 0f)
-        {
-            _targetAngle = -(Mathf.Atan2(Input.GetAxisRaw("R_YAxis_" + PlayerNumber), Input.GetAxisRaw("R_XAxis_" + PlayerNumber)) * Mathf.Rad2Deg) - 90f;
-        }
+		if (Mathf.Abs(Input.GetAxisRaw("R_YAxis_" + PlayerNumber)) > 0f || Mathf.Abs(Input.GetAxisRaw("R_XAxis_" + PlayerNumber)) > 0f)
+		{
+			_targetAngle = -(Mathf.Atan2(Input.GetAxisRaw("R_YAxis_" + PlayerNumber), Input.GetAxisRaw("R_XAxis_" + PlayerNumber)) * Mathf.Rad2Deg) - 90f;
+		}
 
-        if (maxTriggerValue > 0f)
-        {
-            WindParticles.startSpeed = MinimumParticlesVelocity + maxTriggerValue * (MaximumParticlesVelocity - MinimumParticlesVelocity);
+		if (maxTriggerValue > 0f)
+		{
+			WindParticles.startSpeed = MinimumParticlesVelocity + maxTriggerValue * (MaximumParticlesVelocity - MinimumParticlesVelocity);
 
-            float ratio = WindParticles.startSpeed / _previousParticlesVelocity;
+			float ratio = WindParticles.startSpeed / _previousParticlesVelocity;
 
-            WindParticles.startLifetime /= ratio;
-            WindParticles.emissionRate *= ratio;
-            Debug.Log(_isActivated);
-            if (!_isActivated)
-            {
-                ActivateAbility(true);
-            }
+			WindParticles.startLifetime /= ratio;
+			WindParticles.emissionRate *= ratio;
 
-            _previousParticlesVelocity = WindParticles.startSpeed;
-        }
-        else if (_isActivated)
-        {
-            ActivateAbility(false);
-        }
-    }
+			if (!_isActivated)
+			{
+				ActivateAbility(true);
+			}
 
-    public void ActivateAbility(bool state)
-    {
-        Debug.Log("abc");
-        _isActivated = state;
+			_previousParticlesVelocity = WindParticles.startSpeed;
+		}
+		else if (_isActivated)
+		{
+			ActivateAbility(false);
+		}
+	}
 
-        if (state)
-        {
-            Debug.Log("abcd");
-            WindParticles.Play();
-        }
-        else
-        {
-            WindParticles.Stop();
-            Debug.Log("def");
-        }
-    }
+	public void ActivateAbility(bool state)
+	{
+		_isActivated = state;
+		_ballEffect.activated = state;
+
+		if (state)
+		{
+			WindParticles.Play();
+		}
+		else
+		{
+			WindParticles.Stop();
+		}
+	}
 }
