@@ -25,6 +25,19 @@ public abstract class Robot : MonoBehaviour
 
     protected void Update()
     {
+        ParticleSystem.Particle[] particles = new ParticleSystem.Particle[WindParticles.particleCount];
+
+        int num = WindParticles.GetParticles(particles);
+
+        for (int i = 0; i < num; i++)
+        {
+            particles[i].lifetime = 0;
+        }
+
+        //WindParticles.SetParticles(particles, num);
+
+        Debug.Log(num);
+
         _ratio = Time.deltaTime / 1f;
 
         if (Body.localEulerAngles.z < 0f)
