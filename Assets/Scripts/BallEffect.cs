@@ -45,6 +45,9 @@ public class BallEffect : MonoBehaviour {
 		{
 			//Determine if there's no shadowing obstacle in the way
 			RaycastHit hit;
+
+            Debug.DrawRay(transform.position, ball.transform.position);
+
 			if (Physics.Raycast(transform.position, ball.transform.position, out hit,
 				radius, 1 << 8 + 1 << 10))
 			{
