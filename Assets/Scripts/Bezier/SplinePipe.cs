@@ -88,7 +88,7 @@ public class SplinePipe : MonoBehaviour {
 				-direction.y * lineOptions.pipeInteriorRadius, 
 				direction.x * lineOptions.pipeInteriorRadius, 
 				0);
-			borderSupPath[i] = Vector3to2(position+translation);
+			borderSupPath[i] = Vector3to2(position + translation - this.transform.parent.transform.position);
 		}
 		for(int i = 99; i >= 0; i-- )
 		{
@@ -98,7 +98,8 @@ public class SplinePipe : MonoBehaviour {
 				-direction.y * lineOptions.pipeRadius, 
 				direction.x * lineOptions.pipeRadius, 
 				0);
-			borderSupPath[199 - i] = Vector3to2 (position+translation);
+			
+			borderSupPath[199 - i] = Vector3to2 (position + translation - this.transform.parent.transform.position );
 		}
 		borderCol.SetPath(0, borderSupPath);
 		
@@ -133,7 +134,7 @@ public class SplinePipe : MonoBehaviour {
 				direction.y * lineOptions.pipeInteriorRadius, 
 				-direction.x * lineOptions.pipeInteriorRadius, 
 				0);
-			borderInfPath[i] = Vector3to2(position+translation);
+			borderInfPath[i] = Vector3to2(position+translation - this.transform.parent.transform.position);
 		}
 		for(int i = 99; i >= 0; i-- )
 		{
@@ -143,7 +144,7 @@ public class SplinePipe : MonoBehaviour {
 				direction.y * lineOptions.pipeRadius, 
 				-direction.x * lineOptions.pipeRadius, 
 				0);
-			borderInfPath[199 - i] = Vector3to2 (position+translation);
+			borderInfPath[199 - i] = Vector3to2 (position+translation - this.transform.parent.transform.position);
 		}
 		borderCol.SetPath(1, borderInfPath);
 	}

@@ -86,7 +86,7 @@ public class BallEffect : MonoBehaviour {
 		//1 << 8 - 1 << 10
 
 		if (Physics.Raycast(transform.position, (obj.transform.position - transform.position), out hit,
-			radius, (1 << 8) | (1 << 10)))
+			radius))
 		{
 			if (hit.collider.gameObject.layer == 8) return;
 
