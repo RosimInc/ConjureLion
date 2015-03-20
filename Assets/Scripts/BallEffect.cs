@@ -10,15 +10,38 @@ public class BallEffect : MonoBehaviour {
 	public GameObject aim;
 	public GameObject ball;
 	public bool activated;
+    public GameObject staticDetection;
+
+    private bool _stayStatic = false;
 
 	// Use this for initialization
 	void Start () {
 		
 	}
-	
+
+    void Update()
+    {
+        if (!activated)
+        {
+            _stayStatic = false;
+        }
+
+        if (_stayStatic)
+        {
+            ball.transform.position = staticDetection.transform.position;
+            rigidbody2D.velocity = Vector3.zero;
+        }
+    }
+
 	// Update is called once per frame
 	void FixedUpdate () {
 		if (ball == null) return;
+
+        if (_stayStatic)
+        {
+            return;
+        }
+
         if (!activated)
         {
             return;
@@ -62,4 +85,12 @@ public class BallEffect : MonoBehaviour {
 			}
 		}
 	}
+
+    void OnTriggerStay2D(Collider2D collider)
+    {
+        if (collider.gameObject == ball && attract && activated)
+        {
+            _stayStatic = true;
+        }
+    }
 }
