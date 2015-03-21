@@ -9,7 +9,12 @@ public class PlayerMovement : MonoBehaviour {
 	public float defaultProgress = 0f;
 	public GameObject fix;
 	private float progress;
-	
+    private float _previousProgress;
+
+    private bool _playWhenPossible;
+
+    private float PreviousMovement;
+
 	// Use this for initialization
 	void Start () {
 		if(spline == null) {
@@ -24,18 +29,28 @@ public class PlayerMovement : MonoBehaviour {
 	}
 	
 	private void Update () {
-		float movement = 0f;
-        if (Input.GetAxisRaw("L_XAxis_" + PlayerNumber) > 0f)
+        if (_playWhenPossible && !MusicManager.Instance.RailLoop.isPlaying)
+        {
+            MusicManager.Instance.PlayRailLoop();
+            _playWhenPossible = false;
+        }
+		Vector3 dir = spline.GetDirection(progress);
+		float x = Input.GetAxisRaw("L_XAxis_" + PlayerNumber);
+		float y = -Input.GetAxisRaw("L_YAxis_" + PlayerNumber);
+		Vector3 joystickDir = new Vector3(x, y, 0);
+
+		float angle = Vector3.Angle(dir, joystickDir);
+		int mod = 1;
+		if (angle > 90)
 		{
-			movement = Time.deltaTime * 10 * speed * Input.GetAxisRaw("L_XAxis_" + PlayerNumber) ;
-			
+			mod = -1;
+			Debug.Log("Advance");
 		}
-        else if (Input.GetAxisRaw("L_XAxis_" + PlayerNumber) < 0f)
-		{
-            movement = Time.deltaTime * 10 * speed * Input.GetAxisRaw("L_XAxis_" + PlayerNumber) ;
-			
-		}
-		
+
+		float stuff = Mathf.Sqrt(x * x + y * y);
+
+		float movement = mod * Time.deltaTime * 10 * speed * stuff;
+
 		//Debug.Log ( "Progress "+progress+" movement"+ movement);
 		progress = spline.GetProgressFromDistance(progress, movement);
 		//Debug.Log ( "Progress After "+progress);
@@ -49,5 +64,27 @@ public class PlayerMovement : MonoBehaviour {
 		//Orientation du fix
 		fix.transform.LookAt(position + spline.GetDirection(progress) );
 		fix.transform.Rotate(new Vector3(0,90,0));
+
+        if (PreviousMovement == 0f && movement != 0f) // We start moving
+        {
+            if (MusicManager.Instance.RailLoop.isPlaying)
+            {
+                _playWhenPossible = true;
+            }
+            else
+            {
+                MusicManager.Instance.PlayRailLoop();
+            }
+        }
+        else if (PreviousMovement != 0f && movement == 0f) // We stop moving
+        {
+            MusicManager.Instance.StopRailLoop();
+            _playWhenPossible = false;
+        }
+
+        Debug.Log(progress);
+
+        _previousProgress = progress;
+        PreviousMovement = movement;
 	}
 }
