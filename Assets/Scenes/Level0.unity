@@ -1773,7 +1773,7 @@ MonoBehaviour:
   vision: 50
   attract: 0
   aim: {fileID: 1788047808}
-  ball: {fileID: 0}
+  aim2: {fileID: 0}
   activated: 0
   staticDetection: {fileID: 0}
   PlayerNumber: 2
@@ -3602,7 +3602,7 @@ MonoBehaviour:
   vision: 50
   attract: 1
   aim: {fileID: 357016898}
-  ball: {fileID: 0}
+  aim2: {fileID: 0}
   activated: 0
   staticDetection: {fileID: 77042248}
   PlayerNumber: 2
