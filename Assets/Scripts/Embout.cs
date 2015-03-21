@@ -6,6 +6,11 @@ public class Embout : MonoBehaviour {
 	private bool ballIsIn = false;
 	private GameObject ball;
 	public SplinePipe splinePipe;
+	public bool isBeginning = false;
+	
+	public bool GetBallIsIn () {
+	return ballIsIn;
+	}
 	
 	private void Start () {
 		ball = GameObject.FindGameObjectWithTag ("Ball");
@@ -42,5 +47,10 @@ public class Embout : MonoBehaviour {
 		
 		Debug.Log("Leave ballIsIn "+ballIsIn);
 		splinePipe.setBallIsIn(ballIsIn);
+	}
+	
+	public void FlowIntensity (float intensity) {
+		splinePipe.blower.intensity = intensity;
+		splinePipe.blower.isAtBeginning = isBeginning;
 	}
 }

@@ -101,6 +101,8 @@ public class BallEffect : MonoBehaviour {
 			//Debug.Log(string.Format("force {0} \nradius {1} \nmagnitude {2} ", force, radius, dirHit.magnitude));
 
 			float stuff = Mathf.Max( Input.GetAxisRaw("TriggersL_" + PlayerNumber), Input.GetAxisRaw("TriggersR_" + PlayerNumber));
+			stuff = Mathf.Max ( stuff, Math.Abs(Input.GetAxisRaw("TriggersLR_" + PlayerNumber)));
+			
 			float forceFF = forceSide * force *
 					(radius - dirHit.magnitude) / radius * delta /** stuff*/;
 			platform.rigidbody2D.AddTorque(forceFF, ForceMode2D.Force);
@@ -207,6 +209,8 @@ public class BallEffect : MonoBehaviour {
 
     void OnTriggerStay2D(Collider2D collider)
     {
+    	if(this.tag != "StaticDetection")
+    		return;
         if (collider.gameObject == ball.gameObject && attract && activated)
         {
             if (!_pullBlocked)
