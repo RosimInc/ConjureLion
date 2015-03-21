@@ -5,6 +5,8 @@ TagManager:
   tags:
   - Ball
   - Toe
+  - Pipe
+  - StaticDetection
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX

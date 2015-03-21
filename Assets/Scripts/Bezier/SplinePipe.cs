@@ -6,6 +6,7 @@ public class SplinePipe : MonoBehaviour {
 	private LineRenderer lineRend;
 	private LineRenderer lineIntRend;
 	public Transform toe;
+	private Transform beginToe;
 	public bool isBlowable = true;
 	public float powerBlow = 2;
 	
@@ -31,8 +32,8 @@ public class SplinePipe : MonoBehaviour {
 	
 	private void Start () {
 		//Pour les tests 
-		blower.intensity = 1;
-		blower.isAtBeginning = true;
+		//blower.intensity = 1;
+		//blower.isAtBeginning = true;
 		
 		//Général
 		float lineRadius = (lineOptions.pipeInteriorRadius + lineOptions.pipeRadius )/2;
@@ -46,18 +47,20 @@ public class SplinePipe : MonoBehaviour {
 		ball = GameObject.FindGameObjectWithTag ("Ball");
 		
 		//Embout :
-		Transform beginToe = Instantiate(toe) as Transform;
+		beginToe = Instantiate(toe) as Transform;
 		Vector3 beginPosition = spline.GetPoint(0);
 		beginPosition.z = 1.1f;
 		beginToe.transform.position = beginPosition;
 		beginToe.transform.LookAt(beginPosition + spline.GetDirection(0) );
 		beginToe.transform.Rotate(new Vector3(0,90,0));
+		beginToe.gameObject.GetComponent<Embout>().isBeginning = true;
 		
 		Vector3 endPosition = spline.GetPoint(1);
 		endPosition.z = 1.1f;
 		toe.transform.position = endPosition;
 		toe.transform.LookAt(endPosition + spline.GetDirection(1) );
 		toe.transform.Rotate(new Vector3(0,90,180));
+		toe.gameObject.GetComponent<Embout>().isBeginning = false;
 		
 	//Partie intérieure
 		//Affichage intérieur
@@ -220,12 +223,24 @@ public class SplinePipe : MonoBehaviour {
 			drawParticules();
 		}
 		
+		Debug.Log ("blow intensity "+blowIntensity);
+		
 		//Déplacer la balle
 		if(ballIsIn && blowIntensity != 0) {
 			//Récupérer la progression de la balle dans le tuyau
 			float progression = GetProgression(ball.transform.position);
 			Vector2 direction = spline.GetDirection(progression);
-			Vector2 force = direction * blowIntensity * 150* powerBlow* Time.deltaTime;
+			/*if(blower.isAtBeginning) {
+				direction.x = -direction.x; 
+				direction.y = -direction.y;
+			}*/
+			int coef = 50;
+			if(blower.isAtBeginning && toe.GetComponent<Embout>().GetBallIsIn()) {
+				coef = 150;
+			} else if (!blower.isAtBeginning && beginToe.GetComponent<Embout>().GetBallIsIn()) {
+				coef = 150;
+			}
+			Vector2 force = direction * blowIntensity * coef* powerBlow* Time.deltaTime; //150 pour aspirer
 			ball.rigidbody2D.AddForce( force );
 			//Debug.Log("blow itnensity "+blowIntensity + " force "+force.x+" y "+force.y);
 			

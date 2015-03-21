@@ -80,10 +80,6 @@ public class BallEffect : MonoBehaviour {
 			Vector3 dirHit = hitPos - aim.transform.position;
 
 			float angle = Vector3.Angle(dirCentre, dirHit);
-			Debug.Log("Angle: " + angle);
-
-			/*Vector3 local =
-				aim.transform.InverseTransformPoint(obj.transform.position);*/
 
 			Vector3 cross = Vector3.Cross(dirHit, dirCentre);
 
@@ -101,6 +97,8 @@ public class BallEffect : MonoBehaviour {
 			//Debug.Log(string.Format("force {0} \nradius {1} \nmagnitude {2} ", force, radius, dirHit.magnitude));
 
 			float stuff = Mathf.Max( Input.GetAxisRaw("TriggersL_" + PlayerNumber), Input.GetAxisRaw("TriggersR_" + PlayerNumber));
+			stuff = Mathf.Max ( stuff, Math.Abs(Input.GetAxisRaw("TriggersLR_" + PlayerNumber)));
+			
 			float forceFF = forceSide * force * 50f *
 					(radius - dirHit.magnitude) / radius * delta * stuff;
 			platform.rigidbody2D.AddTorque(forceFF, ForceMode2D.Force);
@@ -136,17 +134,20 @@ public class BallEffect : MonoBehaviour {
 		
 		int mod = attract ? -1 : 1;
 
-		//Determine if there's no shadowing obstacle in the way
-		RaycastHit hit;
+		Debug.DrawRay(transform.position, (obj.transform.position - aim.transform.position).normalized * radius);
 
-		Debug.DrawRay(transform.position, (obj.transform.position - transform.position));
-		//1 << 8 - 1 << 10
+		Vector3 temp = obj.transform.position - transform.position;
+		RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y), 
+			new Vector2(temp.x, temp.y), radius, 1 << 15 | 1 << 10 | 1 << 8);
 
-		if (Physics.Raycast(transform.position, (obj.transform.position - transform.position), out hit,
-			radius, (1 << 8) | (1 << 10) | (1 << 15)))
+		if(hit.collider != null)
 		{
-			if (hit.collider.gameObject.layer == 8) return;
-			
+			if (hit.collider.gameObject.layer != 10)
+			{
+				Debug.Log("Shadowed");
+				return;
+			}
+
 			float maxTriggerValue = Mathf.Max( Input.GetAxisRaw("TriggersL_" + PlayerNumber), Input.GetAxisRaw("TriggersR_" + PlayerNumber));
 			maxTriggerValue = Mathf.Max ( maxTriggerValue, Math.Abs(Input.GetAxisRaw("TriggersLR_" + PlayerNumber)));
 
@@ -205,7 +206,7 @@ public class BallEffect : MonoBehaviour {
 		}
 	}
 
-    void OnTriggerStay2D(Collider2D collider)
+    public void OnStaticTriggerStay(Collider2D collider)
     {
         if (collider.gameObject == ball.gameObject && attract && activated)
         {

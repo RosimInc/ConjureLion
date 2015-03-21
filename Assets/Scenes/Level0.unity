@@ -73,7 +73,6 @@ NavMeshSettings:
     minRegionArea: 2
     widthInaccuracy: 16.666666
     heightInaccuracy: 10
-    tileSizeHint: 0
   m_NavMesh: {fileID: 0}
 --- !u!1 &86186
 GameObject:
@@ -135,9 +134,10 @@ GameObject:
   m_Component:
   - 4: {fileID: 77042249}
   - 61: {fileID: 77042250}
+  - 114: {fileID: 77042251}
   m_Layer: 14
   m_Name: StaticDetection
-  m_TagString: Untagged
+  m_TagString: StaticDetection
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -152,7 +152,7 @@ Transform:
   m_LocalPosition: {x: 0, y: -0, z: .15000011}
   m_LocalScale: {x: 1.35000002, y: .199999958, z: 1}
   m_Children: []
-  m_Father: {fileID: 357016899}
+  m_Father: {fileID: 1264223207}
   m_RootOrder: 0
 --- !u!61 &77042250
 BoxCollider2D:
@@ -166,6 +166,18 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_Size: {x: 1, y: 1}
   m_Center: {x: 0, y: 0}
+--- !u!114 &77042251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 77042248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cabda7577a1cc074a87ce5c315471c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1263290755}
 --- !u!1 &98630183
 GameObject:
   m_ObjectHideFlags: 0
@@ -1643,6 +1655,18 @@ Prefab:
       propertyPath: spline
       value: 
       objectReference: {fileID: 600689940}
+    - target: {fileID: 143344, guid: 8c221524e172f2b4297b6dcf963c854b, type: 2}
+      propertyPath: m_TagString
+      value: StaticDetection
+      objectReference: {fileID: 0}
+    - target: {fileID: 499782, guid: 8c221524e172f2b4297b6dcf963c854b, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 499782, guid: 8c221524e172f2b4297b6dcf963c854b, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8c221524e172f2b4297b6dcf963c854b, type: 2}
   m_RootGameObject: {fileID: 1263290755}
@@ -1828,7 +1852,7 @@ MonoBehaviour:
   vision: 50
   attract: 0
   aim: {fileID: 1788047808}
-  aim2: {fileID: 0}
+  aim2: {fileID: 375322182}
   activated: 0
   staticDetection: {fileID: 0}
   PlayerNumber: 1
@@ -2015,7 +2039,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 357016899}
   m_Layer: 13
-  m_Name: Souffli_Aim
+  m_Name: Aim2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2027,13 +2051,39 @@ Transform:
   m_PrefabParentObject: {fileID: 499782, guid: 8c221524e172f2b4297b6dcf963c854b, type: 2}
   m_PrefabInternal: {fileID: 211593444}
   m_GameObject: {fileID: 357016898}
-  m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106829}
-  m_LocalPosition: {x: 0, y: 1.66999996, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 77042249}
-  m_Father: {fileID: 1821987147}
+  m_Children: []
+  m_Father: {fileID: 1264223207}
   m_RootOrder: 1
+--- !u!1 &375322182
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 199782, guid: 8c221524e172f2b4297b6dcf963c854b, type: 2}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 375322183}
+  m_Layer: 13
+  m_Name: Aim2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &375322183
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 499782, guid: 8c221524e172f2b4297b6dcf963c854b, type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 375322182}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1788047809}
+  m_RootOrder: 0
 --- !u!1 &430083537
 GameObject:
   m_ObjectHideFlags: 0
@@ -2239,6 +2289,10 @@ Prefab:
       propertyPath: spline
       value: 
       objectReference: {fileID: 600689940}
+    - target: {fileID: 11412340, guid: 6d49bd739b41e8549a73b833d613c4b8, type: 2}
+      propertyPath: aim2
+      value: 
+      objectReference: {fileID: 375322182}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6d49bd739b41e8549a73b833d613c4b8, type: 2}
   m_RootGameObject: {fileID: 302814385}
@@ -3742,8 +3796,8 @@ MonoBehaviour:
   force: 7000
   vision: 50
   attract: 1
-  aim: {fileID: 357016898}
-  aim2: {fileID: 0}
+  aim: {fileID: 1264223206}
+  aim2: {fileID: 357016898}
   activated: 0
   staticDetection: {fileID: 77042248}
   PlayerNumber: 2
@@ -3813,6 +3867,35 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
+--- !u!1 &1264223206
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 186126, guid: 8c221524e172f2b4297b6dcf963c854b, type: 2}
+  m_PrefabInternal: {fileID: 211593444}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1264223207}
+  m_Layer: 13
+  m_Name: Souffli_Aim
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1264223207
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 486126, guid: 8c221524e172f2b4297b6dcf963c854b, type: 2}
+  m_PrefabInternal: {fileID: 211593444}
+  m_GameObject: {fileID: 1264223206}
+  m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106829}
+  m_LocalPosition: {x: 0, y: 1.66999996, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 77042249}
+  - {fileID: 357016899}
+  m_Father: {fileID: 1821987147}
+  m_RootOrder: 1
 --- !u!1001 &1282569596
 Prefab:
   m_ObjectHideFlags: 0
@@ -7065,7 +7148,8 @@ Transform:
   m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106829}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 375322183}
   m_Father: {fileID: 601221329}
   m_RootOrder: 1
 --- !u!1 &1821987146
@@ -7095,7 +7179,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 98630184}
-  - {fileID: 357016899}
+  - {fileID: 1264223207}
   m_Father: {fileID: 1263290759}
   m_RootOrder: 1
 --- !u!212 &1821987148
