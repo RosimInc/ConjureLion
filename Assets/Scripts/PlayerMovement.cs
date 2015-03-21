@@ -17,15 +17,16 @@ public class PlayerMovement : MonoBehaviour {
 	}
 	
 	private void Update () {
+
         if (Input.GetAxisRaw("L_XAxis_" + PlayerNumber) > 0f)
-        {
+		{
             progress += Time.deltaTime * speed * Input.GetAxisRaw("L_XAxis_" + PlayerNumber);
 			if (progress > 1f) {
 					progress = 1f;
 			}
 		}
         else if (Input.GetAxisRaw("L_XAxis_" + PlayerNumber) < 0f)
-        {
+		{
             progress += Time.deltaTime * speed * Input.GetAxisRaw("L_XAxis_" + PlayerNumber);
 			if (progress < 0f) {
 				progress = 0f;

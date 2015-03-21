@@ -267,7 +267,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 493402, guid: 6d49bd739b41e8549a73b833d613c4b8, type: 2}
       propertyPath: m_RootOrder
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 11412340, guid: 6d49bd739b41e8549a73b833d613c4b8, type: 2}
       propertyPath: ball
@@ -399,7 +399,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 457058094}
   - 212: {fileID: 457058095}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: Plateforme_Barre
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -582,7 +582,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 460026, guid: 8c221524e172f2b4297b6dcf963c854b, type: 2}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11445714, guid: 8c221524e172f2b4297b6dcf963c854b, type: 2}
       propertyPath: ball
@@ -594,6 +594,46 @@ Prefab:
   m_RootGameObject: {fileID: 1284238926}
   m_IsPrefabParent: 0
   m_IsExploded: 1
+--- !u!1 &668360992
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 143344, guid: 8c221524e172f2b4297b6dcf963c854b, type: 2}
+  m_PrefabInternal: {fileID: 603303502}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 668360994}
+  - 61: {fileID: 668360993}
+  m_Layer: 14
+  m_Name: StaticDetection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!61 &668360993
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6143344, guid: 8c221524e172f2b4297b6dcf963c854b,
+    type: 2}
+  m_PrefabInternal: {fileID: 603303502}
+  m_GameObject: {fileID: 668360992}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Size: {x: 1, y: 1}
+  m_Center: {x: 0, y: 0}
+--- !u!4 &668360994
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 443344, guid: 8c221524e172f2b4297b6dcf963c854b, type: 2}
+  m_PrefabInternal: {fileID: 603303502}
+  m_GameObject: {fileID: 668360992}
+  m_LocalRotation: {x: .707106829, y: 0, z: 0, w: .707106829}
+  m_LocalPosition: {x: 0, y: -0, z: .15000011}
+  m_LocalScale: {x: .200000003, y: .199999958, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1143567060}
+  m_RootOrder: 0
 --- !u!1 &808381499
 GameObject:
   m_ObjectHideFlags: 0
@@ -782,9 +822,10 @@ Transform:
   m_PrefabInternal: {fileID: 603303502}
   m_GameObject: {fileID: 1143567059}
   m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106829}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.66999996, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 668360994}
   m_Father: {fileID: 389376388}
   m_RootOrder: 1
 --- !u!1 &1173991522
@@ -978,12 +1019,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 8
-  force: 5000
-  vision: 10
+  force: 7000
+  vision: 50
   attract: 1
   aim: {fileID: 1143567059}
   ball: {fileID: 232188225}
   activated: 0
+  staticDetection: {fileID: 668360992}
+  PlayerNumber: 1
 --- !u!114 &1284238930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -996,12 +1039,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 036872f91dd56b349908b3ea676ae096, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerNumber: 2
+  PlayerNumber: 1
   WindParticles: {fileID: 1986341483}
   MinimumParticlesVelocity: -5
   MaximumParticlesVelocity: -20
   rotateSpeed: 1
   Body: {fileID: 389376388}
+  StaticDetection: {fileID: 668360993}
 --- !u!1 &1315160909
 GameObject:
   m_ObjectHideFlags: 0
@@ -1013,7 +1057,7 @@ GameObject:
   - 50: {fileID: 1315160913}
   - 61: {fileID: 1315160912}
   - 114: {fileID: 1315160911}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Plateforme
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1133,12 +1177,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 8
-  force: 5000
+  force: 7000
   vision: 10
   attract: 0
   aim: {fileID: 808381499}
   ball: {fileID: 232188225}
   activated: 0
+  staticDetection: {fileID: 0}
+  PlayerNumber: 1
 --- !u!114 &1406518523
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1151,7 +1197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fac7245d3c9f8ed43b442cb21799456d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerNumber: 1
+  PlayerNumber: 2
   WindParticles: {fileID: 2056004996}
   MinimumParticlesVelocity: 5
   MaximumParticlesVelocity: 15
@@ -1253,11 +1299,15 @@ Prefab:
       objectReference: {fileID: 880130370}
     - target: {fileID: 109564, guid: dbbc7d7881e7b35408c3cd133d08781d, type: 2}
       propertyPath: m_Layer
-      value: 8
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 109562, guid: dbbc7d7881e7b35408c3cd133d08781d, type: 2}
       propertyPath: m_Layer
-      value: 8
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 109564, guid: dbbc7d7881e7b35408c3cd133d08781d, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 13609564, guid: dbbc7d7881e7b35408c3cd133d08781d, type: 2}
