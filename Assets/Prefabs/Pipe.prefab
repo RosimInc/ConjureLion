@@ -11,7 +11,7 @@ GameObject:
   - 114: {fileID: 11410438}
   m_Layer: 9
   m_Name: SplinePipe
-  m_TagString: Untagged
+  m_TagString: Pipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -58,7 +58,7 @@ GameObject:
   - 33: {fileID: 3367680}
   - 65: {fileID: 6567680}
   - 23: {fileID: 2367680}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,9 +75,10 @@ GameObject:
   - 4: {fileID: 467682}
   - 61: {fileID: 6167680}
   - 114: {fileID: 11467680}
-  m_Layer: 8
+  - 50: {fileID: 5033546}
+  m_Layer: 16
   m_Name: Toe
-  m_TagString: Untagged
+  m_TagString: Toe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -173,6 +174,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 167680}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!50 &5033546
+Rigidbody2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 167682}
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: .0500000007
+  m_GravityScale: 1
+  m_FixedAngle: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
 --- !u!61 &6167680
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -209,15 +225,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   toe: {fileID: 467682}
   isBlowable: 1
-  powerBlow: 2
+  powerBlow: 8
   lineOptions:
     pipeRadius: .819999993
-    pipeInteriorRadius: .550000012
+    pipeInteriorRadius: .600000024
     borderMaterial: {fileID: 2100000, guid: 44a17204aeedd184e938dab4d88900e7, type: 2}
     interiorMaterial: {fileID: 2100000, guid: 670412e042a905a47b221ebf3c2e3a23, type: 2}
   blower:
     intensity: 0
-    isAtBeginning: 0
+    isAtBeginning: 1
   blowIntensity: 0
   spline: {fileID: 11410440}
 --- !u!114 &11410440
@@ -232,13 +248,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   points:
-  - {x: 3.52579665, y: -1.51105213, z: 0}
-  - {x: 2.92010307, y: -.66872561, z: 0}
-  - {x: .340040445, y: -.559019923, z: .0328274965}
+  - {x: 3.31711173, y: 2.95480442, z: 0}
+  - {x: 3.2957356, y: 1.20943844, z: 0}
+  - {x: 1.13540459, y: .316271544, z: .0328274965}
   - {x: .279858112, y: .294680536, z: .0328274965}
-  - {x: .203148335, y: 1.38282657, z: .0328274965}
-  - {x: -1.68319952, y: 1.59465861, z: 0}
-  - {x: -1.64349246, y: 3.29270554, z: 0}
+  - {x: -1.87413502, y: .240321234, z: .0328274965}
+  - {x: -2.19745588, y: 2.55878258, z: 0}
+  - {x: -3.74436331, y: 2.62491417, z: 0}
   modes: 000000000100000000000000
   loop: 0
 --- !u!114 &11467680
@@ -253,6 +269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   splinePipe: {fileID: 11410438}
+  isBeginning: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -15,6 +15,38 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &145854
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 445854}
+  - 114: {fileID: 11445854}
+  - 60: {fileID: 6045856}
+  m_Layer: 11
+  m_Name: Target
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &145856
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 445856}
+  m_Layer: 13
+  m_Name: Souffli_Aim
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &160954
 GameObject:
   m_ObjectHideFlags: 1
@@ -140,8 +172,8 @@ GameObject:
   - 4: {fileID: 493402}
   - 114: {fileID: 11493394}
   - 114: {fileID: 11460954}
-  - 114: {fileID: 11412340}
-  - 50: {fileID: 5029268}
+  - 114: {fileID: 11445856}
+  - 50: {fileID: 5045856}
   m_Layer: 13
   m_Name: Souffli
   m_TagString: Untagged
@@ -155,6 +187,30 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 129270}
+  m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106829}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 493400}
+  m_RootOrder: 2
+--- !u!4 &445854
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 145854}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: .0700001717, y: .949999809, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 493400}
+  m_RootOrder: 3
+--- !u!4 &445856
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 145856}
   m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106829}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -248,7 +304,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 493398}
+  - {fileID: 445856}
   - {fileID: 429270}
+  - {fileID: 445854}
   m_Father: {fileID: 493402}
   m_RootOrder: 1
 --- !u!4 &493402
@@ -258,28 +316,13 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 193402}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.780098021, y: .393793195, z: 0}
+  m_LocalPosition: {x: -2, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 493394}
   - {fileID: 493400}
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!50 &5029268
-Rigidbody2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 193402}
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: .0500000007
-  m_GravityScale: 0
-  m_FixedAngle: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
 --- !u!50 &5029270
 Rigidbody2D:
   m_ObjectHideFlags: 1
@@ -295,6 +338,37 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
+--- !u!50 &5045856
+Rigidbody2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 193402}
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: .0500000007
+  m_GravityScale: 0
+  m_FixedAngle: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+--- !u!60 &6045856
+PolygonCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 145854}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Poly:
+    m_Paths:
+    - - {x: -.958461106, y: 2.78790164}
+      - {x: -.0258367732, y: 4.51150036}
+      - {x: .901128709, y: 2.84050822}
+      - {x: .407539785, y: .554947674}
+      - {x: -.600848973, y: .603927433}
 --- !u!61 &6129270
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -317,7 +391,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02414aaf502b62045bb1ac489f86721e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11412340
+--- !u!114 &11445854
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 145854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f63f538f286a6b4f862612b5fecd565, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerNumber: 1
+  attract: 0
+--- !u!114 &11445856
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -329,13 +416,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 8
-  force: 2000
-  vision: 50
+  force: 5000
+  vision: 10
   attract: 0
-  aim: {fileID: 129270}
-  ball: {fileID: 0}
+  aim: {fileID: 145856}
+  aim2: {fileID: 129270}
   activated: 0
-  staticDetection: {fileID: 0}
+  staticDetection: {fileID: 145856}
   PlayerNumber: 1
 --- !u!114 &11460954
 MonoBehaviour:
