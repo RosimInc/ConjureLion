@@ -55,9 +55,8 @@ public class BallEffect : MonoBehaviour {
         if (_stayStatic || _pullBlocked) return;
         if (!activated) return;
 
-		checkEffects(ball, delta);
+		checkEffects(ball.gameObject, delta);
 		checkPivotEffects(delta);
-		//dadaTemp();
 	}
 
 	private void checkPivotEffects(float delta)
@@ -105,51 +104,6 @@ public class BallEffect : MonoBehaviour {
 			float forceFF = forceSide * force *
 					(radius - dirHit.magnitude) / radius * delta /** stuff*/;
 			platform.rigidbody2D.AddTorque(forceFF, ForceMode2D.Force);
-		}
-	}
-
-	private void dadaTemp()
-	{
-		//Raycast in front
-
-		RaycastHit hit;
-		Debug.DrawRay(transform.position, (aim2.transform.position - aim.transform.position).normalized * radius);
-
-		//Vector3 temp = aim2.transform.position - aim.transform.position;
-		//RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y), new Vector2(temp.x, temp.y));
-
-		if (Physics.Raycast(transform.position, aim2.transform.position - aim.transform.position, out hit, radius, int.MaxValue))
-		{
-			Debug.Log(hit.collider.gameObject.name + "   " + hit.collider.gameObject.layer);
-			if (hit.collider.gameObject.layer != 15) return;
-			Debug.Log("HINGE!");
-
-			//Detected hinge
-			GameObject platform = hit.collider.gameObject;
-
-			Vector3 centrePos = platform.transform.position;
-			Vector3 hitPos = hit.point;
-			Vector3 dirCentre = centrePos - aim.transform.position;
-			Vector3 dirHit = hitPos - aim.transform.position;
-
-			float angle = Vector3.Angle(dirCentre, dirHit);
-
-			/*Vector3 local =
-				aim.transform.InverseTransformPoint(obj.transform.position);
-
-			if (local.x < 0)
-				angle = -angle;*/
-			//Angle between 0 (right) and 180 (left) and 90 (up) and -90 (down)
-
-			if (angle > 180)
-				angle = -(360 - angle);
-			//Angle between 0 (up) and 180 (down) and -90 (left) and 90 (right)
-
-			int forceSide = (angle > 0) ? 1 : -1;
-
-			platform.rigidbody2D.AddTorque(forceSide * force *
-					(radius - dirHit.magnitude) / radius * Time.fixedDeltaTime *
-					Mathf.Max(Input.GetAxisRaw("TriggersL_" + PlayerNumber), Input.GetAxisRaw("TriggersR_" + PlayerNumber)), ForceMode2D.Force);
 		}
 	}
 
