@@ -9,22 +9,39 @@ GameObject:
   m_Component:
   - 4: {fileID: 429270}
   m_Layer: 13
-  m_Name: Souffli_Aim
+  m_Name: Souffli_Aim2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &134390
+--- !u!1 &141936
 GameObject:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 434390}
+  - 4: {fileID: 441936}
+  - 60: {fileID: 6041936}
+  - 114: {fileID: 11441936}
+  m_Layer: 17
+  m_Name: Target
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &141938
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 441938}
   m_Layer: 13
-  m_Name: Aim2
+  m_Name: Souffli_Aim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -171,24 +188,35 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 129270}
   m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106829}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: .529999971, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 434390}
+  m_Children: []
   m_Father: {fileID: 493400}
-  m_RootOrder: 1
---- !u!4 &434390
+  m_RootOrder: 2
+--- !u!4 &441936
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 134390}
+  m_GameObject: {fileID: 141936}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 429270}
-  m_RootOrder: 0
+  m_Father: {fileID: 493400}
+  m_RootOrder: 3
+--- !u!4 &441938
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 141938}
+  m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106829}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 493400}
+  m_RootOrder: 1
 --- !u!4 &460954
 Transform:
   m_ObjectHideFlags: 1
@@ -276,7 +304,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 493398}
+  - {fileID: 441938}
   - {fileID: 429270}
+  - {fileID: 441936}
   m_Father: {fileID: 493402}
   m_RootOrder: 1
 --- !u!4 &493402
@@ -286,7 +316,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 193402}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.58359194, y: 3.63266373, z: 0}
+  m_LocalPosition: {x: -.780098021, y: .393793195, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 493394}
@@ -323,6 +353,22 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
+--- !u!60 &6041936
+PolygonCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 141936}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Poly:
+    m_Paths:
+    - - {x: .116689682, y: 3.5338378}
+      - {x: 1.05107594, y: 2.82618475}
+      - {x: .671135426, y: 1.74149048}
+      - {x: -.621125221, y: 1.74149024}
+      - {x: -.984396458, y: 2.79284477}
 --- !u!61 &6129270
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -360,11 +406,24 @@ MonoBehaviour:
   force: 2000
   vision: 50
   attract: 0
-  aim: {fileID: 129270}
-  aim2: {fileID: 134390}
+  aim: {fileID: 141938}
+  aim2: {fileID: 129270}
   activated: 0
   staticDetection: {fileID: 0}
   PlayerNumber: 1
+--- !u!114 &11441936
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 141936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f63f538f286a6b4f862612b5fecd565, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerNumber: 1
+  attract: 0
 --- !u!114 &11460954
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1475,7 +1534,7 @@ ParticleSystemRenderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: bf723eb63e9c8ec4391519fac710bf1a, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0

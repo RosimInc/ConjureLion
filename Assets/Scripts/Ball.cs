@@ -18,10 +18,10 @@ public class Ball : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D other)
     {
-        Debug.Log("def");
+        //Debug.Log("def");
         if (Owner != null && other.gameObject.layer == 8)
         {
-            Debug.Log("ghi");
+            Debug.Log("Colle la balle au bout du joueur");
             Owner.DropBall();
         }
     }
