@@ -9,7 +9,11 @@ public class BallEffect : MonoBehaviour {
 	public float vision;
 	public bool attract;
 	public GameObject aim;
+<<<<<<< HEAD
 	public Ball ball;
+=======
+	private GameObject ball;
+>>>>>>> 9f9d9d4342315f08bc2d4edaf60737d1c1b22fdf
 	public bool activated;
     public GameObject staticDetection;
     public int PlayerNumber = 1;
@@ -25,8 +29,12 @@ public class BallEffect : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		ball = GameObject.FindGameObjectWithTag ("Ball");
+<<<<<<< HEAD
 		ResourceManager.Instance.AddMovingObject(ball.gameObject);
+=======
+		ball = GameObject.FindGameObjectWithTag ("Ball");
+		ResourceManager.Instance.AddMovingObject(ball);
+>>>>>>> 9f9d9d4342315f08bc2d4edaf60737d1c1b22fdf
 	}
 
     void Update()
