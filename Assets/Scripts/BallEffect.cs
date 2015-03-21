@@ -25,7 +25,7 @@ public class BallEffect : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		ball = GameObject.FindGameObjectWithTag ("Ball");
+		ball = GameObject.FindGameObjectWithTag ("Ball").GetComponent<Ball>();
 		ResourceManager.Instance.AddMovingObject(ball.gameObject);
 	}
 
