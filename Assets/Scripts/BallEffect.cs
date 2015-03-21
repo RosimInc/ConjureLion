@@ -103,7 +103,7 @@ public class BallEffect : MonoBehaviour {
 			float stuff = Mathf.Max( Input.GetAxisRaw("TriggersL_" + PlayerNumber), Input.GetAxisRaw("TriggersR_" + PlayerNumber));
 			stuff = Mathf.Max ( stuff, Math.Abs(Input.GetAxisRaw("TriggersLR_" + PlayerNumber)));
 			
-			float forceFF = forceSide * force *
+			float forceFF = forceSide * force * 50f *
 					(radius - dirHit.magnitude) / radius * delta /** stuff*/;
 			platform.rigidbody2D.AddTorque(forceFF, ForceMode2D.Force);
 		}
