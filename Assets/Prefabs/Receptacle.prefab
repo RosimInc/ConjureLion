@@ -44,7 +44,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 452482}
   - 212: {fileID: 21252480}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Receptacle_Fleche
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76,7 +76,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 452486}
   - 212: {fileID: 21252484}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Receptacle_Machine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 452488}
   - 114: {fileID: 11448544}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Receptacle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
