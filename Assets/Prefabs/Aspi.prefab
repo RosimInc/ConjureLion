@@ -172,7 +172,7 @@ Transform:
   m_GameObject: {fileID: 143344}
   m_LocalRotation: {x: .707106829, y: 0, z: 0, w: .707106829}
   m_LocalPosition: {x: 0, y: -0, z: .15000011}
-  m_LocalScale: {x: .200000003, y: .199999958, z: 1}
+  m_LocalScale: {x: 1.35000002, y: .199999958, z: 1}
   m_Children: []
   m_Father: {fileID: 499782}
   m_RootOrder: 0
@@ -356,7 +356,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 036872f91dd56b349908b3ea676ae096, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerNumber: 1
+  PlayerNumber: 2
   WindParticles: {fileID: 19860034}
   MinimumParticlesVelocity: -5
   MaximumParticlesVelocity: -20
@@ -382,7 +382,7 @@ MonoBehaviour:
   ball: {fileID: 0}
   activated: 0
   staticDetection: {fileID: 143344}
-  PlayerNumber: 1
+  PlayerNumber: 2
 --- !u!114 &11460034
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -395,7 +395,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spline: {fileID: 0}
-  PlayerNumber: 1
+  PlayerNumber: 2
   speed: 1
   defaultProgress: 0
   fix: {fileID: 160020}

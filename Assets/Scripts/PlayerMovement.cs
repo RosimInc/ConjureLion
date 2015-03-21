@@ -17,22 +17,21 @@ public class PlayerMovement : MonoBehaviour {
 	}
 	
 	private void Update () {
-
+		float movement = 0f;
         if (Input.GetAxisRaw("L_XAxis_" + PlayerNumber) > 0f)
 		{
-            progress += Time.deltaTime * speed * Input.GetAxisRaw("L_XAxis_" + PlayerNumber);
-			if (progress > 1f) {
-					progress = 1f;
-			}
+			movement = Time.deltaTime * 10 * speed * Input.GetAxisRaw("L_XAxis_" + PlayerNumber) ;
+			
 		}
         else if (Input.GetAxisRaw("L_XAxis_" + PlayerNumber) < 0f)
 		{
-            progress += Time.deltaTime * speed * Input.GetAxisRaw("L_XAxis_" + PlayerNumber);
-			if (progress < 0f) {
-				progress = 0f;
-			}
+            movement = Time.deltaTime * 10 * speed * Input.GetAxisRaw("L_XAxis_" + PlayerNumber) ;
+			
 		}
 		
+		//Debug.Log ( "Progress "+progress+" movement"+ movement);
+		progress = spline.GetProgressFromDistance(progress, movement);
+		//Debug.Log ( "Progress After "+progress);
 		Vector3 position = spline.GetPoint(progress);
 		position.z = 0;
 		transform.localPosition = position;

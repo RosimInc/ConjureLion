@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class BallEffect : MonoBehaviour {
 
@@ -9,16 +10,23 @@ public class BallEffect : MonoBehaviour {
 	public bool attract;
 	public GameObject aim;
 	public GameObject aim2;
-	public GameObject ball;
+	public Ball ball;
 	public bool activated;
     public GameObject staticDetection;
-    public int PlayerNumber;
+    public int PlayerNumber = 1;
 
     private bool _stayStatic = false;
+    private bool _pullBlocked = false;
+
+    public bool PullBlocked
+    {
+        get { return _pullBlocked; }
+    }
+    
 
 	// Use this for initialization
 	void Start () {
-
+		ball = GameObject.FindGameObjectWithTag ("Ball").GetComponent<Ball>();
 	}
 
     void Update()
@@ -44,8 +52,7 @@ public class BallEffect : MonoBehaviour {
 	void FixedUpdate () {
 
 		float delta = Time.fixedDeltaTime;
-
- 		if (_stayStatic) return;
+        if (_stayStatic || _pullBlocked) return;
         if (!activated) return;
 
 		checkEffects(ball, delta);
@@ -185,18 +192,47 @@ public class BallEffect : MonoBehaviour {
 			radius, (1 << 8) | (1 << 10) | (1 << 15)))
 		{
 			if (hit.collider.gameObject.layer == 8) return;
+			
+			float maxTriggerValue = Mathf.Max( Input.GetAxisRaw("TriggersL_" + PlayerNumber), Input.GetAxisRaw("TriggersR_" + PlayerNumber));
+			maxTriggerValue = Mathf.Max ( maxTriggerValue, Math.Abs(Input.GetAxisRaw("TriggersLR_" + PlayerNumber)));
 
 			ball.rigidbody2D.AddForce(force * mod * toBall.normalized *
 					(radius - distance) / radius * delta *
-                    Mathf.Max( Input.GetAxisRaw("TriggersL_" + PlayerNumber), Input.GetAxisRaw("TriggersR_" + PlayerNumber)), ForceMode2D.Force);
+                    maxTriggerValue, ForceMode2D.Force);
 		}
 	}
 
     void OnTriggerStay2D(Collider2D collider)
     {
-        if (collider.gameObject == ball && attract && activated)
+        if (collider.gameObject == ball.gameObject && attract && activated)
         {
-            _stayStatic = true;
+            if (!_pullBlocked)
+            {
+                _stayStatic = true;
+            }
+            
+            ball.Owner = this;
         }
+        else if (collider.gameObject.layer == 8 && _stayStatic)
+        {
+            Debug.Log("abcd");
+            _stayStatic = false;
+        }
+    }
+
+    public void DropBall()
+    {
+        _stayStatic = false;
+        StopCoroutine("BlockPullForAWhile");
+        StartCoroutine("BlockPullForAWhile");
+    }
+
+    private IEnumerator BlockPullForAWhile()
+    {
+        _pullBlocked = true;
+
+        yield return new WaitForSeconds(1f);
+
+        _pullBlocked = false;
     }
 }
