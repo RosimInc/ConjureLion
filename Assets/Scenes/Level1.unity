@@ -424,8 +424,8 @@ Transform:
   m_PrefabInternal: {fileID: 1666301416}
   m_GameObject: {fileID: 79281231}
   m_LocalRotation: {x: 0, y: -0, z: -.00733028539, w: -.999973178}
-  m_LocalPosition: {x: 3.50999999, y: .5, z: 0}
-  m_LocalScale: {x: .300000012, y: .300000012, z: .300000012}
+  m_LocalPosition: {x: 3.50999999, y: .629999995, z: 0}
+  m_LocalScale: {x: .300000012, y: .550000012, z: .300000012}
   m_Children:
   - {fileID: 584549311}
   m_Father: {fileID: 987110229}
@@ -2317,7 +2317,7 @@ GameObject:
   - 33: {fileID: 309716891}
   - 65: {fileID: 309716890}
   - 23: {fileID: 309716889}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2520,6 +2520,14 @@ Prefab:
     - target: {fileID: 416216, guid: ed4a63605aabb444b81b912c78520f67, type: 2}
       propertyPath: m_LocalScale.y
       value: 5.42000008
+      objectReference: {fileID: 0}
+    - target: {fileID: 116214, guid: ed4a63605aabb444b81b912c78520f67, type: 2}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 116216, guid: ed4a63605aabb444b81b912c78520f67, type: 2}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ed4a63605aabb444b81b912c78520f67, type: 2}
@@ -7017,7 +7025,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 416216, guid: ed4a63605aabb444b81b912c78520f67, type: 2}
       propertyPath: m_LocalPosition.y
-      value: .5
+      value: .629999995
       objectReference: {fileID: 0}
     - target: {fileID: 416216, guid: ed4a63605aabb444b81b912c78520f67, type: 2}
       propertyPath: m_LocalPosition.z
@@ -7049,7 +7057,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 416216, guid: ed4a63605aabb444b81b912c78520f67, type: 2}
       propertyPath: m_LocalScale.y
-      value: .300000012
+      value: .550000012
       objectReference: {fileID: 0}
     - target: {fileID: 416216, guid: ed4a63605aabb444b81b912c78520f67, type: 2}
       propertyPath: m_LocalScale.z
@@ -8860,7 +8868,7 @@ GameObject:
   - 4: {fileID: 1827129635}
   - 50: {fileID: 1827129634}
   - 61: {fileID: 1827129633}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
