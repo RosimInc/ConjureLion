@@ -28,6 +28,9 @@ public abstract class Robot : MonoBehaviour
 	void Start()
 	{
 		_ballEffect = GetComponent<BallEffect>();
+		
+		if(WindParticles == null)
+			Debug.Log ("Bug Particules");
 	}
 
 	protected void Update()
@@ -97,6 +100,8 @@ public abstract class Robot : MonoBehaviour
 	public void ActivateAbility(bool state)
 	{
 		_isActivated = state;
+		if(_ballEffect == null)
+			_ballEffect = GetComponent<BallEffect>();
 		_ballEffect.activated = state;
 
 		if (state)
