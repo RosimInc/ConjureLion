@@ -9,7 +9,7 @@ public class BallEffect : MonoBehaviour {
 	public float vision;
 	public bool attract;
 	public GameObject aim;
-	private Ball ball;
+	public Ball ball;
 	public GameObject aim2;
 	public bool activated;
     public GameObject staticDetection;
@@ -26,7 +26,10 @@ public class BallEffect : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		ball = GameObject.FindGameObjectWithTag ("Ball").GetComponent<Ball>();
+        if (ball == null)
+        {
+            ball = GameObject.FindGameObjectWithTag("Ball").GetComponent<Ball>();
+        }
 	}
 
     void Update()

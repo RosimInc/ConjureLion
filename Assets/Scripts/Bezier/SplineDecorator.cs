@@ -11,7 +11,7 @@ public class SplineDecorator : MonoBehaviour {
 	{
 		public float lineWidth = 1f;
 		public Material lineMaterial;
-		public float lineIntWidth = 0.6f;
+		public float lineIntWidth = 2f;
 		public Material lineIntMaterial;
 	}
 

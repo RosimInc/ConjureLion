@@ -4,11 +4,23 @@ using System.Collections;
 public class Aspi : Robot
 {
     public BoxCollider2D StaticDetection;
+    
+	private Vector3 ballOrigin;
+	private GameObject ball;
+	
+	// Use this for initialization
+	void Start () {
+		ball = GameObject.FindGameObjectWithTag("Ball");
+		ballOrigin = ball.transform.position;
+	}
 
     void Update()
     {
         base.Update();
 
-        
+		if(Input.GetKeyDown (KeyCode.Backspace)) {
+			ball.transform.position = ballOrigin;
+			ball.rigidbody2D.velocity = new Vector2(0,0);
+		}
     }
 }
