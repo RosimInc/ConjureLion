@@ -8,6 +8,7 @@ public class SplinePipe : MonoBehaviour {
 	public Transform toe;
 	private Transform beginToe;
 	public bool isBlowable = true;
+	public bool isGrille = false;
 	public float powerBlow = 2;
 	
 	[System.Serializable]
@@ -48,18 +49,23 @@ public class SplinePipe : MonoBehaviour {
 		
 		//Embout :
 		beginToe = Instantiate(toe) as Transform;
+		beginToe.transform.parent = this.transform.parent;
 		Vector3 beginPosition = spline.GetPoint(0);
-		beginPosition.z = 1.1f;
+		beginPosition.z = -2f;
 		beginToe.transform.position = beginPosition;
 		beginToe.transform.LookAt(beginPosition + spline.GetDirection(0) );
 		beginToe.transform.Rotate(new Vector3(0,90,0));
 		beginToe.gameObject.GetComponent<Embout>().isBeginning = true;
 		
 		Vector3 endPosition = spline.GetPoint(1);
-		endPosition.z = 1.1f;
+		endPosition.z = -2f;
 		toe.transform.position = endPosition;
+		
 		toe.transform.LookAt(endPosition + spline.GetDirection(1) );
 		toe.transform.Rotate(new Vector3(0,90,180));
+		toe.transform.position = endPosition;
+		Vector3 scale = toe.transform.localScale;
+		toe.transform.localScale = new Vector3(scale.x, -scale.y, scale.z);
 		toe.gameObject.GetComponent<Embout>().isBeginning = false;
 		
 	//Partie intérieure
@@ -207,7 +213,7 @@ public class SplinePipe : MonoBehaviour {
 	
 	private void Update() {
 		//Checking player is blowing in the player
-		if(blower == null)
+		if(blower == null || !isBlowable)
 			return;
 		if(blower.intensity == 0) 
 			return;
