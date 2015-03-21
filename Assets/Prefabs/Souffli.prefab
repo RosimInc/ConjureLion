@@ -15,6 +15,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &134390
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 434390}
+  m_Layer: 13
+  m_Name: Aim2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &160954
 GameObject:
   m_ObjectHideFlags: 1
@@ -158,9 +173,22 @@ Transform:
   m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106829}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 434390}
   m_Father: {fileID: 493400}
   m_RootOrder: 1
+--- !u!4 &434390
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 134390}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 429270}
+  m_RootOrder: 0
 --- !u!4 &460954
 Transform:
   m_ObjectHideFlags: 1
@@ -333,7 +361,7 @@ MonoBehaviour:
   vision: 50
   attract: 0
   aim: {fileID: 129270}
-  ball: {fileID: 0}
+  aim2: {fileID: 134390}
   activated: 0
   staticDetection: {fileID: 0}
   PlayerNumber: 1
