@@ -2666,6 +2666,7 @@ MonoBehaviour:
   vision: 50
   attract: 0
   aim: {fileID: 650060171}
+  ball: {fileID: 0}
   aim2: {fileID: 1041798377}
   activated: 0
   staticDetection: {fileID: 0}
@@ -2886,7 +2887,7 @@ Transform:
   m_PrefabInternal: {fileID: 1321299985}
   m_GameObject: {fileID: 343120920}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.46000004, y: 2.93000007, z: 0}
+  m_LocalPosition: {x: 9.80000019, y: -6.94000006, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -6939,6 +6940,7 @@ MonoBehaviour:
   vision: 50
   attract: 1
   aim: {fileID: 2147350516}
+  ball: {fileID: 0}
   aim2: {fileID: 357016898}
   activated: 0
   staticDetection: {fileID: 77042248}
@@ -7018,11 +7020,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 465664, guid: f8fabc11c8b7c7449b97448c45df167d, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -3.46000004
+      value: 9.80000019
       objectReference: {fileID: 0}
     - target: {fileID: 465664, guid: f8fabc11c8b7c7449b97448c45df167d, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 2.93000007
+      value: -6.94000006
       objectReference: {fileID: 0}
     - target: {fileID: 465664, guid: f8fabc11c8b7c7449b97448c45df167d, type: 2}
       propertyPath: m_LocalPosition.z

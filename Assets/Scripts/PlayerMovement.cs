@@ -9,7 +9,12 @@ public class PlayerMovement : MonoBehaviour {
 	public float defaultProgress = 0f;
 	public GameObject fix;
 	private float progress;
-	
+    private float _previousProgress;
+
+    private bool _playWhenPossible;
+
+    private float PreviousMovement;
+
 	// Use this for initialization
 	void Start () {
 		if(spline == null) {
@@ -24,7 +29,11 @@ public class PlayerMovement : MonoBehaviour {
 	}
 	
 	private void Update () {
-
+        if (_playWhenPossible && !MusicManager.Instance.RailLoop.isPlaying)
+        {
+            MusicManager.Instance.PlayRailLoop();
+            _playWhenPossible = false;
+        }
 		Vector3 dir = spline.GetDirection(progress);
 		float x = Input.GetAxisRaw("L_XAxis_" + PlayerNumber);
 		float y = -Input.GetAxisRaw("L_YAxis_" + PlayerNumber);
@@ -55,5 +64,27 @@ public class PlayerMovement : MonoBehaviour {
 		//Orientation du fix
 		fix.transform.LookAt(position + spline.GetDirection(progress) );
 		fix.transform.Rotate(new Vector3(0,90,0));
+
+        if (PreviousMovement == 0f && movement != 0f) // We start moving
+        {
+            if (MusicManager.Instance.RailLoop.isPlaying)
+            {
+                _playWhenPossible = true;
+            }
+            else
+            {
+                MusicManager.Instance.PlayRailLoop();
+            }
+        }
+        else if (PreviousMovement != 0f && movement == 0f) // We stop moving
+        {
+            MusicManager.Instance.StopRailLoop();
+            _playWhenPossible = false;
+        }
+
+        Debug.Log(progress);
+
+        _previousProgress = progress;
+        PreviousMovement = movement;
 	}
 }
