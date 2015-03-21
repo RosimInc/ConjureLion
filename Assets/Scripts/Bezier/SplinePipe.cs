@@ -45,15 +45,19 @@ public class SplinePipe : MonoBehaviour {
 		
 		ball = GameObject.FindGameObjectWithTag ("Ball");
 		
-		//Butées :
+		//Embout :
 		Transform beginToe = Instantiate(toe) as Transform;
 		Vector3 beginPosition = spline.GetPoint(0);
 		beginPosition.z = 1.1f;
 		beginToe.transform.position = beginPosition;
+		beginToe.transform.LookAt(beginPosition + spline.GetDirection(0) );
+		beginToe.transform.Rotate(new Vector3(0,90,0));
 		
 		Vector3 endPosition = spline.GetPoint(1);
 		endPosition.z = 1.1f;
 		toe.transform.position = endPosition;
+		toe.transform.LookAt(endPosition + spline.GetDirection(1) );
+		toe.transform.Rotate(new Vector3(0,90,180));
 		
 	//Partie intérieure
 		//Affichage intérieur
@@ -211,7 +215,10 @@ public class SplinePipe : MonoBehaviour {
 			blowIntensity = - (blower.intensity);
 			
 		//Afficher des particules d'air
-		
+		if(blowIntensity != 0) 
+		{
+			drawParticules();
+		}
 		
 		//Déplacer la balle
 		if(ballIsIn && blowIntensity != 0) {
@@ -276,6 +283,21 @@ public class SplinePipe : MonoBehaviour {
 			}			
 		}
 		return progression;
+	}
+	
+	public void setBallIsIn (bool value)
+	{
+		ballIsIn = value;
+	}
+	
+	private void drawParticules () {
+		int nbPart = 5;
+		
+		for(int i = 0; i < nbPart; i ++) {
+			float progress = UnityEngine.Random.Range(0f, 1f);
+			//Générer part
+		}
+		
 	}
 	
 }

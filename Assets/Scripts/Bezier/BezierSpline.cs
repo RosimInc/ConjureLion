@@ -145,6 +145,15 @@ public class BezierSpline : MonoBehaviour {
 		return transform.TransformPoint(Bezier.GetPoint(points[i], points[i + 1], points[i + 2], points[i + 3], t));
 	}
 	
+	public float GetLength () {
+		float length = 0f;
+		for(float i = 0f; i < 0.999f; i = i+0.001f)
+		{
+			length += Vector3.Distance(GetPoint(i), GetPoint(i+0.001f));
+		}
+		return length;
+	}
+	
 	public Vector3 GetVelocity (float t) {
 		int i;
 		if (t >= 1f) {
@@ -209,5 +218,65 @@ public class BezierSpline : MonoBehaviour {
 			BezierControlPointMode.Free,
 			BezierControlPointMode.Free
 		};
+	}
+	
+	public float GetProgressFromDistance(float currentProgression, float distance)
+	{
+		Vector3 pos = GetPoint(currentProgression);
+		Vector3 lastPos = pos;
+		float d = 0;
+		if(distance == 0)
+			return currentProgression;
+			
+		if(distance > 0)
+		{
+			for(float i = currentProgression; i < 1f; i = i+0.001f)
+			{
+				Vector3 pTemp = GetPoint (i);
+				d += Vector3.Distance(lastPos, pTemp);
+				lastPos = pTemp;
+				
+				if(d > distance) {
+					for(float j = i; j > 0f; j = j-0.0001f)
+					{
+						pTemp = GetPoint(j);
+						d -= Vector3.Distance(lastPos, pTemp);
+						lastPos = pTemp;
+						
+						if(d < distance) {
+							return j;
+						}
+					}
+					return i;
+				}
+			}
+			
+		}
+		else 
+		{
+			distance = - distance;
+			for(float i = currentProgression; i > 0f; i = i-0.001f)
+			{
+				Vector3 pTemp = GetPoint (i);
+				d += Vector3.Distance(lastPos, pTemp);
+				lastPos = pTemp;
+				if(d > distance ) {
+					for(float j = i; j < 1f; j = j+0.0001f)
+					{
+						pTemp = GetPoint(j);
+						d -= Vector3.Distance(lastPos, pTemp);
+						lastPos = pTemp;
+						
+						if(d < distance) {
+							return j;
+						}
+					}
+					return i;
+				}
+			}
+			
+		}
+		return currentProgression;
+		
 	}
 }
