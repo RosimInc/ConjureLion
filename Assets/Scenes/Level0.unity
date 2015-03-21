@@ -1773,6 +1773,7 @@ MonoBehaviour:
   vision: 50
   attract: 0
   aim: {fileID: 1788047808}
+  ball: {fileID: 0}
   activated: 0
   staticDetection: {fileID: 0}
   PlayerNumber: 2
@@ -1788,7 +1789,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fac7245d3c9f8ed43b442cb21799456d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerNumber: 2
+  PlayerNumber: 1
   WindParticles: {fileID: 202621319}
   MinimumParticlesVelocity: 5
   MaximumParticlesVelocity: 15
@@ -1807,7 +1808,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spline: {fileID: 600689940}
-  PlayerNumber: 2
+  PlayerNumber: 1
   speed: 1
   defaultProgress: 0
   fix: {fileID: 1391553798}
@@ -1888,6 +1889,7 @@ GameObject:
   - 4: {fileID: 343120923}
   - 50: {fileID: 343120922}
   - 58: {fileID: 343120921}
+  - 114: {fileID: 343120924}
   m_Layer: 10
   m_Name: Ball
   m_TagString: Ball
@@ -1936,6 +1938,19 @@ Transform:
   - {fileID: 449313759}
   m_Father: {fileID: 0}
   m_RootOrder: 5
+--- !u!114 &343120924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11422586, guid: f8fabc11c8b7c7449b97448c45df167d,
+    type: 2}
+  m_PrefabInternal: {fileID: 1888065953}
+  m_GameObject: {fileID: 343120920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23585060744e0ba45a0f14312f3ac404, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Owner: {fileID: 0}
 --- !u!1 &357016898
 GameObject:
   m_ObjectHideFlags: 0
@@ -2366,7 +2381,10 @@ MonoBehaviour:
   - {x: 10.2029057, y: 0, z: 0}
   - {x: 27.6075382, y: 0, z: 0}
   - {x: 28.6075382, y: 0, z: 0}
-  modes: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  - {x: 29.6075382, y: 0, z: 0}
+  - {x: 6.08460045, y: 12.8213511, z: 0}
+  - {x: 3.50134039, y: 16.4605999, z: 0}
+  modes: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   loop: 0
 --- !u!1 &601221328
 GameObject:
@@ -3584,9 +3602,10 @@ MonoBehaviour:
   vision: 50
   attract: 1
   aim: {fileID: 357016898}
+  ball: {fileID: 0}
   activated: 0
   staticDetection: {fileID: 77042248}
-  PlayerNumber: 1
+  PlayerNumber: 2
 --- !u!114 &1263290757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3599,7 +3618,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 036872f91dd56b349908b3ea676ae096, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerNumber: 1
+  PlayerNumber: 2
   WindParticles: {fileID: 1712834677}
   MinimumParticlesVelocity: -5
   MaximumParticlesVelocity: -20
@@ -3619,7 +3638,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spline: {fileID: 600689940}
-  PlayerNumber: 1
+  PlayerNumber: 2
   speed: 1
   defaultProgress: 0
   fix: {fileID: 1739299568}
@@ -3859,11 +3878,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 11409958, guid: 2588245300ed0b244a089eb18679a250, type: 2}
       propertyPath: modes.Array.size
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 11409958, guid: 2588245300ed0b244a089eb18679a250, type: 2}
       propertyPath: points.Array.size
-      value: 31
+      value: 34
       objectReference: {fileID: 0}
     - target: {fileID: 409958, guid: 2588245300ed0b244a089eb18679a250, type: 2}
       propertyPath: m_LocalPosition.x
@@ -4115,15 +4134,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11409958, guid: 2588245300ed0b244a089eb18679a250, type: 2}
       propertyPath: points.Array.data[31].x
-      value: 13.2029057
+      value: 29.6075382
       objectReference: {fileID: 0}
     - target: {fileID: 11409958, guid: 2588245300ed0b244a089eb18679a250, type: 2}
       propertyPath: points.Array.data[32].x
-      value: 14.2029057
+      value: 6.08460045
       objectReference: {fileID: 0}
     - target: {fileID: 11409958, guid: 2588245300ed0b244a089eb18679a250, type: 2}
       propertyPath: points.Array.data[33].x
-      value: 15.2029057
+      value: 3.50134039
       objectReference: {fileID: 0}
     - target: {fileID: 11409958, guid: 2588245300ed0b244a089eb18679a250, type: 2}
       propertyPath: points.Array.data[34].x
@@ -4184,6 +4203,14 @@ Prefab:
     - target: {fileID: 11409958, guid: 2588245300ed0b244a089eb18679a250, type: 2}
       propertyPath: points.Array.data[48].x
       value: 30.2029057
+      objectReference: {fileID: 0}
+    - target: {fileID: 11409958, guid: 2588245300ed0b244a089eb18679a250, type: 2}
+      propertyPath: points.Array.data[32].y
+      value: 12.8213511
+      objectReference: {fileID: 0}
+    - target: {fileID: 11409958, guid: 2588245300ed0b244a089eb18679a250, type: 2}
+      propertyPath: points.Array.data[33].y
+      value: 16.4605999
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2588245300ed0b244a089eb18679a250, type: 2}
