@@ -50,7 +50,7 @@ public class MainMenu : MonoBehaviour {
     {
         MusicManager.Instance.PlayGoalStart();
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2.5f);
 
         Application.LoadLevel("Level0");
     }
