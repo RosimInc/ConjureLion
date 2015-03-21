@@ -8,16 +8,23 @@ public class BallEffect : MonoBehaviour {
 	public float vision;
 	public bool attract;
 	public GameObject aim;
-	public GameObject ball;
+	public Ball ball;
 	public bool activated;
     public GameObject staticDetection;
     public int PlayerNumber;
 
     private bool _stayStatic = false;
+    private bool _pullBlocked = false;
+
+    public bool PullBlocked
+    {
+        get { return _pullBlocked; }
+    }
+    
 
 	// Use this for initialization
 	void Start () {
-		ResourceManager.Instance.AddMovingObject(ball);
+		ResourceManager.Instance.AddMovingObject(ball.gameObject);
 	}
 
     void Update()
@@ -42,7 +49,7 @@ public class BallEffect : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 
- 		if (_stayStatic) return;
+        if (_stayStatic || _pullBlocked) return;
         		if (!activated) return;
 
 		foreach(GameObject obj in ResourceManager.Instance.MovingObjects)
@@ -99,9 +106,35 @@ public class BallEffect : MonoBehaviour {
 
     void OnTriggerStay2D(Collider2D collider)
     {
-        if (collider.gameObject == ball && attract && activated)
+        if (collider.gameObject == ball.gameObject && attract && activated)
         {
-            _stayStatic = true;
+            if (!_pullBlocked)
+            {
+                _stayStatic = true;
+            }
+            
+            ball.Owner = this;
         }
+        else if (collider.gameObject.layer == 8 && _stayStatic)
+        {
+            Debug.Log("abcd");
+            _stayStatic = false;
+        }
+    }
+
+    public void DropBall()
+    {
+        _stayStatic = false;
+        StopCoroutine("BlockPullForAWhile");
+        StartCoroutine("BlockPullForAWhile");
+    }
+
+    private IEnumerator BlockPullForAWhile()
+    {
+        _pullBlocked = true;
+
+        yield return new WaitForSeconds(1f);
+
+        _pullBlocked = false;
     }
 }

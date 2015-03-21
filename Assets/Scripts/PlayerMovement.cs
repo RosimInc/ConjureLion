@@ -9,7 +9,10 @@ public class PlayerMovement : MonoBehaviour {
 	public float defaultProgress = 0f;
 	public GameObject fix;
 	private float progress;
-	
+
+    private Vector3 _nextForwardPoint;
+    private Vector3 _nextBackwardPoint;
+
 	// Use this for initialization
 	void Start () {
 		Vector3 position = spline.GetPoint(progress);
@@ -33,6 +36,7 @@ public class PlayerMovement : MonoBehaviour {
 		}
 		
 		Vector3 position = spline.GetPoint(progress);
+
 		position.z = 0;
 		transform.localPosition = position;
 
