@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 443344}
   - 61: {fileID: 6143344}
   - 114: {fileID: 11483744}
+  - 114: {fileID: 11479690}
   m_Layer: 14
   m_Name: StaticDetection
   m_TagString: StaticDetection
@@ -487,6 +488,18 @@ MonoBehaviour:
   speed: 1
   defaultProgress: 0
   fix: {fileID: 160020}
+--- !u!114 &11479690
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 143344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cabda7577a1cc074a87ce5c315471c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 160026}
 --- !u!114 &11483744
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1576,7 +1589,7 @@ ParticleSystemRenderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: bf723eb63e9c8ec4391519fac710bf1a, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
