@@ -17,6 +17,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &157802
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 457802}
+  - 60: {fileID: 6057802}
+  - 114: {fileID: 11457802}
+  m_Layer: 17
+  m_Name: Target
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &160020
 GameObject:
   m_ObjectHideFlags: 0
@@ -192,6 +209,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 486126}
   m_RootOrder: 0
+--- !u!4 &457802
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 157802}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 460028}
+  m_RootOrder: 2
 --- !u!4 &460020
 Transform:
   m_ObjectHideFlags: 1
@@ -256,6 +285,7 @@ Transform:
   m_Children:
   - {fileID: 460022}
   - {fileID: 486126}
+  - {fileID: 457802}
   m_Father: {fileID: 460026}
   m_RootOrder: 1
 --- !u!4 &460030
@@ -352,6 +382,22 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
+--- !u!60 &6057802
+PolygonCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 157802}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Poly:
+    m_Paths:
+    - - {x: .116689682, y: 3.5338378}
+      - {x: 1.05107594, y: 2.82618475}
+      - {x: .671135426, y: 1.74149048}
+      - {x: -.621125221, y: 1.74149024}
+      - {x: -.984396458, y: 2.79284477}
 --- !u!61 &6143344
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -412,6 +458,19 @@ MonoBehaviour:
   activated: 0
   staticDetection: {fileID: 143344}
   PlayerNumber: 2
+--- !u!114 &11457802
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 157802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f63f538f286a6b4f862612b5fecd565, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerNumber: 2
+  attract: 1
 --- !u!114 &11460034
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -439,7 +498,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cabda7577a1cc074a87ce5c315471c08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: 160026}
 --- !u!182 &18260034
 WindZone:
   m_ObjectHideFlags: 1

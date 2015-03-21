@@ -12,8 +12,15 @@ public class PlayerMovement : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
+		if(spline == null) {
+			spline = GameObject.FindGameObjectWithTag("Rail").GetComponent<BezierSpline>();
+			Debug.Log ("Rail set automatically");
+		}
+		
 		Vector3 position = spline.GetPoint(progress);
 		transform.localPosition = position;
+		
+		
 	}
 	
 	private void Update () {
