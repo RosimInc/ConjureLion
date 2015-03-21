@@ -71,7 +71,7 @@ public abstract class Robot : MonoBehaviour
 		{
 			_targetAngle = -(Mathf.Atan2(Input.GetAxisRaw("R_YAxis_" + PlayerNumber), Input.GetAxisRaw("R_XAxis_" + PlayerNumber)) * Mathf.Rad2Deg) - 90f;
 		}
-		Debug.Log(maxTriggerValue);
+
 		if (maxTriggerValue > 0f)
 		{
 			WindParticles.startSpeed = MinimumParticlesVelocity + maxTriggerValue * (MaximumParticlesVelocity - MinimumParticlesVelocity);

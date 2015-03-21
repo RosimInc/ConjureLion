@@ -8,16 +8,15 @@ public class HingePlatform : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//Initialize the main hinge
-		HingeJoint2D joint = GetComponent<HingeJoint2D>();
+		HingeJoint2D joint = platform.GetComponent<HingeJoint2D>();
 		joint.connectedAnchor = new Vector2(
 			transform.position.x, transform.position.y);
 
-		//Populate the reactive hinges
-
+		//ResourceManager.Instance.HingePlatforms.Add(this.gameObject);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+		
 	}
 }

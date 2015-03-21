@@ -5,6 +5,5 @@ public class WindParticle : MonoBehaviour {
 
     void OnParticleCollision(GameObject Other)
     {
-        Debug.Log("COLLISION");
     }
 }
