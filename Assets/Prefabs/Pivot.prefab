@@ -12,7 +12,7 @@ GameObject:
   - 50: {fileID: 5062024}
   - 233: {fileID: 23362024}
   - 61: {fileID: 6162024}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Plateforme_Pivot_Barre
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 462026}
-  m_Layer: 0
+  - 114: {fileID: 11471190}
+  m_Layer: 13
   m_Name: Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,8 +41,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 162024}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.19999981, y: -12.9799995, z: 7.34000015}
+  m_LocalRotation: {x: 0, y: 0, z: -.20289214, w: .979201138}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 462026}
@@ -53,7 +54,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 162026}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.13867188, y: 13.1217203, z: -12.7402153}
+  m_LocalPosition: {x: 0, y: 16.2000008, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 462024}
@@ -65,10 +66,10 @@ Rigidbody2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 162024}
-  m_Mass: 1
+  m_Mass: 10
   m_LinearDrag: 0
-  m_AngularDrag: .0500000007
-  m_GravityScale: 1
+  m_AngularDrag: .5
+  m_GravityScale: 0
   m_FixedAngle: 0
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -85,6 +86,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_Size: {x: 7.42999983, y: .699999988}
   m_Center: {x: 0, y: 0}
+--- !u!114 &11471190
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 162026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dd83811d01930c449d57248379fb0c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  platform: {fileID: 162024}
 --- !u!212 &21262024
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -117,7 +130,7 @@ HingeJoint2D:
   m_CollideConnected: 0
   m_ConnectedRigidBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: .0613279343, y: .141720772}
+  m_ConnectedAnchor: {x: 0, y: 16.2000008}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0

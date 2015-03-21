@@ -19,12 +19,12 @@ public class PlayerMovement : MonoBehaviour {
 	private void Update () {
 		float movement = 0f;
         if (Input.GetAxisRaw("L_XAxis_" + PlayerNumber) > 0f)
-        {
+		{
 			movement = Time.deltaTime * 10 * speed * Input.GetAxisRaw("L_XAxis_" + PlayerNumber) ;
 			
 		}
         else if (Input.GetAxisRaw("L_XAxis_" + PlayerNumber) < 0f)
-        {
+		{
             movement = Time.deltaTime * 10 * speed * Input.GetAxisRaw("L_XAxis_" + PlayerNumber) ;
 			
 		}
