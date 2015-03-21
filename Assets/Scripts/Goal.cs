@@ -10,7 +10,16 @@ public class Goal : MonoBehaviour
         if (collider.gameObject.layer == 10)
         {
             Debug.Log("WIN!!!");
-            Application.LoadLevel(NextSceneName);
+            StartCoroutine(LoadNextLevel());
         }
+    }
+
+    private IEnumerator LoadNextLevel()
+    {
+        MusicManager.Instance.PlayGoalLevel();
+
+        yield return new WaitForSeconds(1f);
+
+        Application.LoadLevel(NextSceneName);
     }
 }

@@ -29,7 +29,8 @@ public class MainMenu : MonoBehaviour {
     {
         if (_ballNumber >= 2)
         {
-            Application.LoadLevel("Level0");
+            StartCoroutine(LoadNextLevel());
+            _ballNumber = -1;
         }
 
         _x += Time.deltaTime * _sign;
@@ -45,8 +46,22 @@ public class MainMenu : MonoBehaviour {
         RightArrow.localPosition = Vector3.Lerp(_initialPosition2, _finalPosition2, _ratio);
 	}
 
+    private IEnumerator LoadNextLevel()
+    {
+        MusicManager.Instance.PlayGoalStart();
+
+        yield return new WaitForSeconds(1f);
+
+        Application.LoadLevel("Level0");
+    }
+
     void OnCollisionEnter2D(Collision2D coll)
     {
+        if (_ballNumber == 0)
+        {
+            MusicManager.Instance.PlayGoalLevel();
+        }
+
         coll.collider.enabled = false;
         coll.rigidbody.isKinematic = true;
         _ballNumber++;

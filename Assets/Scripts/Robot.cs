@@ -102,10 +102,54 @@ public abstract class Robot : MonoBehaviour
 		if (state)
 		{
 			WindParticles.Play();
+
+            if (this is Souffli)
+            {
+                MusicManager.Instance.PlaySouffliBreathIn();
+                StopCoroutine("PlaySouffliBreathLoop");
+                StartCoroutine("PlaySouffliBreathLoop");
+            }
+            else
+            {
+                MusicManager.Instance.PlayAspiBreathIn();
+                StopCoroutine("PlayAspiBreathLoop");
+                StartCoroutine("PlayAspiBreathLoop");
+            }
 		}
 		else
 		{
+            if (this is Souffli)
+            {
+                MusicManager.Instance.StopSouffliBreathLoop();
+                MusicManager.Instance.StopSouffliBreathIn();
+            }
+            else
+            {
+                MusicManager.Instance.StopAspiBreathLoop();
+                MusicManager.Instance.StopAspiBreathIn();
+            }
+
 			WindParticles.Stop();
 		}
 	}
+
+    private IEnumerator PlaySouffliBreathLoop()
+    {
+        yield return new WaitForSeconds(MusicManager.Instance.SouffliBreathIn.time);
+        
+        if (_isActivated)
+        {
+            MusicManager.Instance.PlaySouffliBreathLoop();
+        }
+    }
+
+    private IEnumerator PlayAspiBreathLoop()
+    {
+        yield return new WaitForSeconds(MusicManager.Instance.AspiBreathIn.time);
+
+        if (_isActivated)
+        {
+            MusicManager.Instance.PlayAspiBreathLoop();
+        }
+    }
 }

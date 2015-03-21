@@ -2506,6 +2506,7 @@ MonoBehaviour:
   vision: 50
   attract: 0
   aim: {fileID: 1743172640}
+  ball: {fileID: 343120924}
   aim2: {fileID: 375322182}
   activated: 0
   staticDetection: {fileID: 0}
@@ -2650,6 +2651,10 @@ Prefab:
     - target: {fileID: 452488, guid: fb4fe9afcc59da548824c5678c8aeef1, type: 2}
       propertyPath: m_RootOrder
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 11401768, guid: fb4fe9afcc59da548824c5678c8aeef1, type: 2}
+      propertyPath: NextSceneName
+      value: Level1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fb4fe9afcc59da548824c5678c8aeef1, type: 2}
@@ -5774,6 +5779,7 @@ MonoBehaviour:
   vision: 50
   attract: 1
   aim: {fileID: 1264223206}
+  ball: {fileID: 0}
   aim2: {fileID: 357016898}
   activated: 0
   staticDetection: {fileID: 77042248}
@@ -7130,7 +7136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7853eab4594323a49a08c1b8087f27e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NextSceneName: LevelX
+  NextSceneName: Level1
 --- !u!1 &1401326629
 GameObject:
   m_ObjectHideFlags: 0
