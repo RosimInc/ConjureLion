@@ -34,19 +34,23 @@ public class PlayerMovement : MonoBehaviour {
             MusicManager.Instance.PlayRailLoop();
             _playWhenPossible = false;
         }
+		Vector3 dir = spline.GetDirection(progress);
+		float x = Input.GetAxisRaw("L_XAxis_" + PlayerNumber);
+		float y = -Input.GetAxisRaw("L_YAxis_" + PlayerNumber);
+		Vector3 joystickDir = new Vector3(x, y, 0);
 
-		float movement = 0f;
-        if (Input.GetAxisRaw("L_XAxis_" + PlayerNumber) > 0f)
+		float angle = Vector3.Angle(dir, joystickDir);
+		int mod = 1;
+		if (angle > 90)
 		{
-			movement = Time.deltaTime * 10 * speed * Input.GetAxisRaw("L_XAxis_" + PlayerNumber) ;
-			
+			mod = -1;
+			Debug.Log("Advance");
 		}
-        else if (Input.GetAxisRaw("L_XAxis_" + PlayerNumber) < 0f)
-		{
-            movement = Time.deltaTime * 10 * speed * Input.GetAxisRaw("L_XAxis_" + PlayerNumber) ;
-			
-		}
-        
+
+		float stuff = Mathf.Sqrt(x * x + y * y);
+
+		float movement = mod * Time.deltaTime * 10 * speed * stuff;
+
 		//Debug.Log ( "Progress "+progress+" movement"+ movement);
 		progress = spline.GetProgressFromDistance(progress, movement);
 		//Debug.Log ( "Progress After "+progress);
