@@ -5,6 +5,14 @@ public class Goal : MonoBehaviour
 {
     public string NextSceneName;
 
+    void Update()
+    {
+        if (Input.GetKey(KeyCode.Return))
+        {
+            Application.LoadLevel(NextSceneName);
+        }
+    }
+
     void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.gameObject.layer == 10)
