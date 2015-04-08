@@ -152,22 +152,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &160034
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 460034}
-  - 182: {fileID: 18260034}
-  m_Layer: 13
-  m_Name: WindZone
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &186126
 GameObject:
   m_ObjectHideFlags: 1
@@ -267,7 +251,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 160026}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.92999983, y: .389999986, z: 0}
+  m_LocalPosition: {x: 10.2600002, y: -.829999983, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 460020}
@@ -311,21 +295,8 @@ Transform:
   m_LocalRotation: {x: -.707106829, y: 2.38795117e-09, z: -2.38795117e-09, w: .707106829}
   m_LocalPosition: {x: 0, y: .970000029, z: 0}
   m_LocalScale: {x: .0200000033, y: .0200000014, z: .0200000014}
-  m_Children:
-  - {fileID: 460034}
-  m_Father: {fileID: 460030}
-  m_RootOrder: 0
---- !u!4 &460034
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 160034}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 460032}
+  m_Father: {fileID: 460030}
   m_RootOrder: 0
 --- !u!4 &486126
 Transform:
@@ -435,7 +406,7 @@ MonoBehaviour:
   PlayerNumber: 2
   WindParticles: {fileID: 19860034}
   MinimumParticlesVelocity: -5
-  MaximumParticlesVelocity: -20
+  MaximumParticlesVelocity: -10
   rotateSpeed: 1
   Body: {fileID: 460028}
   StaticDetection: {fileID: 6143344}
@@ -455,6 +426,7 @@ MonoBehaviour:
   vision: 50
   attract: 1
   aim: {fileID: 186126}
+  ball: {fileID: 0}
   aim2: {fileID: 199782}
   activated: 0
   staticDetection: {fileID: 143344}
@@ -512,26 +484,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 160026}
---- !u!182 &18260034
-WindZone:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 160034}
-  m_Enabled: 1
-  m_Mode: 1
-  m_Radius: 0
-  m_WindMain: 20
-  m_WindTurbulence: 1
-  m_WindPulseMagnitude: 0
-  m_WindPulseFrequency: .00999999978
 --- !u!198 &19860034
 ParticleSystem:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 160032}
-  lengthInSec: .100000001
+  lengthInSec: 5
   startDelay: 0
   speed: 1
   randomSeed: 0
@@ -542,7 +501,7 @@ ParticleSystem:
   InitialModule:
     enabled: 1
     startLifetime:
-      scalar: .5
+      scalar: .870000005
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -575,7 +534,7 @@ ParticleSystem:
         m_PostInfinity: 2
       minMaxState: 0
     startSpeed:
-      scalar: -10
+      scalar: -5.5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -702,7 +661,7 @@ ParticleSystem:
         rgba: 4294967295
       minMaxState: 0
     startSize:
-      scalar: .0799999982
+      scalar: 1.5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -768,12 +727,12 @@ ParticleSystem:
         m_PostInfinity: 2
       minMaxState: 0
     gravityModifier: 0
-    inheritVelocity: 6.75
+    inheritVelocity: 0
     maxNumParticles: 1000
   ShapeModule:
     serializedVersion: 2
     enabled: 1
-    type: 9
+    type: 4
     radius: 23.8624725
     angle: 22.5085697
     length: 37.1199989
@@ -787,7 +746,7 @@ ParticleSystem:
     enabled: 1
     m_Type: 0
     rate:
-      scalar: 94
+      scalar: 10
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -829,7 +788,7 @@ ParticleSystem:
     time3: 0
     m_BurstCount: 0
   SizeModule:
-    enabled: 0
+    enabled: 1
     curve:
       scalar: 1
       maxCurve:
@@ -841,9 +800,9 @@ ParticleSystem:
           outSlope: 0
           tangentMode: 0
         - time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
+          value: 0
+          inSlope: -3.25825739
+          outSlope: -3.25825739
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -864,18 +823,13 @@ ParticleSystem:
         m_PostInfinity: 2
       minMaxState: 1
   RotationModule:
-    enabled: 0
+    enabled: 1
     curve:
-      scalar: .785398185
+      scalar: .785398126
       maxCurve:
         serializedVersion: 2
         m_Curve:
         - time: 0
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-        - time: 1
           value: 1
           inSlope: 0
           outSlope: 0
@@ -886,25 +840,25 @@ ParticleSystem:
         serializedVersion: 2
         m_Curve:
         - time: 0
-          value: 0
+          value: -1
           inSlope: 0
           outSlope: 0
           tangentMode: 0
-        - time: 1
-          value: 0
+        - time: .890322566
+          value: .513513446
           inSlope: 0
           outSlope: 0
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
-      minMaxState: 0
+      minMaxState: 2
   ColorModule:
-    enabled: 0
+    enabled: 1
     gradient:
       maxGradient:
         key0:
           serializedVersion: 2
-          rgba: 4294967295
+          rgba: 16777215
         key1:
           serializedVersion: 2
           rgba: 4294967295
@@ -1241,7 +1195,7 @@ ParticleSystem:
     inWorldSpace: 0
     randomizePerFrame: 0
   ExternalForcesModule:
-    enabled: 1
+    enabled: 0
     multiplier: 1
   ClampVelocityModule:
     enabled: 0
@@ -1381,21 +1335,21 @@ ParticleSystem:
     inWorldSpace: 0
     dampen: 1
   SizeBySpeedModule:
-    enabled: 0
+    enabled: 1
     curve:
       scalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
         - time: 0
-          value: 1
+          value: 0
           inSlope: 0
           outSlope: 0
           tangentMode: 0
         - time: 1
           value: 1
-          inSlope: 0
-          outSlope: 0
+          inSlope: 2
+          outSlope: 2
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -1417,9 +1371,9 @@ ParticleSystem:
       minMaxState: 1
     range: {x: 0, y: 1}
   RotationBySpeedModule:
-    enabled: 0
+    enabled: 1
     curve:
-      scalar: .785398185
+      scalar: .785398126
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1429,9 +1383,9 @@ ParticleSystem:
           outSlope: 0
           tangentMode: 0
         - time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
+          value: .0270271301
+          inSlope: -1.3614862
+          outSlope: -1.3614862
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -1450,7 +1404,7 @@ ParticleSystem:
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
-      minMaxState: 0
+      minMaxState: 1
     range: {x: 0, y: 1}
   ColorBySpeedModule:
     enabled: 0
