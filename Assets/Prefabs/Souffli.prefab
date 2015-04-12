@@ -154,13 +154,14 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 493402}
+  - 50: {fileID: 5029268}
+  - 114: {fileID: 11452850}
   - 114: {fileID: 11493394}
   - 114: {fileID: 11460954}
   - 114: {fileID: 11412340}
-  - 50: {fileID: 5029268}
   m_Layer: 13
   m_Name: Souffli
-  m_TagString: Untagged
+  m_TagString: Souffli
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -287,7 +288,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 193402}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.8199997, y: -.839999974, z: 0}
+  m_LocalPosition: {x: -.780098021, y: .393793195, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 493394}
@@ -382,7 +383,6 @@ MonoBehaviour:
   aim2: {fileID: 129270}
   activated: 0
   staticDetection: {fileID: 0}
-  PlayerNumber: 1
 --- !u!114 &11441936
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -396,6 +396,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerNumber: 1
   attract: 0
+--- !u!114 &11452850
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 193402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 121b4254160a3f841a4abf67229745bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11460954
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -407,7 +418,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fac7245d3c9f8ed43b442cb21799456d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerNumber: 1
   WindParticles: {fileID: 19860954}
   MinimumParticlesVelocity: 5
   MaximumParticlesVelocity: 10
@@ -425,7 +435,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spline: {fileID: 0}
-  PlayerNumber: 1
   speed: 1
   defaultProgress: 0
   fix: {fileID: 193394}

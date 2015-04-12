@@ -3,13 +3,11 @@ using System.Collections;
 
 public class Goal : MonoBehaviour
 {
-    public string NextSceneName;
-
     void Update()
     {
         if (Input.GetKey(KeyCode.Return))
         {
-            Application.LoadLevel(NextSceneName);
+            GameManager.Instance.LoadNextLevel();
         }
     }
 
@@ -28,6 +26,6 @@ public class Goal : MonoBehaviour
 
         yield return new WaitForSeconds(2.5f);
 
-        Application.LoadLevel(NextSceneName);
+        GameManager.Instance.LoadNextLevel();
     }
 }

@@ -2,9 +2,9 @@
 using System.Collections;
 using System;
 
+[RequireComponent(typeof(Player))]
 public abstract class Robot : MonoBehaviour
 {
-	public int PlayerNumber;
 	public ParticleSystem WindParticles;
 	public float MinimumParticlesVelocity;
 	public float MaximumParticlesVelocity;
@@ -17,10 +17,13 @@ public abstract class Robot : MonoBehaviour
 	private float _previousParticlesVelocity = 0f;
 
 	private float _targetAngle;
-	private float _ratio = 0f;
+
+    protected Player _player;
 
 	void Awake()
 	{
+        _player = GetComponent<Player>();
+
 		_previousParticlesVelocity = WindParticles.startSpeed;
 		_targetAngle = Body.localEulerAngles.z;
 	}
@@ -33,7 +36,7 @@ public abstract class Robot : MonoBehaviour
 			Debug.Log ("Bug Particules");
 	}
 
-	protected void Update()
+	protected virtual void Update()
 	{
         ParticleSystem.Particle[] particles = new ParticleSystem.Particle[WindParticles.particleCount];
 
@@ -47,8 +50,6 @@ public abstract class Robot : MonoBehaviour
         //WindParticles.SetParticles(particles, num);
 
         //Debug.Log(num);
-
-        _ratio = Time.deltaTime / 1f;
 
 		if (Body.localEulerAngles.z < 0f)
 		{
@@ -67,12 +68,13 @@ public abstract class Robot : MonoBehaviour
 			Body.localEulerAngles = new Vector3(0f, 0f, newAngle);
 		}
 
-		float maxTriggerValue = Mathf.Max( Input.GetAxisRaw("TriggersL_" + PlayerNumber), Input.GetAxisRaw("TriggersR_" + PlayerNumber));
-		maxTriggerValue = Mathf.Max ( maxTriggerValue, Math.Abs(Input.GetAxisRaw("TriggersLR_" + PlayerNumber)));
+        float maxTriggerValue = InputManager.Instance.GetInputBreathAction(_player.Number);
 
-		if (Mathf.Abs(Input.GetAxisRaw("R_YAxis_" + PlayerNumber)) > 0f || Mathf.Abs(Input.GetAxisRaw("R_XAxis_" + PlayerNumber)) > 0f)
+        Debug.Log(InputManager.Instance.GetInputRotation(_player.Number).magnitude == 0f);
+
+        if (InputManager.Instance.GetInputRotation(_player.Number).magnitude != 0f)
 		{
-			_targetAngle = -(Mathf.Atan2(Input.GetAxisRaw("R_YAxis_" + PlayerNumber), Input.GetAxisRaw("R_XAxis_" + PlayerNumber)) * Mathf.Rad2Deg) - 90f;
+            _targetAngle = -(Mathf.Atan2(InputManager.Instance.GetInputRotation(_player.Number).x, InputManager.Instance.GetInputRotation(_player.Number).y) * Mathf.Rad2Deg);
 		}
 
 		if (maxTriggerValue > 0f)

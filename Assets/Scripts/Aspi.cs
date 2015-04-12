@@ -14,7 +14,7 @@ public class Aspi : Robot
 		ballOrigin = ball.transform.position;
 	}
 
-    void Update()
+    override protected void Update()
     {
         base.Update();
 

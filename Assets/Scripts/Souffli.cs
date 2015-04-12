@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Souffli : Robot
 {
-    void Update()
+    override protected void Update()
     {
         base.Update();
 

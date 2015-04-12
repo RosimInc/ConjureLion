@@ -16,8 +16,7 @@ public class PlayerTouchPipe : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		float maxTriggerValue = Mathf.Max( Input.GetAxisRaw("TriggersL_" + playerNumber), Input.GetAxisRaw("TriggersR_" + playerNumber));
-		gachette = Mathf.Max ( maxTriggerValue, Math.Abs(Input.GetAxisRaw("TriggersLR_" + playerNumber)));
+        float maxTriggerValue = InputManager.Instance.GetInputBreathAction(playerNumber);
 		
 		
 		if(attract)

@@ -2,8 +2,9 @@
 using System.Collections;
 using System;
 
-public class BallEffect : MonoBehaviour {
-
+[RequireComponent(typeof(Player))]
+public class BallEffect : MonoBehaviour
+{
 	public float radius;
 	public float force;
 	public float vision;
@@ -13,19 +14,24 @@ public class BallEffect : MonoBehaviour {
 	public GameObject aim2;
 	public bool activated;
     public GameObject staticDetection;
-    public int PlayerNumber = 1;
 
     private bool _stayStatic = false;
     private bool _pullBlocked = false;
+
+    private Player _player;
 
     public bool PullBlocked
     {
         get { return _pullBlocked; }
     }
-    
 
-	// Use this for initialization
-	void Start () {
+    void Awake()
+    {
+        _player = GetComponent<Player>();
+    }
+
+	void Start ()
+    {
         if (ball == null)
         {
             ball = GameObject.FindGameObjectWithTag("Ball").GetComponent<Ball>();
@@ -99,8 +105,7 @@ public class BallEffect : MonoBehaviour {
 
 			//Debug.Log(string.Format("force {0} \nradius {1} \nmagnitude {2} ", force, radius, dirHit.magnitude));
 
-			float stuff = Mathf.Max( Input.GetAxisRaw("TriggersL_" + PlayerNumber), Input.GetAxisRaw("TriggersR_" + PlayerNumber));
-			stuff = Mathf.Max ( stuff, Math.Abs(Input.GetAxisRaw("TriggersLR_" + PlayerNumber)));
+            float stuff = InputManager.Instance.GetInputBreathAction(_player.Number);
 			
 			float forceFF = forceSide * force * 50f *
 					(radius - dirHit.magnitude) / radius * delta * stuff;
@@ -151,8 +156,7 @@ public class BallEffect : MonoBehaviour {
 				return;
 			}
 
-			float maxTriggerValue = Mathf.Max( Input.GetAxisRaw("TriggersL_" + PlayerNumber), Input.GetAxisRaw("TriggersR_" + PlayerNumber));
-			maxTriggerValue = Mathf.Max ( maxTriggerValue, Math.Abs(Input.GetAxisRaw("TriggersLR_" + PlayerNumber)));
+            float maxTriggerValue = InputManager.Instance.GetInputBreathAction(_player.Number);
 
 			ball.rigidbody2D.AddForce(force * mod * toBall.normalized *
 					(radius - distance) / radius * delta *
@@ -199,9 +203,8 @@ public class BallEffect : MonoBehaviour {
 		                    radius))
 		{
 			if (hit.collider.gameObject.layer == 8) return;
-			
-			float maxTriggerValue = Mathf.Max( Input.GetAxisRaw("TriggersL_" + PlayerNumber), Input.GetAxisRaw("TriggersR_" + PlayerNumber));
-			maxTriggerValue = Mathf.Max ( maxTriggerValue, Math.Abs(Input.GetAxisRaw("TriggersLR_" + PlayerNumber)));
+
+            float maxTriggerValue = InputManager.Instance.GetInputBreathAction(_player.Number);
 			
 			ball.rigidbody2D.AddForce(force * mod * toBall.normalized *
 			                          (radius - distance) / radius * Time.fixedDeltaTime *

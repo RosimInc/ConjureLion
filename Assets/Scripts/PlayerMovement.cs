@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerMovement : MonoBehaviour {
-
+[RequireComponent(typeof(Player))]
+public class PlayerMovement : MonoBehaviour
+{
 	public BezierSpline spline;
-    public int PlayerNumber;
 	public float speed = 1f;
 	public float defaultProgress = 0f;
 	public GameObject fix;
@@ -15,8 +15,15 @@ public class PlayerMovement : MonoBehaviour {
 
     private float PreviousMovement;
 
-	// Use this for initialization
-	void Start () {
+    private Player _player;
+
+    void Awake()
+    {
+        _player = GetComponent<Player>();
+    }
+
+	void Start ()
+    {
 		if(spline == null) {
 			spline = GameObject.FindGameObjectWithTag("Rail").GetComponent<BezierSpline>();
 			Debug.Log ("Rail set automatically");
@@ -24,8 +31,6 @@ public class PlayerMovement : MonoBehaviour {
 		
 		Vector3 position = spline.GetPoint(progress);
 		transform.localPosition = position;
-		
-		
 	}
 	
 	private void Update () {
@@ -35,8 +40,8 @@ public class PlayerMovement : MonoBehaviour {
             _playWhenPossible = false;
         }
 		Vector3 dir = spline.GetDirection(progress);
-		float x = Input.GetAxisRaw("L_XAxis_" + PlayerNumber);
-		float y = -Input.GetAxisRaw("L_YAxis_" + PlayerNumber);
+        float x = InputManager.Instance.GetInputMovement(_player.Number).x;
+        float y = InputManager.Instance.GetInputMovement(_player.Number).y;
 		Vector3 joystickDir = new Vector3(x, y, 0);
 
 		float angle = Vector3.Angle(dir, joystickDir);
@@ -81,8 +86,6 @@ public class PlayerMovement : MonoBehaviour {
             MusicManager.Instance.StopRailLoop();
             _playWhenPossible = false;
         }
-
-        Debug.Log(progress);
 
         _previousProgress = progress;
         PreviousMovement = movement;

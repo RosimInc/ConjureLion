@@ -315,7 +315,7 @@ public class SplinePipe : MonoBehaviour {
 		int nbPart = 5;
 		
 		for(int i = 0; i < nbPart; i ++) {
-			float progress = UnityEngine.Random.Range(0f, 1f);
+			//float progress = UnityEngine.Random.Range(0f, 1f);
 			//Générer part
 		}
 		

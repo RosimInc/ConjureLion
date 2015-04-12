@@ -4,16 +4,11 @@ using System.Collections;
 public class Embout : MonoBehaviour {
 
 	private bool ballIsIn = false;
-	private GameObject ball;
 	public SplinePipe splinePipe;
 	public bool isBeginning = false;
 	
 	public bool GetBallIsIn () {
 	return ballIsIn;
-	}
-	
-	private void Start () {
-		ball = GameObject.FindGameObjectWithTag ("Ball");
 	}
 
 	private void OnTriggerEnter2D (Collider2D coll)

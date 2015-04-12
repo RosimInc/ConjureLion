@@ -8,6 +8,8 @@ TagManager:
   - Pipe
   - StaticDetection
   - Rail
+  - Aspi
+  - Souffli
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX
