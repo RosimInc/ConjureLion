@@ -4,6 +4,12 @@ using System.Collections;
 [RequireComponent(typeof(Player))]
 public class PlayerMovement : MonoBehaviour
 {
+    public float Progress
+    {
+        get { return progress; }
+        set { progress = value; }
+    }
+
 	public BezierSpline spline;
 	public float speed = 1f;
 	public float defaultProgress = 0f;
@@ -20,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     void Awake()
     {
         _player = GetComponent<Player>();
+        progress = defaultProgress;
     }
 
 	void Start ()
@@ -34,6 +41,8 @@ public class PlayerMovement : MonoBehaviour
 	}
 	
 	private void Update () {
+        //Debug.Log(progress);
+
         if (_playWhenPossible && !MusicManager.Instance.RailLoop.isPlaying)
         {
             MusicManager.Instance.PlayRailLoop();
@@ -49,7 +58,6 @@ public class PlayerMovement : MonoBehaviour
 		if (angle > 90)
 		{
 			mod = -1;
-			Debug.Log("Advance");
 		}
 
 		float stuff = Mathf.Sqrt(x * x + y * y);

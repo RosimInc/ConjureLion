@@ -11,19 +11,13 @@ public class MainMenu : MonoBehaviour
     {
         if (_ballNumber >= 2)
         {
-            StartCoroutine(LoadNextLevel());
+            MusicManager.Instance.PlayGoalStart();
+
+            GameManager.Instance.LoadNextLevel();
+
             _ballNumber = -1;
         }
 	}
-
-    private IEnumerator LoadNextLevel()
-    {
-        MusicManager.Instance.PlayGoalStart();
-
-        yield return new WaitForSeconds(2.5f);
-
-        GameManager.Instance.LoadNextLevel();
-    }
 
     void OnCollisionEnter2D(Collision2D coll)
     {

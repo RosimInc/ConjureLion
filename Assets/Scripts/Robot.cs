@@ -70,8 +70,6 @@ public abstract class Robot : MonoBehaviour
 
         float maxTriggerValue = InputManager.Instance.GetInputBreathAction(_player.Number);
 
-        Debug.Log(InputManager.Instance.GetInputRotation(_player.Number).magnitude == 0f);
-
         if (InputManager.Instance.GetInputRotation(_player.Number).magnitude != 0f)
 		{
             _targetAngle = -(Mathf.Atan2(InputManager.Instance.GetInputRotation(_player.Number).x, InputManager.Instance.GetInputRotation(_player.Number).y) * Mathf.Rad2Deg);
@@ -104,7 +102,11 @@ public abstract class Robot : MonoBehaviour
 		_isActivated = state;
 		if(_ballEffect == null)
 			_ballEffect = GetComponent<BallEffect>();
-		_ballEffect.activated = state;
+
+        if (_ballEffect != null)
+        {
+            _ballEffect.activated = state;
+        }
 
 		if (state)
 		{

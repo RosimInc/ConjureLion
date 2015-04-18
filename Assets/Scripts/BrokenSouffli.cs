@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Souffli : Robot
+public class BrokenSouffli : BrokenRobot
 {
 
 }

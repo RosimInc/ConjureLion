@@ -10,6 +10,8 @@ public class Aspi : Robot
 	
 	// Use this for initialization
 	void Start () {
+        if (ball == null) return;
+
 		ball = GameObject.FindGameObjectWithTag("Ball");
 		ballOrigin = ball.transform.position;
 	}
@@ -17,6 +19,8 @@ public class Aspi : Robot
     override protected void Update()
     {
         base.Update();
+
+        if (ball == null) return;
 
 		if(Input.GetKeyDown (KeyCode.Backspace)) {
 			ball.transform.position = ballOrigin;

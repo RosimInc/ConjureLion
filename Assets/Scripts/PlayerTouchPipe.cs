@@ -29,7 +29,6 @@ public class PlayerTouchPipe : MonoBehaviour {
 			
 			//Envoi de la valeur gachette
 			touchedList[i].SendMessage("FlowIntensity", gachette);
-			Debug.Log ("Flow "+gachette);
 		}
 	}
 	
@@ -46,7 +45,6 @@ public class PlayerTouchPipe : MonoBehaviour {
 	
 	private void OnTriggerStay2D (Collider2D coll)
 	{
-		Debug.Log("Embout is in "+coll.gameObject.tag);
 		if(coll.gameObject.tag != "Ball")
 			return;
 	}

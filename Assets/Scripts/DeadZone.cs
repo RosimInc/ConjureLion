@@ -13,7 +13,6 @@ public class DeadZone : MonoBehaviour {
 	
 	
 	private void OnTriggerEnter2D (Collider2D coll) {
-		Debug.Log("Test "+tag);
 		if(coll.tag != "Ball")
 			return;
 		
