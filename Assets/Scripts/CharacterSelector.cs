@@ -4,7 +4,6 @@ using XInputDotNetPure; // Required in C#
 
 public class CharacterSelector : MonoBehaviour
 {
-    private enum Characters { None, Souffli, Aspi }
     public GameObject StartButton;
 
     public PlayerMovement Player1;
@@ -23,152 +22,106 @@ public class CharacterSelector : MonoBehaviour
 
     public Aspi AspiCharacter;
     public Souffli SouffliCharacter;
-    
-    private bool _canStartGame = false;
 
-    private Characters _player1Character;
-    private Characters _player2Character;
+    private enum PlayerState { SelectingNothing, SelectingSouffli, SelectingAspi, PickedSouffli, PickedAspi }
+    private PlayerState _player1State;
+    private PlayerState _player2State;
 
-    private bool _souffliHasBeenPicked = false;
-    private bool _aspiHasBeenPicked = false;
-
+    private bool _gameIsReady = false;
     private bool _gameIsStarting = false;
 
+    private float _previousPlayer1Progress;
+    private float _previousPlayer2Progress;
+
     private Vector3 _fullRotationVector = new Vector3(0f, 0f, 360f);
+    private const float SOUFFLI_TRESHOLD = 0.1f;
+    private const float ASPI_TRESHOLD = 0.9f;
 
     void Update()
     {
-        //TODO: Set a state system instead of doing everything in the update, so that events trigger only when the player moves between the character zones
+        if (_gameIsReady)
+        {
+            if (!_gameIsStarting && (InputManager.Instance.GetInputPauseMenu(1) || InputManager.Instance.GetInputPauseMenu(2)))
+            {
+                _gameIsStarting = true;
+
+                MusicManager.Instance.PlayGoalLevel();
+                GameManager.Instance.LoadNextLevel();
+            }
+        }
+        else
+        {
+            // Player1 state
+            if (_player1State != PlayerState.PickedSouffli && _player1State != PlayerState.PickedAspi)
+            {
+                if (_player2State != PlayerState.SelectingSouffli && Player1.Progress <= SOUFFLI_TRESHOLD && _previousPlayer1Progress > SOUFFLI_TRESHOLD)
+                {
+                    SetPlayer1State(PlayerState.SelectingSouffli);
+                }
+                else if (_player2State != PlayerState.SelectingAspi && Player1.Progress >= ASPI_TRESHOLD && _previousPlayer1Progress < ASPI_TRESHOLD)
+                {
+                    SetPlayer1State(PlayerState.SelectingAspi);
+                }
+                else if (_previousPlayer1Progress <= SOUFFLI_TRESHOLD && Player1.Progress > SOUFFLI_TRESHOLD
+                    || _previousPlayer1Progress >= ASPI_TRESHOLD && Player1.Progress < ASPI_TRESHOLD)
+                {
+                    SetPlayer1State(PlayerState.SelectingNothing);
+                }
+
+                if (InputManager.Instance.GetInputAccept(1))
+                {
+                    switch (_player1State)
+                    {
+                        case PlayerState.SelectingSouffli:
+                            SetPlayer1State(PlayerState.PickedSouffli);
+                            break;
+                        case PlayerState.SelectingAspi:
+                            SetPlayer1State(PlayerState.PickedAspi);
+                            break;
+                    }
+                }
+            }
+
+            // Player2 state
+            if (_player2State != PlayerState.PickedSouffli && _player2State != PlayerState.PickedAspi)
+            {
+                if (_player1State != PlayerState.SelectingSouffli && Player2.Progress <= SOUFFLI_TRESHOLD && _previousPlayer2Progress > SOUFFLI_TRESHOLD)
+                {
+                    SetPlayer2State(PlayerState.SelectingSouffli);
+                }
+                else if (_player1State != PlayerState.SelectingAspi && Player2.Progress >= ASPI_TRESHOLD && _previousPlayer2Progress < ASPI_TRESHOLD)
+                {
+                    SetPlayer2State(PlayerState.SelectingAspi);
+                }
+                else if (_previousPlayer2Progress <= SOUFFLI_TRESHOLD && Player2.Progress > SOUFFLI_TRESHOLD
+                    || _previousPlayer2Progress >= ASPI_TRESHOLD && Player2.Progress < ASPI_TRESHOLD)
+                {
+                    SetPlayer2State(PlayerState.SelectingNothing);
+                }
+
+                if (InputManager.Instance.GetInputAccept(2))
+                {
+                    switch (_player2State)
+                    {
+                        case PlayerState.SelectingSouffli:
+                            SetPlayer2State(PlayerState.PickedSouffli);
+                            break;
+                        case PlayerState.SelectingAspi:
+                            SetPlayer2State(PlayerState.PickedAspi);
+                            break;
+                    }
+                }
+            }
+
+            _previousPlayer1Progress = Player1.Progress;
+            _previousPlayer2Progress = Player2.Progress;
+        }
 
         //TODO: Have a separate script for the Aspi selector and the Souffli selector, that would inherit from this script
-
-        if (Player1.Progress <= 0.1f && _player2Character != Characters.Souffli && !_souffliHasBeenPicked)
-        {
-            _player1Character = Characters.Souffli;
-        }
-        else if (Player1.Progress >= 0.97f && _player2Character != Characters.Aspi && !_aspiHasBeenPicked)
-        {
-            _player1Character = Characters.Aspi;
-        }
-        else
-        {
-            _player1Character = Characters.None;
-        }
-
-
-        if (Player2.Progress <= 0.1f && _player1Character != Characters.Souffli && !_souffliHasBeenPicked)
-        {
-            _player2Character = Characters.Souffli;
-        }
-        else if (Player2.Progress >= 0.97f && _player1Character != Characters.Aspi && !_aspiHasBeenPicked)
-        {
-            _player2Character = Characters.Aspi;
-        }
-        else
-        {
-            _player2Character = Characters.None;
-        }
-
-        if (_player1Character == Characters.Souffli)
-        {
-            SouffliBeam.StartObject = Player1.transform;
-            SouffliBeam.Activate(true);
-
-            SouffliAButton2.SetActive(false);
-            SouffliAButton1.SetActive(true);
-        }
-        else if (_player2Character == Characters.Souffli)
-        {
-            SouffliBeam.StartObject = Player2.transform;
-            SouffliBeam.Activate(true);
-
-            SouffliAButton1.SetActive(false);
-            SouffliAButton2.SetActive(true);
-        }
-        else
-        {
-            SouffliBeam.Activate(false);
-            SouffliAButton1.SetActive(false);
-            SouffliAButton2.SetActive(false);
-        }
-
-        if (_player1Character == Characters.Aspi)
-        {
-            AspiBeam.StartObject = Player1.transform;
-            AspiBeam.Activate(true);
-            
-            AspiAButton2.SetActive(false);
-            AspiAButton1.SetActive(true);
-        }
-        else if (_player2Character == Characters.Aspi)
-        {
-            AspiBeam.StartObject = Player2.transform;
-            AspiBeam.Activate(true);
-
-            AspiAButton1.SetActive(false);
-            AspiAButton2.SetActive(true);
-        }
-        else
-        {
-            AspiBeam.Activate(false);
-            AspiAButton1.SetActive(false);
-            AspiAButton2.SetActive(false);
-        }
-
-        if (InputManager.Instance.GetInputAccept(1))
-	    {
-            switch (_player1Character)
-            {
-                case Characters.Souffli:
-                    StartCoroutine(Player1ChooseSouffli(0.3f));
-                    break;
-                case Characters.Aspi:
-                    StartCoroutine(Player1ChooseAspi(0.3f));
-                    break;
-            }
-	    }
-
-        if (InputManager.Instance.GetInputAccept(2))
-        {
-            switch (_player2Character)
-            {
-                case Characters.Souffli:
-                    StartCoroutine(Player2ChooseSouffli(0.3f));
-                    break;
-                case Characters.Aspi:
-                    StartCoroutine(Player2ChooseAspi(0.3f));
-                    break;
-            }
-        }
-
-        ShowOrHideStartButton();
-
-
-        if (_canStartGame && !_gameIsStarting && (InputManager.Instance.GetInputPauseMenu(1) || InputManager.Instance.GetInputPauseMenu(2)))
-        {
-            /*
-            if (_player1Character == Characters.Souffli)
-            {
-                GameManager.Instance.SetSouffliPlayerNumber(1);
-                GameManager.Instance.SetAspiPlayerNumber(2);
-            }
-            else
-            {
-                GameManager.Instance.SetSouffliPlayerNumber(2);
-                GameManager.Instance.SetAspiPlayerNumber(1);
-            }*/
-
-            _gameIsStarting = true;
-
-            MusicManager.Instance.PlayGoalLevel();
-            GameManager.Instance.LoadNextLevel();
-        }
     }
 
     private IEnumerator Player1ChooseSouffli(float duration)
     {
-        _souffliHasBeenPicked = true;
-
         Vector3 brokenSouffliInitialPos = BrokenSouffli.transform.position;
         Vector3 brokenSouffliInitialRot = BrokenSouffli.transform.eulerAngles;
 
@@ -199,8 +152,6 @@ public class CharacterSelector : MonoBehaviour
 
     private IEnumerator Player2ChooseSouffli(float duration)
     {
-        _souffliHasBeenPicked = true;
-
         Vector3 brokenSouffliInitialPos = BrokenSouffli.transform.position;
         Vector3 brokenSouffliInitialRot = BrokenSouffli.transform.eulerAngles;
 
@@ -231,8 +182,6 @@ public class CharacterSelector : MonoBehaviour
 
     private IEnumerator Player1ChooseAspi(float duration)
     {
-        _aspiHasBeenPicked = true;
-
         Vector3 brokenAspiInitialPos = BrokenAspi.transform.position;
         Vector3 brokenAspiInitialRot = BrokenAspi.transform.eulerAngles;
 
@@ -263,8 +212,6 @@ public class CharacterSelector : MonoBehaviour
 
     private IEnumerator Player2ChooseAspi(float duration)
     {
-        _aspiHasBeenPicked = true;
-
         Vector3 brokenAspiInitialPos = BrokenAspi.transform.position;
         Vector3 brokenAspiInitialRot = BrokenAspi.transform.eulerAngles;
 
@@ -294,77 +241,109 @@ public class CharacterSelector : MonoBehaviour
         GameManager.Instance.SetAspiPlayerNumber(2);
     }
 
-    private void ShowOrHideStartButton()
+    private void SetPlayer1State(PlayerState newState)
     {
-        if (_souffliHasBeenPicked && _aspiHasBeenPicked)
+        switch (newState)
         {
-            StartButton.SetActive(true);
-            _canStartGame = true;
+            case PlayerState.SelectingNothing:
+                SouffliBeam.Activate(false);
+                SouffliAButton1.SetActive(false);
+
+                AspiBeam.Activate(false);
+                AspiAButton1.SetActive(false);
+                break;
+            case PlayerState.SelectingSouffli:
+                SouffliBeam.StartObject = Player1.transform;
+
+                SouffliBeam.Activate(true);
+                SouffliAButton1.SetActive(true);
+                break;
+            case PlayerState.SelectingAspi:
+                AspiBeam.StartObject = Player1.transform;
+
+                AspiBeam.Activate(true);
+                AspiAButton1.SetActive(true);
+                break;
+            case PlayerState.PickedSouffli:
+                if (_player2State == PlayerState.PickedAspi)
+                {
+                    SetGameReadyState(true);
+                }
+
+                SouffliAButton1.SetActive(false);
+                SouffliBeam.Activate(false);
+
+                StartCoroutine(Player1ChooseSouffli(0.3f));
+                break;
+            case PlayerState.PickedAspi:
+                if (_player2State == PlayerState.PickedSouffli)
+                {
+                    SetGameReadyState(true);
+                }
+
+                AspiAButton1.SetActive(false);
+                AspiBeam.Activate(false);
+
+                StartCoroutine(Player1ChooseAspi(0.3f));
+                break;
         }
-        else
-        {
-            StartButton.SetActive(false);
-            _canStartGame = false;
-        }
+
+        _player1State = newState;
     }
 
-    /*
-    void Update()
+    private void SetPlayer2State(PlayerState newState)
     {
-        float player1XAxis = InputManager.Instance.GetInputMovement(1).x;
-        float player2XAxis = InputManager.Instance.GetInputMovement(2).x;
+        switch (newState)
+        {
+            case PlayerState.SelectingNothing:
+                SouffliBeam.Activate(false);
+                SouffliAButton2.SetActive(false);
 
-        if (player1XAxis == 1f)
-        {
-            Player1Cursor.MoveRight();
-            ShowOrHideStartButton();
-        }
-        else if (player1XAxis == -1f)
-        {
-            Player1Cursor.MoveLeft();
-            ShowOrHideStartButton();
+                AspiBeam.Activate(false);
+                AspiAButton2.SetActive(false);
+                break;
+            case PlayerState.SelectingSouffli:
+                SouffliBeam.StartObject = Player2.transform;
+
+                SouffliBeam.Activate(true);
+                SouffliAButton2.SetActive(true);
+                break;
+            case PlayerState.SelectingAspi:
+                AspiBeam.StartObject = Player2.transform;
+
+                AspiBeam.Activate(true);
+                AspiAButton2.SetActive(true);
+                break;
+            case PlayerState.PickedSouffli:
+                if (_player1State == PlayerState.PickedAspi)
+                {
+                    SetGameReadyState(true);
+                }
+
+                SouffliAButton1.SetActive(false);
+                SouffliBeam.Activate(false);
+
+                StartCoroutine(Player2ChooseSouffli(0.3f));
+                break;
+            case PlayerState.PickedAspi:
+                if (_player1State == PlayerState.PickedSouffli)
+                {
+                    SetGameReadyState(true);
+                }
+
+                AspiAButton2.SetActive(false);
+                AspiBeam.Activate(false);
+
+                StartCoroutine(Player2ChooseAspi(0.3f));
+                break;
         }
 
-        if (player2XAxis == 1f)
-        {
-            Player2Cursor.MoveRight();
-            ShowOrHideStartButton();
-        }
-        else if (player2XAxis == -1f)
-        {
-            Player2Cursor.MoveLeft();
-            ShowOrHideStartButton();
-        }
-
-        if (_canStartGame && (InputManager.Instance.GetInputAccept(1) || InputManager.Instance.GetInputAccept(2)))
-        {
-            if (Player1Cursor.Position == SelectorCursor.CursorPosition.Left)
-            {
-                GameManager.Instance.SetSouffliPlayerNumber(1);
-                GameManager.Instance.SetAspiPlayerNumber(2);
-            }
-            else
-            {
-                GameManager.Instance.SetSouffliPlayerNumber(2);
-                GameManager.Instance.SetAspiPlayerNumber(1);
-            }
-
-            GameManager.Instance.LoadNextLevel();
-        }
+        _player2State = newState;
     }
 
-    private void ShowOrHideStartButton()
+    private void SetGameReadyState(bool state)
     {
-        if (Player1Cursor.Position == SelectorCursor.CursorPosition.Left && Player2Cursor.Position == SelectorCursor.CursorPosition.Right
-            || Player1Cursor.Position == SelectorCursor.CursorPosition.Right && Player2Cursor.Position == SelectorCursor.CursorPosition.Left)
-        {
-            StartButton.SetActive(true);
-            _canStartGame = true;
-        }
-        else
-        {
-            StartButton.SetActive(false);
-            _canStartGame = false;
-        }
-    }*/
+        StartButton.SetActive(state);
+        _gameIsReady = state;
+    }
 }

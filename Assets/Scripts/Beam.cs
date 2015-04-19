@@ -16,6 +16,7 @@ public class Beam : MonoBehaviour
     void Awake()
     {
         BeamLine.SetWidth(0.2f, 0.2f);
+        Activate(false);
     }
 
     void Update()
