@@ -320,7 +320,7 @@ public class CharacterSelector : MonoBehaviour
                     SetGameReadyState(true);
                 }
 
-                SouffliAButton1.SetActive(false);
+                SouffliAButton2.SetActive(false);
                 SouffliBeam.Activate(false);
 
                 StartCoroutine(Player2ChooseSouffli(0.3f));
