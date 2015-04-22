@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Goal : MonoBehaviour
 {
+    private bool _goalHasBeenTriggered = false;
+
     void Update()
     {
         if (Input.GetKey(KeyCode.Return))
@@ -13,8 +15,10 @@ public class Goal : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.gameObject.layer == 10)
+        if (collider.gameObject.layer == 10 && !_goalHasBeenTriggered)
         {
+            _goalHasBeenTriggered = true;
+
             MusicManager.Instance.PlayGoalLevel();
             GameManager.Instance.LoadNextLevel();
         }
