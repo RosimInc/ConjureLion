@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 409188}
   - 114: {fileID: 11409188}
   m_Layer: 0
-  m_Name: MainMenu
+  m_Name: Tutorial
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39,7 +39,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be163480ea7ba384e91822fb0cdff576, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SceneName: MainMenu
+  SceneName: Tutorial
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
