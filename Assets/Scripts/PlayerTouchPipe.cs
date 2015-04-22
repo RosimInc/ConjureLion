@@ -34,8 +34,6 @@ public class PlayerTouchPipe : MonoBehaviour {
 	
 	private void OnTriggerEnter2D (Collider2D coll)
 	{
-		Debug.Log("Embout is in "+coll.gameObject.tag);
-		
 		if(coll.tag != "Toe")
 			return;
 			

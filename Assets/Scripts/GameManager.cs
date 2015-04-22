@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public Level[] Levels;
+    public MonoBehaviour[] PermanentManagers;
+
     public Image LevelTransitionImage;
 
     private static GameManager _instance;
@@ -13,19 +14,31 @@ public class GameManager : MonoBehaviour
     private int SouffliPlayerNumber;
     private int AspiPlayerNumber;
 
-    private int _levelIndex = -1;
+    private int _levelIndex = 0;
 
     private const float FADE_DURATION = 2.5f;
 
     public static GameManager Instance
     {
-        get { return _instance; }
+        get
+        {
+            return _instance;
+        }
     }
 
     void Awake()
     {
         _instance = this;
         DontDestroyOnLoad(gameObject);
+
+        for (int i = 0; i < PermanentManagers.Length; i++)
+        {
+            MonoBehaviour permanentManager = PermanentManagers[i];
+
+            permanentManager = Instantiate(permanentManager) as MonoBehaviour;
+
+            DontDestroyOnLoad(permanentManager.gameObject);
+        }
     }
 
     public void SetSouffliPlayerNumber(int number)
@@ -47,7 +60,7 @@ public class GameManager : MonoBehaviour
 
     public void LoadNextLevel()
     {
-        if (_levelIndex < Levels.Length - 1)
+        if (_levelIndex < Application.levelCount - 1)
         {
             _levelIndex++;
 
@@ -71,7 +84,7 @@ public class GameManager : MonoBehaviour
 
         yield return StartCoroutine(FadeIn());
 
-        Levels[_levelIndex].Load();
+        Application.LoadLevel(_levelIndex);
     }
 
     void OnLevelWasLoaded(int levelIndex)

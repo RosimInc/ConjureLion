@@ -75,13 +75,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cad492239b96ef4090ca8113c3a566f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Levels:
-  - {fileID: 11409188, guid: 7d3858cb07408984799fd647c0d9a659, type: 2}
-  - {fileID: 11409188, guid: 6004210bbdae75346a4c9e1109632a75, type: 2}
-  - {fileID: 11409188, guid: c025e22e66dd7fd4e85317b4f45381af, type: 2}
-  - {fileID: 11409188, guid: bdf032c5b107fa6429e35c66d01d04da, type: 2}
-  - {fileID: 11409188, guid: e6fe1378f69b20c42aac54b4316588b9, type: 2}
-  - {fileID: 11409188, guid: b05220936002c874aa2fc8dc4ebc287c, type: 2}
+  PermanentManagers:
+  - {fileID: 11494476, guid: e70760f27cb1fa64687f50c865724c88, type: 2}
+  - {fileID: 11485956, guid: 236b975001f931942afc3786d70cded1, type: 2}
   LevelTransitionImage: {fileID: 11496924}
 --- !u!114 &11496920
 MonoBehaviour:
@@ -194,10 +190,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 22496922}
   m_RootOrder: 0
-  m_AnchorMin: {x: .5, y: .5}
-  m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 6.10351562e-05, y: 3.05175781e-05}
-  m_SizeDelta: {x: 620, y: 388}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -.249969482, y: 1.52590001e-05}
+  m_SizeDelta: {x: .5, y: 0}
   m_Pivot: {x: .5, y: .5}
 --- !u!1001 &100100000
 Prefab:

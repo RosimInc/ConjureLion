@@ -26,20 +26,16 @@ public abstract class BrokenRobot : MonoBehaviour
         if (UnityEngine.Random.Range(0f, 1f) < 0.005f)
         {
             maxTriggerValue = 0.1f;
-            Debug.Log("abc");
         }
         
 		if (!_isPlayingBreath && maxTriggerValue > 0f)
 		{
-            Debug.Log("def");
             StartCoroutine(PlayBreath(maxTriggerValue));
 		}
 	}
 
     private IEnumerator PlayBreath(float triggerValue)
     {
-        Debug.Log("ghi");
-
         _isPlayingBreath = true;
 
         float elapsedTime = 0f;

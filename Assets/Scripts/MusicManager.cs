@@ -21,7 +21,6 @@ public class MusicManager : MonoBehaviour
     void Awake()
     {
         _instance = this;
-        DontDestroyOnLoad(gameObject);
     }
 
     public void PlaySouffliBreathIn()

@@ -18,7 +18,10 @@ public class InputManager : MonoBehaviour
 
     public static InputManager Instance
     {
-        get { return _instance; }
+        get
+        {
+            return _instance;
+        }
     }
 
     #region Inspector Values
@@ -46,7 +49,6 @@ public class InputManager : MonoBehaviour
     void Awake()
     {
         _instance = this;
-        DontDestroyOnLoad(gameObject);
 
         _initialSetupDone = new bool[PLAYER_AMOUNT];
         _playerIndexes = new PlayerIndex[PLAYER_AMOUNT];
@@ -74,7 +76,7 @@ public class InputManager : MonoBehaviour
                 {
                     _playerIndexes[i] = (PlayerIndex)i;
 
-                    Debug.Log(string.Format("GamePad found {0}", _playerIndexes[i]));
+                    Debug.Log(string.Format("GamePad {0} is ready", _playerIndexes[i]));
                 }
             }
         }
