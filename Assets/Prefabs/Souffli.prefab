@@ -166,6 +166,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &195096
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 495096}
+  m_Layer: 13
+  m_Name: Aim2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &429270
 Transform:
   m_ObjectHideFlags: 1
@@ -175,7 +190,8 @@ Transform:
   m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106829}
   m_LocalPosition: {x: 0, y: .529999971, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 495096}
   m_Father: {fileID: 493400}
   m_RootOrder: 2
 --- !u!4 &441936
@@ -295,6 +311,18 @@ Transform:
   - {fileID: 493400}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!4 &495096
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 195096}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 429270}
+  m_RootOrder: 0
 --- !u!50 &5029268
 Rigidbody2D:
   m_ObjectHideFlags: 1
@@ -380,7 +408,7 @@ MonoBehaviour:
   attract: 0
   aim: {fileID: 141938}
   ball: {fileID: 0}
-  aim2: {fileID: 129270}
+  aim2: {fileID: 195096}
   activated: 0
   staticDetection: {fileID: 0}
 --- !u!114 &11441936
@@ -407,6 +435,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 121b4254160a3f841a4abf67229745bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Number: 0
 --- !u!114 &11460954
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1536,7 +1565,7 @@ SpriteRenderer:
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: a73da9ac9e83fbf458897febce2a303f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &21293396
@@ -1558,7 +1587,7 @@ SpriteRenderer:
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_SortingLayerID: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 2f73f477009d92b42a32f8c5ab2fc9c4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &21293398
@@ -1580,7 +1609,7 @@ SpriteRenderer:
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 53a7a3c7943701a49ad46b95e59827c2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &21293400
