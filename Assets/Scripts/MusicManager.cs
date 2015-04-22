@@ -56,7 +56,6 @@ public class MusicManager : MonoBehaviour
 
     public void PlayGoalLevel()
     {
-        Debug.Log("Play2");
         GoalLevel.Play();
     }
 
@@ -83,5 +82,12 @@ public class MusicManager : MonoBehaviour
     public void StopAspiBreathIn()
     {
         AspiBreathIn.Stop();
+    }
+
+    void OnLevelWasLoaded(int levelIndex)
+    {
+        StopRailLoop();
+        StopSouffliBreathLoop();
+        StopAspiBreathLoop();
     }
 }
