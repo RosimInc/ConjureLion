@@ -41,7 +41,7 @@ public class CharacterSelector : MonoBehaviour
     {
         if (_gameIsReady)
         {
-            if (!_gameIsStarting && (InputManager.Instance.GetInputPauseMenu(1) || InputManager.Instance.GetInputPauseMenu(2)))
+            if (!_gameIsStarting && (InputManager.Instance.GetInputPauseMenu()))
             {
                 _gameIsStarting = true;
 

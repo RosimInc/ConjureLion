@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
 
     private int _levelIndex = 0;
 
+    private const int FIRST_PLAYABLE_LEVEL_INDEX = 1;
     private const float FADE_DURATION = 2.5f;
 
     public static GameManager Instance
@@ -24,6 +25,13 @@ public class GameManager : MonoBehaviour
         {
             return _instance;
         }
+    }
+
+    private bool _isPaused;
+
+    public bool IsPaused
+    {
+        get { return _isPaused; }
     }
 
     void Awake()
@@ -35,9 +43,21 @@ public class GameManager : MonoBehaviour
         {
             MonoBehaviour permanentManager = PermanentManagers[i];
 
+            string name = permanentManager.name;
+
             permanentManager = Instantiate(permanentManager) as MonoBehaviour;
+            permanentManager.name = name;
 
             DontDestroyOnLoad(permanentManager.gameObject);
+        }
+    }
+
+    void Update()
+    {
+        Debug.Log(_isPaused);
+        if (!_isPaused && _levelIndex >= FIRST_PLAYABLE_LEVEL_INDEX && InputManager.Instance.GetInputPauseMenu())
+        {
+            MenusManager.Instance.ShowMenu("PauseMenu");
         }
     }
 
@@ -55,16 +75,14 @@ public class GameManager : MonoBehaviour
 
     public void RestartLevel()
     {
-        LoadLevel();
+        LoadLevel(_levelIndex);
     }
 
     public void LoadNextLevel()
     {
         if (_levelIndex < Application.levelCount - 1)
         {
-            _levelIndex++;
-
-            StartCoroutine(LoadLevel());
+            StartCoroutine(LoadLevel(_levelIndex + 1));
         }
     }
 
@@ -72,23 +90,23 @@ public class GameManager : MonoBehaviour
     {
         if (_levelIndex > 0)
         {
-            _levelIndex--;
-
-            StartCoroutine(LoadLevel()); 
+            StartCoroutine(LoadLevel(_levelIndex - 1)); 
         }
     }
 
-    private IEnumerator LoadLevel()
+    private IEnumerator LoadLevel(int levelIndex)
     {
         // Ideally, we want to be able to dynamically instantiate Aspi and Souffli when we load a level, but for now we can't do it elegantly because of the rails
 
         yield return StartCoroutine(FadeIn());
 
-        Application.LoadLevel(_levelIndex);
+        Application.LoadLevel(levelIndex);
     }
 
     void OnLevelWasLoaded(int levelIndex)
     {
+        _levelIndex = levelIndex;
+
         StartCoroutine(FadeOut());
 
         GameObject.FindGameObjectWithTag("Souffli").GetComponent<Player>().Number = SouffliPlayerNumber;
@@ -137,5 +155,17 @@ public class GameManager : MonoBehaviour
         }
 
         LevelTransitionImage.gameObject.SetActive(false);
+    }
+
+    public void Pause()
+    {
+        _isPaused = true;
+        Time.timeScale = 0;
+    }
+
+    public void Resume()
+    {
+        _isPaused = false;
+        Time.timeScale = 1;
     }
 }

@@ -37,8 +37,6 @@ public class InputManager : MonoBehaviour
 
     private static InputManager _instance;
 
-    private PlayerIndex _playerIndex;
-
     private bool[] _initialSetupDone;
     private PlayerIndex[] _playerIndexes;
     private GamePadState[] _gamePadPreviousStates;
@@ -84,9 +82,17 @@ public class InputManager : MonoBehaviour
 
     #region Public Methods
 
-    public bool GetInputPauseMenu(int playerNumber)
+    public bool GetInputPauseMenu()
     {
-        return GetButtonUpState(Actions.PauseMenu, playerNumber - 1);
+        for (int i = 0; i < PLAYER_AMOUNT; i++)
+        {
+            if (GetButtonUpState(Actions.PauseMenu, i))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public bool GetInputAccept(int playerNumber)
@@ -112,6 +118,16 @@ public class InputManager : MonoBehaviour
     public Vector2 GetInputRotation(int playerNumber)
     {
         return new Vector2(GetXStickValue(Actions.Rotate, playerNumber - 1), GetYStickValue(Actions.Rotate, playerNumber - 1));
+    }
+
+    public bool GetInputMenuUp(int playerNumber)
+    {
+        return GetYStickValue(Actions.Rotate, playerNumber - 1) > 0f;
+    }
+
+    public bool GetInputMenuDown(int playerNumber)
+    {
+        return GetYStickValue(Actions.Rotate, playerNumber - 1) < 0f;
     }
 
     #endregion
