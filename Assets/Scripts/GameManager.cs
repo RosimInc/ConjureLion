@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     private int _levelIndex = 0;
 
     private const int FIRST_PLAYABLE_LEVEL_INDEX = 1;
-    private const float FADE_DURATION = 2.5f;
+    private const float FADE_DURATION = 1.5f;
 
     public static GameManager Instance
     {
@@ -36,25 +36,31 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        _instance = this;
-        DontDestroyOnLoad(gameObject);
-
-        for (int i = 0; i < PermanentManagers.Length; i++)
+        if (_instance)
         {
-            MonoBehaviour permanentManager = PermanentManagers[i];
+            Destroy(gameObject);
+        }
+        else
+        {
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
 
-            string name = permanentManager.name;
+            for (int i = 0; i < PermanentManagers.Length; i++)
+            {
+                MonoBehaviour permanentManager = PermanentManagers[i];
 
-            permanentManager = Instantiate(permanentManager) as MonoBehaviour;
-            permanentManager.name = name;
+                string name = permanentManager.name;
 
-            DontDestroyOnLoad(permanentManager.gameObject);
+                permanentManager = Instantiate(permanentManager) as MonoBehaviour;
+                permanentManager.name = name;
+
+                DontDestroyOnLoad(permanentManager.gameObject);
+            }
         }
     }
 
     void Update()
     {
-        Debug.Log(_isPaused);
         if (!_isPaused && _levelIndex >= FIRST_PLAYABLE_LEVEL_INDEX && InputManager.Instance.GetInputPauseMenu())
         {
             MenusManager.Instance.ShowMenu("PauseMenu");
@@ -75,7 +81,7 @@ public class GameManager : MonoBehaviour
 
     public void RestartLevel()
     {
-        LoadLevel(_levelIndex);
+        StartCoroutine(LoadLevel(_levelIndex));
     }
 
     public void LoadNextLevel()
@@ -94,6 +100,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void LoadMainMenu()
+    {
+        // Loads the character selection screen for now, but it's gonna load the main menu once we have one
+        StartCoroutine(LoadLevel(0));
+    }
+
     private IEnumerator LoadLevel(int levelIndex)
     {
         // Ideally, we want to be able to dynamically instantiate Aspi and Souffli when we load a level, but for now we can't do it elegantly because of the rails
@@ -105,12 +117,15 @@ public class GameManager : MonoBehaviour
 
     void OnLevelWasLoaded(int levelIndex)
     {
+        if (levelIndex >= FIRST_PLAYABLE_LEVEL_INDEX)
+        {
+            GameObject.FindGameObjectWithTag("Souffli").GetComponent<Player>().Number = SouffliPlayerNumber;
+            GameObject.FindGameObjectWithTag("Aspi").GetComponent<Player>().Number = AspiPlayerNumber;
+        }
+
         _levelIndex = levelIndex;
 
         StartCoroutine(FadeOut());
-
-        GameObject.FindGameObjectWithTag("Souffli").GetComponent<Player>().Number = SouffliPlayerNumber;
-        GameObject.FindGameObjectWithTag("Aspi").GetComponent<Player>().Number = AspiPlayerNumber;
     }
 
     private IEnumerator FadeIn()

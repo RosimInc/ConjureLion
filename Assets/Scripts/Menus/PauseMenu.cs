@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class PauseMenu : Menu
 {
@@ -15,9 +16,21 @@ public class PauseMenu : Menu
         GameManager.Instance.Resume();
     }
 
+    public void Restart()
+    {
+        Close();
+        GameManager.Instance.RestartLevel();
+    }
+
+    public void GoToMainMenu()
+    {
+        Close();
+        GameManager.Instance.LoadMainMenu();
+    }
+
     void Update()
     {
-        if (InputManager.Instance.GetInputAccept(1) || InputManager.Instance.GetInputAccept(2) || InputManager.Instance.GetInputPauseMenu())
+        if (InputManager.Instance.GetInputPauseMenu())
         {
             // TODO: Call the close by the MenusManager so it can manage its current menu and everything else
             Close();

@@ -120,14 +120,43 @@ public class InputManager : MonoBehaviour
         return new Vector2(GetXStickValue(Actions.Rotate, playerNumber - 1), GetYStickValue(Actions.Rotate, playerNumber - 1));
     }
 
-    public bool GetInputMenuUp(int playerNumber)
+    public bool GetInputMenuUp()
     {
-        return GetYStickValue(Actions.Rotate, playerNumber - 1) > 0f;
+        for (int i = 0; i < PLAYER_AMOUNT; i++)
+        {
+            if (GetYStickValue(Actions.Move, i) > 0.5f)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
-    public bool GetInputMenuDown(int playerNumber)
+    public bool GetInputMenuDown()
     {
-        return GetYStickValue(Actions.Rotate, playerNumber - 1) < 0f;
+        for (int i = 0; i < PLAYER_AMOUNT; i++)
+        {
+            if (GetYStickValue(Actions.Move, i) < -0.5f)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public bool GetInputMenuAccept()
+    {
+        for (int i = 0; i < PLAYER_AMOUNT; i++)
+        {
+            if (GetButtonDownState(Actions.Accept, i))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     #endregion

@@ -39,7 +39,6 @@ public class MenusManager : MonoBehaviour
         }
 
         _currentMenu = _cachedMenus[name];
-        _currentMenu.gameObject.SetActive(false);
 
         _currentMenu.Open();
     }
