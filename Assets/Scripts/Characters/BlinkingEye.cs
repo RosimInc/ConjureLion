@@ -16,7 +16,7 @@ public class BlinkingEye : MonoBehaviour
 
 	void Update ()
 	{
-		if (UnityEngine.Random.Range(0f, 1f) < 0.005f && !_isBlinking)
+		if (UnityEngine.Random.Range(0f, 1f) < 0.01f && !_isBlinking)
 		{
 			StartCoroutine(Blink());
 		}

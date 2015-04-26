@@ -7,7 +7,6 @@ public abstract class BrokenRobot : MonoBehaviour
 	public ParticleSystem WindParticles;
 	public float MinimumParticlesVelocity;
 	public float MaximumParticlesVelocity;
-	public Transform Body;
 
 	protected bool _isActivated = false;
 
