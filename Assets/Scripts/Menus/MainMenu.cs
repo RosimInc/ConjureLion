@@ -13,9 +13,9 @@ public class MainMenu : Menu
         gameObject.SetActive(false);
     }
 
-    public void StartGame()
+    public void ShowMultiplayerModes()
     {
-        GameManager.Instance.LoadNextLevel();
+        MenusManager.Instance.ShowMenu("MultiplayerModesMenu");
     }
 
     public void ShowControlsMenu()

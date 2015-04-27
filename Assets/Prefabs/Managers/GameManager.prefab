@@ -79,6 +79,7 @@ MonoBehaviour:
   - {fileID: 11494476, guid: e70760f27cb1fa64687f50c865724c88, type: 2}
   - {fileID: 11485956, guid: 236b975001f931942afc3786d70cded1, type: 2}
   - {fileID: 11483988, guid: 653bf732e139dea4bb5c86891dc73244, type: 2}
+  - {fileID: 11455502, guid: 8ed01d2c4ef3aee488dec31298dddff5, type: 2}
   LevelTransitionImage: {fileID: 11496924}
 --- !u!114 &11496920
 MonoBehaviour:

@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using System;
-
+using UnityEngine.EventSystems;
 
 public class MenuButton : Button
 {
@@ -27,9 +27,21 @@ public class MenuButton : Button
 
     public override void OnDeselect(UnityEngine.EventSystems.BaseEventData eventData)
     {
+        
         base.OnDeselect(eventData);
 
         LeftSelectorImage.gameObject.SetActive(false);
         RightSelectorImage.gameObject.SetActive(false);
+    }
+
+    void Update()
+    {
+        Debug.Log(EventSystem.current.IsPointerOverGameObject());
+    }
+
+    public override void OnPointerEnter(PointerEventData eventData)
+    {
+        base.OnPointerEnter(eventData);
+        Debug.Log("abcd");
     }
 }

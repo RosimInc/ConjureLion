@@ -31,6 +31,11 @@ public class MenusManager : MonoBehaviour
 
     public void ShowMenu(string name)
     {
+        if (_currentMenu != null)
+        {
+            _currentMenu.Close();
+        }
+
         if (!_cachedMenus.ContainsKey(name) || _cachedMenus[name] == null)
         {
             _cachedMenus[name] = Instantiate(_menus[name], Vector3.zero, Quaternion.identity) as Menu;

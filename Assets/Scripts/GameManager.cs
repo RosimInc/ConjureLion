@@ -96,6 +96,10 @@ public class GameManager : MonoBehaviour
         {
             StartCoroutine(LoadLevel(_levelIndex + 1));
         }
+        else
+        {
+            StartCoroutine(LoadLevel(0));
+        }
     }
 
     public void LoadPreviousLevel()

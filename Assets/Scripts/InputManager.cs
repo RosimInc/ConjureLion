@@ -159,6 +159,19 @@ public class InputManager : MonoBehaviour
         return false;
     }
 
+    public bool GetInputMenuBack()
+    {
+        for (int i = 0; i < PLAYER_AMOUNT; i++)
+        {
+            if (GetButtonDownState(Actions.Back, i))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     #endregion
 
     #region Helper Methods
