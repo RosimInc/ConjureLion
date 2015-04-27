@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MainMenu : MonoBehaviour
+public class Tutorial : MonoBehaviour
 {
     private int _ballNumber = 0;
 

@@ -53,4 +53,13 @@ public class MenusManager : MonoBehaviour
             }
         }
     }
+
+    void OnLevelWasLoaded(int levelIndex)
+    {
+        // When we load a new level, we close currently active menu if it's still open
+        if (_currentMenu != null)
+        {
+            _currentMenu.Close();
+        }
+    }
 }

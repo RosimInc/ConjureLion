@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
 
     private int _levelIndex = 0;
 
-    private const int FIRST_PLAYABLE_LEVEL_INDEX = 1;
+    private const int FIRST_PLAYABLE_LEVEL_INDEX = 2;
     private const float FADE_DURATION = 1.5f;
 
     public static GameManager Instance
@@ -56,6 +56,12 @@ public class GameManager : MonoBehaviour
 
                 DontDestroyOnLoad(permanentManager.gameObject);
             }
+        }
+
+        // If the manager got created in the main menu scene, we load the menu
+        if (_levelIndex == 0)
+        {
+            MenusManager.Instance.ShowMenu("MainMenu");
         }
     }
 
@@ -102,7 +108,6 @@ public class GameManager : MonoBehaviour
 
     public void LoadMainMenu()
     {
-        // Loads the character selection screen for now, but it's gonna load the main menu once we have one
         StartCoroutine(LoadLevel(0));
     }
 
@@ -117,7 +122,12 @@ public class GameManager : MonoBehaviour
 
     void OnLevelWasLoaded(int levelIndex)
     {
-        if (levelIndex >= FIRST_PLAYABLE_LEVEL_INDEX)
+        // If we just loaded the main menu
+        if (levelIndex == 0)
+        {
+            MenusManager.Instance.ShowMenu("MainMenu");
+        }
+        else if (levelIndex >= FIRST_PLAYABLE_LEVEL_INDEX)
         {
             GameObject.FindGameObjectWithTag("Souffli").GetComponent<Player>().Number = SouffliPlayerNumber;
             GameObject.FindGameObjectWithTag("Aspi").GetComponent<Player>().Number = AspiPlayerNumber;

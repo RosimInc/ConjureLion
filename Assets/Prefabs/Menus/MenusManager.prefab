@@ -40,6 +40,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Menus:
+  - {fileID: 11460396, guid: 38b691a6516113d4fb0999ac0a6f257f, type: 2}
   - {fileID: 11496912, guid: 7f84d8be954041644a0d0f7f29252086, type: 2}
 --- !u!1001 &100100000
 Prefab:
