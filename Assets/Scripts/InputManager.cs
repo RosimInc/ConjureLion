@@ -84,6 +84,8 @@ public class InputManager : MonoBehaviour
 
     public bool GetInputPauseMenu()
     {
+        if (GameManager.Instance.IsInBackground) return false;
+
         for (int i = 0; i < PLAYER_AMOUNT; i++)
         {
             if (GetButtonUpState(Actions.PauseMenu, i))
@@ -97,31 +99,33 @@ public class InputManager : MonoBehaviour
 
     public bool GetInputAccept(int playerNumber)
     {
-        return GetButtonUpState(Actions.Accept, playerNumber - 1);
+        return GameManager.Instance.IsInBackground ? false : GetButtonUpState(Actions.Accept, playerNumber - 1);
     }
 
     public bool GetInputBack(int playerNumber)
     {
-        return GetButtonUpState(Actions.Back, playerNumber - 1);
+        return GameManager.Instance.IsInBackground ? false : GetButtonUpState(Actions.Back, playerNumber - 1);
     }
 
     public float GetInputBreathAction(int playerNumber)
     {
-        return GetTriggerValue(Actions.BreathAction, playerNumber - 1);
+        return GameManager.Instance.IsInBackground ? 0f : GetTriggerValue(Actions.BreathAction, playerNumber - 1);
     }
 
     public Vector2 GetInputMovement(int playerNumber)
     {
-        return new Vector2(GetXStickValue(Actions.Move, playerNumber - 1), GetYStickValue(Actions.Move, playerNumber - 1));
+        return GameManager.Instance.IsInBackground ? Vector2.zero : new Vector2(GetXStickValue(Actions.Move, playerNumber - 1), GetYStickValue(Actions.Move, playerNumber - 1));
     }
 
     public Vector2 GetInputRotation(int playerNumber)
     {
-        return new Vector2(GetXStickValue(Actions.Rotate, playerNumber - 1), GetYStickValue(Actions.Rotate, playerNumber - 1));
+        return GameManager.Instance.IsInBackground ? Vector2.zero : new Vector2(GetXStickValue(Actions.Rotate, playerNumber - 1), GetYStickValue(Actions.Rotate, playerNumber - 1));
     }
 
     public bool GetInputMenuUp()
     {
+        if (GameManager.Instance.IsInBackground) return false;
+
         for (int i = 0; i < PLAYER_AMOUNT; i++)
         {
             if (GetYStickValue(Actions.Move, i) > 0.5f)
@@ -135,6 +139,8 @@ public class InputManager : MonoBehaviour
 
     public bool GetInputMenuDown()
     {
+        if (GameManager.Instance.IsInBackground) return false;
+
         for (int i = 0; i < PLAYER_AMOUNT; i++)
         {
             if (GetYStickValue(Actions.Move, i) < -0.5f)
@@ -148,6 +154,8 @@ public class InputManager : MonoBehaviour
 
     public bool GetInputMenuAccept()
     {
+        if (GameManager.Instance.IsInBackground) return false;
+
         for (int i = 0; i < PLAYER_AMOUNT; i++)
         {
             if (GetButtonDownState(Actions.Accept, i))
@@ -161,6 +169,8 @@ public class InputManager : MonoBehaviour
 
     public bool GetInputMenuBack()
     {
+        if (GameManager.Instance.IsInBackground) return false;
+
         for (int i = 0; i < PLAYER_AMOUNT; i++)
         {
             if (GetButtonDownState(Actions.Back, i))

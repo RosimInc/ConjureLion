@@ -1,18 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 [RequireComponent(typeof(NetworkView))]
 public class NetworkManager : MonoBehaviour
 {
-    private float btnX;
-    private float btnY;
-    private float btnW;
-    private float btnH;
-
     private bool _isRefreshingHostList = false;
     private HostData[] _hostDataList;
 
     private const string _gameName = "ETS_ABoutDeSouffle";
+    private const int _playerCount = 2;
+    private const int _port = 25001;
+    private const float _refreshTimeout = 2f;
+
+    private Action _onConnectedToGameCallback;
+    private Action _onGameListRefreshedCallback;
+    private Action _onGameCreatedCallback;
+
+    private float _refreshElapsedTime = 0f;
+
 
     public bool IsInAGame
     {
@@ -26,8 +32,6 @@ public class NetworkManager : MonoBehaviour
         get { return _instance; }
     }
 
-    public Player PlayerTest;
-
     void Awake()
     {
         _instance = this;
@@ -35,68 +39,106 @@ public class NetworkManager : MonoBehaviour
         _hostDataList = new HostData[0];
     }
 
-    void Start()
-    {
-        btnX = Screen.width * 0.05f;
-        btnY = Screen.width * 0.05f;
-        btnW = Screen.width * 0.1f;
-        btnH = Screen.width * 0.1f;
-    }
-
     void Update()
     {
+        // TODO: Transfer that code into a coroutine
+
         if (_isRefreshingHostList)
         {
+            _refreshElapsedTime += Time.deltaTime;
+
             _hostDataList = MasterServer.PollHostList();
 
             if (_hostDataList.Length > 0)
             {
                 _isRefreshingHostList = false;
-                Debug.Log(MasterServer.PollHostList().Length);
+
+                Debug.Log("Found available games");
+
+                if (_onGameListRefreshedCallback != null)
+                {
+                    _onGameListRefreshedCallback();
+                    _onGameListRefreshedCallback = null;
+                }
             }
-            
+            else if (_refreshElapsedTime >= _refreshTimeout)
+	        {
+		        // TODO: Tell the player that no games have been found.
+
+                Debug.Log("No games have been found");
+
+                _isRefreshingHostList = false;
+
+                _onGameListRefreshedCallback = null;
+	        }
         }
     }
 
-    void StartServer()
+    public void CreateGame(Action callback)
     {
-        Network.InitializeServer(4, 25001, !Network.HavePublicAddress());
-        MasterServer.RegisterHost(_gameName, "Game Test 1", "This is a test lobby for \"À bout de souffle \"");
+        Network.InitializeServer(_playerCount, _port, !Network.HavePublicAddress());
+        MasterServer.RegisterHost(_gameName, "Game Test 1", "This is a test lobby");
+
+        _onGameCreatedCallback += callback;
     }
 
-    private void RefreshHostList()
+    public void JoinGame(HostData game, Action callback)
     {
+        // TODO: Verify if the game is still available and put a "Waiting..." popup meanwhile
+        // TODO: Verify that the game is not full
+        Network.Connect(game);
+        _onConnectedToGameCallback += callback;
+    }
+
+    public void RefreshGames(Action callback)
+    {
+        _onGameListRefreshedCallback += callback;
+
         MasterServer.RequestHostList(_gameName);
         _isRefreshingHostList = true;
     }
 
-    void OnServerInitialized()
-    {
-        Debug.Log("Server Initialized");
-    }
-
     void OnMasterServerEvent(MasterServerEvent mse)
     {
+        Debug.Log("abc");
+
         if (mse == MasterServerEvent.RegistrationSucceeded)
         {
 //            GameManager.Instance.GetPlayerAt(0).SpawnCharacter(GameManager.MultiplayerModes.Online);
+            Debug.Log("The game has been created. Waiting for players to connect.");
+
+            if (_onGameCreatedCallback != null)
+            {
+                _onGameCreatedCallback();
+            }
         }
+
+        if (mse != MasterServerEvent.HostListReceived)
+	    {
+            _onGameCreatedCallback = null;
+	    }
     }
 
     void OnConnectedToServer()
     {
         //PlayerTest.SelectedCharacter.InstantiateInput();
+
+        _onConnectedToGameCallback();
+
+        Debug.Log("Connected to game");
+
+        _onConnectedToGameCallback = null;
     }
 
     void OnGUI()
     {
-        return;
+        /*
         if (!Network.isClient && !Network.isServer)
         {
             if (GUI.Button(new Rect(btnX, btnY, btnW, btnH), "Start Server"))
             {
                 Debug.Log("Starting Server");
-                StartServer();
+                //StartServer();
             }
 
             if (GUI.Button(new Rect(btnX, btnY * 1.2f + btnH, btnW, btnH), "Refresh Hosts"))
@@ -114,7 +156,12 @@ public class NetworkManager : MonoBehaviour
                     Network.Connect(hostData);
                 }
             }
-        }
+        }*/
+    }
+
+    public HostData[] GetGameInstances()
+    {
+        return _hostDataList;
     }
 
     // Wrapper so that only NetworkManager interacts directly with the RPC interface

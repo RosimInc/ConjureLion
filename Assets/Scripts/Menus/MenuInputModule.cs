@@ -43,8 +43,10 @@ public class MenuInputModule : BaseInputModule
         ProcessMouseSelect();
     }
 
-    private void SelectFirstButton()
+    public void SelectFirstButton()
     {
+        if (Buttons.Length == 0) return;
+
         if (_buttonIndex != 0)
         {
             ExecuteEvents.Execute(Buttons[_buttonIndex].gameObject, new BaseEventData(eventSystem), ExecuteEvents.deselectHandler);

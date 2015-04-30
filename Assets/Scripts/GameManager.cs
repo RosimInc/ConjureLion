@@ -34,6 +34,14 @@ public class GameManager : MonoBehaviour
         get { return _isPaused; }
     }
 
+    private bool _isInBackground;
+
+    public bool IsInBackground
+    {
+        get { return _isInBackground; }
+    }
+    
+
     void Awake()
     {
         if (_instance)
@@ -57,6 +65,8 @@ public class GameManager : MonoBehaviour
                 DontDestroyOnLoad(permanentManager.gameObject);
             }
         }
+
+        Application.runInBackground = false;
 
         // If the manager got created in the main menu scene, we load the menu
         if (_levelIndex == 0)
@@ -196,5 +206,10 @@ public class GameManager : MonoBehaviour
     {
         _isPaused = false;
         Time.timeScale = 1;
+    }
+
+    void OnApplicationFocus(bool focusStatus)
+    {
+        _isInBackground = !focusStatus;
     }
 }

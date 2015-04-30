@@ -34,14 +34,20 @@ public class MenuButton : Button
         RightSelectorImage.gameObject.SetActive(false);
     }
 
+    /*
     void Update()
     {
         Debug.Log(EventSystem.current.IsPointerOverGameObject());
-    }
+    }*/
 
     public override void OnPointerEnter(PointerEventData eventData)
     {
         base.OnPointerEnter(eventData);
         Debug.Log("abcd");
+    }
+
+    public void SetText(string text)
+    {
+        GetComponentInChildren<Text>().text = text;
     }
 }

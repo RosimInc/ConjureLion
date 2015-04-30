@@ -20,7 +20,7 @@ public class MultiplayerModesMenu : Menu
 
     public void PlayOnline()
     {
-
+        MenusManager.Instance.ShowMenu("OnlineOptionsMenu");
     }
 
     void Update()
