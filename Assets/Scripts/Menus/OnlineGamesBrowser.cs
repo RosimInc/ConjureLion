@@ -21,7 +21,6 @@ public class OnlineGamesBrowser : Menu
 
     void OnEnable()
     {
-        Debug.Log("Enabled");
         RefreshGames();
     }
 
@@ -50,10 +49,17 @@ public class OnlineGamesBrowser : Menu
 
             gameButton.SetText(game.gameName);
 
+            gameButton.onClick.AddListener(() => { JoinSelectedGame(game); });
+
             InputModule.Buttons[i] = gameButton;
         }
 
         InputModule.SelectFirstButton();
+    }
+
+    private void JoinSelectedGame(HostData game)
+    {
+        NetworkManager.Instance.JoinGame(game, GameManager.Instance.LoadNextLevel);
     }
 
     void Update()

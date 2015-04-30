@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        Application.runInBackground = false;
+        Application.runInBackground = true;
 
         // If the manager got created in the main menu scene, we load the menu
         if (_levelIndex == 0)

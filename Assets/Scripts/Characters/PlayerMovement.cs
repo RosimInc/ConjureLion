@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(Player))]
 public class PlayerMovement : MonoBehaviour
@@ -14,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
 	public float speed = 1f;
 	public float defaultProgress = 0f;
 	public GameObject fix;
+
 	private float progress;
     private float _previousProgress;
 

@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Reflection;
 
 // Implemententation based on the following material: http://gafferongames.com/networked-physics/snapshots-and-interpolation/
+
+// Gamasutra article: http://www.gamasutra.com/blogs/DarrelCusey/20130221/187128/Unity_Networking_Sample_Using_One_NetworkView.php
 
 // Snapshot and interpolation technique
 
@@ -14,6 +17,7 @@ public class SnapshotInterpolation : MonoBehaviour
         public double timestamp;
         public Vector2 position;
         public bool facingRight;
+        public float progress;
     }
 
     void Awake()
@@ -26,6 +30,19 @@ public class SnapshotInterpolation : MonoBehaviour
 
         // Since the sent data size is 9 bit (2 floats + 1 bool), we are sending 540 bits/sec per character
         Network.sendRate = 60;
+
+        if (Network.isServer)
+        {
+            Debug.Log("IS SERVER!!!");
+            NetworkViewID viewID = Network.AllocateViewID();
+        }
+    }
+
+    [RPC]
+    void SpawnObject(NetworkViewID viewID)
+    {
+        //Debug.Log("Spawning game object");
+        this.GetComponent<NetworkView>().viewID = viewID;
     }
 
     // Called by remote clients
@@ -33,6 +50,8 @@ public class SnapshotInterpolation : MonoBehaviour
     {
         if (Network.isServer)
         {
+            networkView.RPC("SpawnObject", RPCMode.AllBuffered, networkView.viewID);
+
             return;
         }
 
@@ -90,6 +109,7 @@ public class SnapshotInterpolation : MonoBehaviour
                     
                     interpolatedSnapshot.position = Vector3.Lerp(olderSnapshot.position, recentSnapshot.position, t);
                     interpolatedSnapshot.facingRight = recentSnapshot.facingRight;
+                    interpolatedSnapshot.progress = Mathf.Lerp(olderSnapshot.progress, recentSnapshot.progress, t);
 
                     UpdateTransform(interpolatedSnapshot);
 
@@ -132,10 +152,13 @@ public class SnapshotInterpolation : MonoBehaviour
 
     private void UpdateTransform(Snapshot snapshot)
     {
+        /*
         float xScale = snapshot.facingRight ? Mathf.Abs(transform.localScale.x) : -Mathf.Abs(transform.localScale.x);
 
         transform.localScale = new Vector3(xScale, transform.localScale.y, transform.localScale.z);
-        transform.localPosition = snapshot.position;
+        transform.localPosition = snapshot.position;*/
+
+        transform.gameObject.GetComponent<PlayerMovement>().Progress = snapshot.progress;
     }
 
     // Called by the server
@@ -144,6 +167,7 @@ public class SnapshotInterpolation : MonoBehaviour
         float positionX = 0f; // 4 bits
         float positionY = 0f; // 4 bits
         bool facingRight = false; // 1 bit
+        float progress = 0f;
 
         if (stream.isWriting)
         {
@@ -152,10 +176,14 @@ public class SnapshotInterpolation : MonoBehaviour
             positionX = transform.localPosition.x;
             positionY = transform.localPosition.y;
             facingRight = transform.localScale.x > 0;
+            progress = transform.gameObject.GetComponent<PlayerMovement>().Progress;
 
             stream.Serialize(ref positionX); // 4 bits
             stream.Serialize(ref positionY); // 4 bits
             stream.Serialize(ref facingRight); // 1 bit
+            stream.Serialize(ref progress);
+
+            Debug.Log("Sending progress: " + progress);
         }
         else
         {
@@ -164,10 +192,12 @@ public class SnapshotInterpolation : MonoBehaviour
             stream.Serialize(ref positionX); // 4 bits
             stream.Serialize(ref positionY);  // 4 bits
             stream.Serialize(ref facingRight); // 1 bit
+            stream.Serialize(ref progress);
 
             Snapshot snapshot = new Snapshot();
             snapshot.position = new Vector2(positionX, positionY);
             snapshot.facingRight = facingRight;
+            snapshot.progress = progress;
 
             float pingInSeconds = Network.GetAveragePing(Network.connections[0]) * 0.001f;
 

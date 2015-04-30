@@ -86,7 +86,10 @@ public class NetworkManager : MonoBehaviour
     {
         // TODO: Verify if the game is still available and put a "Waiting..." popup meanwhile
         // TODO: Verify that the game is not full
-        Network.Connect(game);
+        Network.Connect(_hostDataList[0]);
+
+        Debug.Log("Joining game...");
+
         _onConnectedToGameCallback += callback;
     }
 
@@ -100,8 +103,6 @@ public class NetworkManager : MonoBehaviour
 
     void OnMasterServerEvent(MasterServerEvent mse)
     {
-        Debug.Log("abc");
-
         if (mse == MasterServerEvent.RegistrationSucceeded)
         {
 //            GameManager.Instance.GetPlayerAt(0).SpawnCharacter(GameManager.MultiplayerModes.Online);
@@ -123,7 +124,10 @@ public class NetworkManager : MonoBehaviour
     {
         //PlayerTest.SelectedCharacter.InstantiateInput();
 
-        _onConnectedToGameCallback();
+        if (_onConnectedToGameCallback != null)
+        {
+            _onConnectedToGameCallback();
+        }
 
         Debug.Log("Connected to game");
 

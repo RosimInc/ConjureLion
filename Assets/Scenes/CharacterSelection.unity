@@ -9571,6 +9571,8 @@ GameObject:
   - 50: {fileID: 1993543664}
   - 114: {fileID: 1993543663}
   - 114: {fileID: 1993543662}
+  - 148: {fileID: 1993543661}
+  - 114: {fileID: 1993543660}
   m_Layer: 13
   m_Name: Souffli1
   m_TagString: Untagged
@@ -9592,6 +9594,29 @@ Transform:
   - {fileID: 497342331}
   m_Father: {fileID: 1623043900}
   m_RootOrder: 2
+--- !u!114 &1993543660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1993543658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a12b0aa90106c54482a4045ee4046fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!148 &1993543661
+NetworkView:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1993543658}
+  m_Enabled: 1
+  m_StateSynchronization: 2
+  m_Observed: {fileID: 1993543660}
+  m_ViewID:
+    m_ID: 1
+    m_Type: 1
 --- !u!114 &1993543662
 MonoBehaviour:
   m_ObjectHideFlags: 0
