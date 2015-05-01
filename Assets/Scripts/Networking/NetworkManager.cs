@@ -19,8 +19,7 @@ public class NetworkManager : MonoBehaviour
 
     private float _refreshElapsedTime = 0f;
 
-
-    public bool IsInAGame
+    public bool IsInOnlineGame
     {
         get { return Network.isClient || Network.isServer; }
     }
@@ -71,6 +70,25 @@ public class NetworkManager : MonoBehaviour
 
                 _onGameListRefreshedCallback = null;
 	        }
+        }
+    }
+
+    public void ChangeOwnership(int computerID, NetworkViewID viewID)
+    {
+        networkView.RPC("ChangeOwnershipRPC", RPCMode.OthersBuffered, computerID, viewID);
+    }
+
+    [RPC]
+    void ChangeOwnershipRPC(int computerID, NetworkViewID viewID)
+    {
+        SnapshotInterpolation[] snapshots = GameObject.FindObjectsOfType<SnapshotInterpolation>();
+
+        foreach (SnapshotInterpolation snapshot in snapshots)
+        {
+            if (snapshot.Player.ComputerID == computerID)
+            {
+                snapshot.networkView.viewID = viewID;
+            }
         }
     }
 
@@ -134,35 +152,6 @@ public class NetworkManager : MonoBehaviour
         _onConnectedToGameCallback = null;
     }
 
-    void OnGUI()
-    {
-        /*
-        if (!Network.isClient && !Network.isServer)
-        {
-            if (GUI.Button(new Rect(btnX, btnY, btnW, btnH), "Start Server"))
-            {
-                Debug.Log("Starting Server");
-                //StartServer();
-            }
-
-            if (GUI.Button(new Rect(btnX, btnY * 1.2f + btnH, btnW, btnH), "Refresh Hosts"))
-            {
-                Debug.Log("Refreshing Hosts");
-                RefreshHostList();
-            }
-
-            for (int i = 0; i < _hostDataList.Length; i++)
-            {
-                HostData hostData = _hostDataList[i];
-
-                if (GUI.Button(new Rect(btnX * 1.5f + btnW, btnY * 1.2f + (btnH * i), btnW * 3f, btnH * 0.5f), hostData.gameName))
-                {
-                    Network.Connect(hostData);
-                }
-            }
-        }*/
-    }
-
     public HostData[] GetGameInstances()
     {
         return _hostDataList;
@@ -184,6 +173,7 @@ public class NetworkManager : MonoBehaviour
         networkView.RPC("OnAttackInput", RPCMode.AllBuffered, playerID);
     }
 
+    /*
     [RPC]
     void OnJumpInput(int playerID)
     {
@@ -202,5 +192,5 @@ public class NetworkManager : MonoBehaviour
     void OnAttackInput(int playerID)
     {
 //        GameManager.Instance.GetPlayerAt(playerID).SelectedCharacter.Attack();
-    }
+    }*/
 }

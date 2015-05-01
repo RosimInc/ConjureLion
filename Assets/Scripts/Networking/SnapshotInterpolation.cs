@@ -3,61 +3,116 @@ using System.Collections;
 using System.Reflection;
 
 // Implemententation based on the following material: http://gafferongames.com/networked-physics/snapshots-and-interpolation/
+// Gamasutra article (not used yet): http://www.gamasutra.com/blogs/DarrelCusey/20130221/187128/Unity_Networking_Sample_Using_One_NetworkView.php
 
-// Gamasutra article: http://www.gamasutra.com/blogs/DarrelCusey/20130221/187128/Unity_Networking_Sample_Using_One_NetworkView.php
-
-// Snapshot and interpolation technique
-
-public class SnapshotInterpolation : MonoBehaviour
+/*
+ * This class uses a variation "Template Method" design pattern to manage all the interpolation and snapshots
+ * buffering needs between the client and the server. This uses the Snapshots and Interpolation technique with a buffer to reduce the visual lag.
+ * 
+ * To use this class, you must first inherit it and implement the 3 methods UpdateData, SendData and ParseReceivedData. You must also inherit the
+ * Snapshot class and add the data you want to send and receive over the network.
+ * 
+ * The main template method InterpolateBufferSnapshots does the heavy lifting with the operation UpdateData,
+ * while the method OnSerializeNetworkView uses SendData and ParseReceivedData to serialize and parse data over the network.
+ */
+public abstract class SnapshotInterpolation : MonoBehaviour
 {
-    private Snapshot[] _snapshotBuffer = new Snapshot[99];
+    public Player Player;
 
-    private class Snapshot
+    /// <summary>
+    /// Class to be completed in the implementations
+    /// </summary>
+    public class Snapshot
     {
         public double timestamp;
-        public Vector2 position;
-        public bool facingRight;
-        public float progress;
     }
+
+    protected Snapshot[] _snapshotBuffer = new Snapshot[99];
+
+    /*
+    // Needs to be unique per child in the scene
+
+    protected abstract string RPCCallName { get; }*/
+
+    // Operations
+    protected abstract void UpdateData(Snapshot olderSnapshot, Snapshot recentSnapshot, float interpolationRatio);
+    protected abstract void SendData(BitStream stream);
+    protected abstract Snapshot ParseReceivedData(BitStream stream);
 
     void Awake()
     {
-        /*
-         * Size of a character over the network: 4*2 + 1 = 9 bits
-         * Data sent per second, per character: 9*60 = 540 bits/sec
-         * Data sent per second, for 4 characters: 540*4 = 2160 bits/sec or 2.16 kbits/sec
-         */
+        if (networkView == null)
+        {
+            gameObject.AddComponent<NetworkView>();
+        }
 
-        // Since the sent data size is 9 bit (2 floats + 1 bool), we are sending 540 bits/sec per character
+        // We send the data 60 times per second
         Network.sendRate = 60;
+
+        networkView.observed = this;
+        networkView.stateSynchronization = NetworkStateSynchronization.Unreliable;
 
         if (Network.isServer)
         {
-            Debug.Log("IS SERVER!!!");
-            NetworkViewID viewID = Network.AllocateViewID();
+            if (Player.Number == 1)
+            {
+                //networkView.viewID = Network.AllocateViewID();
+                Player.ComputerID = 0;
+                //NetworkManager.Instance.ChangeOwnership(Player.ComputerID, networkView.viewID);
+            }
+            else
+            {
+                Player.Number = -1;
+                Player.ComputerID = 1;
+            }
         }
-    }
-
-    [RPC]
-    void SpawnObject(NetworkViewID viewID)
-    {
-        //Debug.Log("Spawning game object");
-        this.GetComponent<NetworkView>().viewID = viewID;
+        else if (Network.isClient)
+        {
+            if (Player.Number == 2)
+            {
+                networkView.viewID = Network.AllocateViewID();
+                Player.Number = 1;
+                Player.ComputerID = 1;
+                NetworkManager.Instance.ChangeOwnership(Player.ComputerID, networkView.viewID);
+            }
+            else
+            {
+                Player.Number = -1;
+                Player.ComputerID = 0;
+            }
+        }
     }
 
     // Called by remote clients
-    void Update()
+    protected void Update()
     {
+        /*
+        // TODO: Only send when a player connects
         if (Network.isServer)
         {
             networkView.RPC("SpawnObject", RPCMode.AllBuffered, networkView.viewID);
-
-            return;
         }
+        else
+        {
+            InterpolateBufferSnapshots();
+        }*/
 
-        InterpolateBufferSnapshots();
+        if (!networkView.isMine)
+        {
+            InterpolateBufferSnapshots();
+        }
     }
 
+    /*
+    [RPC]
+    void SpawnObject(NetworkViewID viewID)
+    {
+        networkView.viewID = viewID;
+    }*/
+
+    /// <summary>
+    /// Main template method
+    /// </summary>
     private void InterpolateBufferSnapshots()
     {
         if (_snapshotBuffer[0] == null)
@@ -81,7 +136,7 @@ public class SnapshotInterpolation : MonoBehaviour
                 {
                     Snapshot interpolatedSnapshot = new Snapshot();
 
-                    UpdateTransform(_snapshotBuffer[i - 1]);
+                    UpdateData(_snapshotBuffer[i - 1], _snapshotBuffer[i - 1], 1);
 
                     return;
                 }
@@ -105,109 +160,38 @@ public class SnapshotInterpolation : MonoBehaviour
                     }
 
                     Snapshot interpolatedSnapshot = new Snapshot();
-
-                    
-                    interpolatedSnapshot.position = Vector3.Lerp(olderSnapshot.position, recentSnapshot.position, t);
-                    interpolatedSnapshot.facingRight = recentSnapshot.facingRight;
-                    interpolatedSnapshot.progress = Mathf.Lerp(olderSnapshot.progress, recentSnapshot.progress, t);
-
-                    UpdateTransform(interpolatedSnapshot);
-
-                    // Possible Cubic Hermite Spline implementation, but not needed for now
-
-                    /*
-                    Vector3 p0 = olderSnapshot.position;
-                    Vector3 p1 = recentSnapshot.position;
-                    Vector3 v0 = olderSnapshot.velocity;
-                    Vector3 v1 = recentSnapshot.velocity;
-
-                    float h00 = (t * t) * (2 * t - 3) + 1;
-                    float h10 = (t * t) * (t - 2) + t;
-                    float h01 = (t * t) * (-2 * t + 3);
-                    float h11 = (t * t) * (t - 1);
-
-
-                    p0 *= 1000;
-                    p1 *= 1000;
-
-                    Vector3 position = h00 * p0 + h10 * v0 + h01 * p1 + h11 * v1;
-
-                    position /= 1000;
-
-                    interpolatedSnapshot.position = position;
-                    interpolatedSnapshot.facingRight = recentSnapshot.facingRight;
-
-                    UpdateTransform(interpolatedSnapshot);*/
-
+                    UpdateData(olderSnapshot, recentSnapshot, t);
                     return;
                 }
             }
         }
         else
         {
-            // We extrapolate by using the data we have from the last snapshot we received
-            UpdateTransform(_snapshotBuffer[0]);
+            // We extrapolate by using the data we have from the last snapshot we received, but we don't interpolate
+            UpdateData(_snapshotBuffer[0], _snapshotBuffer[0], 1);
         }
     }
 
-    private void UpdateTransform(Snapshot snapshot)
-    {
-        /*
-        float xScale = snapshot.facingRight ? Mathf.Abs(transform.localScale.x) : -Mathf.Abs(transform.localScale.x);
-
-        transform.localScale = new Vector3(xScale, transform.localScale.y, transform.localScale.z);
-        transform.localPosition = snapshot.position;*/
-
-        transform.gameObject.GetComponent<PlayerMovement>().Progress = snapshot.progress;
-    }
-
-    // Called by the server
     void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info)
     {
-        float positionX = 0f; // 4 bits
-        float positionY = 0f; // 4 bits
-        bool facingRight = false; // 1 bit
-        float progress = 0f;
-
         if (stream.isWriting)
         {
             // Outgoing data
-
-            positionX = transform.localPosition.x;
-            positionY = transform.localPosition.y;
-            facingRight = transform.localScale.x > 0;
-            progress = transform.gameObject.GetComponent<PlayerMovement>().Progress;
-
-            stream.Serialize(ref positionX); // 4 bits
-            stream.Serialize(ref positionY); // 4 bits
-            stream.Serialize(ref facingRight); // 1 bit
-            stream.Serialize(ref progress);
-
-            Debug.Log("Sending progress: " + progress);
+            SendData(stream);
         }
         else
         {
             // Incoming data
-
-            stream.Serialize(ref positionX); // 4 bits
-            stream.Serialize(ref positionY);  // 4 bits
-            stream.Serialize(ref facingRight); // 1 bit
-            stream.Serialize(ref progress);
-
-            Snapshot snapshot = new Snapshot();
-            snapshot.position = new Vector2(positionX, positionY);
-            snapshot.facingRight = facingRight;
-            snapshot.progress = progress;
-
-            float pingInSeconds = Network.GetAveragePing(Network.connections[0]) * 0.001f;
+            Snapshot snapshot = ParseReceivedData(stream);
 
             // We delay the buffer by 50% of the current ping average
+            float pingInSeconds = Network.GetAveragePing(Network.connections[0]) * 0.001f;
             snapshot.timestamp = info.timestamp - pingInSeconds / 2;
 
             InsertSnapshot(snapshot);
         }
     }
-
+    
     private void InsertSnapshot(Snapshot snapshot)
     {
         int index = 0;

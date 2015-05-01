@@ -5095,6 +5095,8 @@ GameObject:
   - 50: {fileID: 1022032472}
   - 114: {fileID: 1022032471}
   - 114: {fileID: 1022032470}
+  - 148: {fileID: 1022032469}
+  - 114: {fileID: 1022032468}
   m_Layer: 13
   m_Name: Souffli2
   m_TagString: Untagged
@@ -5102,6 +5104,31 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1022032468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1022032467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3596bf5bba526d04996ced3f056a7bf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Player: {fileID: 1022032471}
+  PlayerMovement: {fileID: 1022032470}
+--- !u!148 &1022032469
+NetworkView:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1022032467}
+  m_Enabled: 1
+  m_StateSynchronization: 2
+  m_Observed: {fileID: 1022032468}
+  m_ViewID:
+    m_ID: 2
+    m_Type: 1
 --- !u!114 &1022032470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8015,6 +8042,10 @@ Prefab:
       propertyPath: BrokenAspi
       value: 
       objectReference: {fileID: 1756085040}
+    - target: {fileID: 11415078, guid: d4e4d8811369d6c44b4907d756c9d03f, type: 2}
+      propertyPath: Number
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d4e4d8811369d6c44b4907d756c9d03f, type: 2}
   m_RootGameObject: {fileID: 1623043899}
@@ -9602,9 +9633,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1993543658}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a12b0aa90106c54482a4045ee4046fb, type: 3}
+  m_Script: {fileID: 11500000, guid: 3596bf5bba526d04996ced3f056a7bf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Player: {fileID: 1993543663}
+  PlayerMovement: {fileID: 1993543662}
 --- !u!148 &1993543661
 NetworkView:
   m_ObjectHideFlags: 0
