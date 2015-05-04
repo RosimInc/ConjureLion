@@ -238,7 +238,7 @@ public class InputManager : MonoBehaviour
 
         GamePadState previousState = _gamePadPreviousStates[playerIndex];
         GamePadState state = _gamePadStates[playerIndex];
-
+        
         switch (button)
         {
             case Buttons.Start:
