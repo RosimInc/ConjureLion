@@ -4,14 +4,16 @@ using System.Collections;
 namespace InputHandling
 {
     // Specific to the game
-    public class GameplayContext : InputContext
+    public class CharacterSelectionContext : InputContext
     {
         // TODO: Pull that data from a config or XML file for easy configuration and load the file in InputContext instead of having inheritance
         // TODO: Maybe divide ranges between Triggers (1 float value) and sticks (2 float values) ?
 
-        public GameplayContext() : base()
+        public CharacterSelectionContext()
+            : base()
         {
-            _mappedButtons.Add(InputConstants.Buttons.Start, ActionsConstants.Actions.OpenPauseMenu);
+            _mappedButtons.Add(InputConstants.Buttons.Start, ActionsConstants.Actions.StartPlaying);
+            _mappedButtons.Add(InputConstants.Buttons.A, ActionsConstants.Actions.ChooseCharacter);
 
             _mappedAxis.Add(InputConstants.Axis.LeftStickX, ActionsConstants.Ranges.MoveX);
             _mappedAxis.Add(InputConstants.Axis.LeftStickY, ActionsConstants.Ranges.MoveY);

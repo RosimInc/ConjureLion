@@ -2,9 +2,11 @@
 using System.Collections;
 using XInputDotNetPure;
 using System;
+using InputHandling;
 
 public class InputManager : MonoBehaviour
 {
+    /*
     [Serializable]
     public struct InputMapping
     {
@@ -14,14 +16,6 @@ public class InputManager : MonoBehaviour
         public Triggers BreathAction;
         public Sticks Move;
         public Sticks Rotate;
-    }
-
-    public static InputManager Instance
-    {
-        get
-        {
-            return _instance;
-        }
     }
 
     #region Inspector Values
@@ -34,286 +28,42 @@ public class InputManager : MonoBehaviour
     public InputMapping Actions;
 
     #endregion
+    */
+
+    public static InputManager Instance
+    {
+        get
+        {
+            return _instance;
+        }
+    }
 
     private static InputManager _instance;
-
-    private bool[] _initialSetupDone;
-    private PlayerIndex[] _playerIndexes;
-    private GamePadState[] _gamePadPreviousStates;
-    private GamePadState[] _gamePadStates;
-
-    private const int PLAYER_AMOUNT = 2;
+    private InputParser _inputParser;
 
     void Awake()
     {
         _instance = this;
-
-        _initialSetupDone = new bool[PLAYER_AMOUNT];
-        _playerIndexes = new PlayerIndex[PLAYER_AMOUNT];
-        _gamePadPreviousStates = new GamePadState[PLAYER_AMOUNT];
-        _gamePadStates = new GamePadState[PLAYER_AMOUNT];
-
-        for (int i = 0; i < PLAYER_AMOUNT; i++)
-        {
-            _gamePadStates[i] = GamePad.GetState(_playerIndexes[i]);
-        }
+        _inputParser = new InputParser();
     }
 
     void Update()
     {
-        for (int i = 0; i < PLAYER_AMOUNT; i++)
-        {
-            _gamePadPreviousStates[i] = _gamePadStates[i];
-            _gamePadStates[i] = GamePad.GetState(_playerIndexes[i]);
-
-            if (!_gamePadPreviousStates[i].IsConnected || !_initialSetupDone[i])
-            {
-                _initialSetupDone[i] = true;
-
-                if (_gamePadStates[i].IsConnected)
-                {
-                    _playerIndexes[i] = (PlayerIndex)i;
-
-                    Debug.Log(string.Format("GamePad {0} is ready", _playerIndexes[i]));
-                }
-            }
-        }
+        _inputParser.ParseRawInput();
     }
 
-    #region Public Methods
-
-    public bool GetInputPauseMenu()
+    public void AddCallback(Action<MappedInput> action)
     {
-        if (GameManager.Instance.IsInBackground) return false;
-
-        for (int i = 0; i < PLAYER_AMOUNT; i++)
-        {
-            if (GetButtonUpState(Actions.PauseMenu, i))
-            {
-                return true;
-            }
-        }
-
-        return false;
+        _inputParser.InputMapper.AddCallback(action);
     }
 
-    public bool GetInputAccept(int playerNumber)
+    public void SetContext(InputContext context)
     {
-        return GameManager.Instance.IsInBackground ? false : GetButtonUpState(Actions.Accept, playerNumber - 1);
+        _inputParser.InputMapper.SetContext(context);
     }
 
-    public bool GetInputBack(int playerNumber)
+    void LateUpdate()
     {
-        return GameManager.Instance.IsInBackground ? false : GetButtonUpState(Actions.Back, playerNumber - 1);
+        _inputParser.InputMapper.ResetInputs();
     }
-
-    public float GetInputBreathAction(int playerNumber)
-    {
-        return GameManager.Instance.IsInBackground ? 0f : GetTriggerValue(Actions.BreathAction, playerNumber - 1);
-    }
-
-    public Vector2 GetInputMovement(int playerNumber)
-    {
-        return GameManager.Instance.IsInBackground ? Vector2.zero : new Vector2(GetXStickValue(Actions.Move, playerNumber - 1), GetYStickValue(Actions.Move, playerNumber - 1));
-    }
-
-    public Vector2 GetInputRotation(int playerNumber)
-    {
-        return GameManager.Instance.IsInBackground ? Vector2.zero : new Vector2(GetXStickValue(Actions.Rotate, playerNumber - 1), GetYStickValue(Actions.Rotate, playerNumber - 1));
-    }
-
-    public bool GetInputMenuUp()
-    {
-        if (GameManager.Instance.IsInBackground) return false;
-
-        for (int i = 0; i < PLAYER_AMOUNT; i++)
-        {
-            if (GetYStickValue(Actions.Move, i) > 0.5f)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public bool GetInputMenuDown()
-    {
-        if (GameManager.Instance.IsInBackground) return false;
-
-        for (int i = 0; i < PLAYER_AMOUNT; i++)
-        {
-            if (GetYStickValue(Actions.Move, i) < -0.5f)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public bool GetInputMenuAccept()
-    {
-        if (GameManager.Instance.IsInBackground) return false;
-
-        for (int i = 0; i < PLAYER_AMOUNT; i++)
-        {
-            if (GetButtonDownState(Actions.Accept, i))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public bool GetInputMenuBack()
-    {
-        if (GameManager.Instance.IsInBackground) return false;
-
-        for (int i = 0; i < PLAYER_AMOUNT; i++)
-        {
-            if (GetButtonDownState(Actions.Back, i))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    #endregion
-
-    #region Helper Methods
-
-    private bool GetButtonDownState(Buttons button, int playerIndex)
-    {
-        bool isActivated = false;
-
-        GamePadState previousState = _gamePadPreviousStates[playerIndex];
-        GamePadState state = _gamePadStates[playerIndex];
-
-        switch (button)
-        {
-            case Buttons.Start:
-                isActivated = previousState.Buttons.Start == ButtonState.Released && state.Buttons.Start == ButtonState.Pressed;
-                break;
-            case Buttons.A:
-                isActivated = previousState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed;
-                break;
-            case Buttons.B:
-                isActivated = previousState.Buttons.B == ButtonState.Released && state.Buttons.B == ButtonState.Pressed;
-                break;
-        }
-
-        return isActivated;
-    }
-
-    private bool GetButtonState(Buttons button, int playerIndex)
-    {
-        bool isActivated = false;
-
-        GamePadState previousState = _gamePadPreviousStates[playerIndex];
-        GamePadState state = _gamePadStates[playerIndex];
-
-        switch (button)
-        {
-            case Buttons.Start:
-                isActivated = previousState.Buttons.Start == ButtonState.Pressed;
-                break;
-            case Buttons.A:
-                isActivated = previousState.Buttons.A == ButtonState.Pressed;
-                break;
-            case Buttons.B:
-                isActivated = previousState.Buttons.B == ButtonState.Pressed;
-                break;
-        }
-
-        return isActivated;
-    }
-
-    private bool GetButtonUpState(Buttons button, int playerIndex)
-    {
-        bool isActivated = false;
-
-        GamePadState previousState = _gamePadPreviousStates[playerIndex];
-        GamePadState state = _gamePadStates[playerIndex];
-        
-        switch (button)
-        {
-            case Buttons.Start:
-                isActivated = previousState.Buttons.Start == ButtonState.Pressed && state.Buttons.Start == ButtonState.Released;
-                break;
-            case Buttons.A:
-                isActivated = previousState.Buttons.A == ButtonState.Pressed && state.Buttons.A == ButtonState.Released;
-                break;
-            case Buttons.B:
-                isActivated = previousState.Buttons.B == ButtonState.Pressed && state.Buttons.B == ButtonState.Released;
-                break;
-        }
-
-        return isActivated;
-    }
-
-    private float GetTriggerValue(Triggers trigger, int playerIndex)
-    {
-        float value = 0f;
-
-        GamePadState state = _gamePadStates[playerIndex];
-
-        switch (trigger)
-        {
-            case Triggers.LeftTrigger:
-                value = state.Triggers.Left;
-                break;
-            case Triggers.RightTrigger:
-                value = state.Triggers.Right;
-                break;
-            case Triggers.BothTriggers:
-                value = Mathf.Max(state.Triggers.Left, state.Triggers.Right);
-                break;
-        }
-
-        return value;
-    }
-
-    private float GetXStickValue(Sticks stick, int playerIndex)
-    {
-        float value = 0f;
-
-        GamePadState state = _gamePadStates[playerIndex];
-
-        switch (stick)
-        {
-            case Sticks.LeftStick:
-                value = state.ThumbSticks.Left.X;
-                break;
-            case Sticks.RightStick:
-                value = state.ThumbSticks.Right.X;
-                break;
-        }
-
-        return value;
-    }
-
-    private float GetYStickValue(Sticks stick, int playerIndex)
-    {
-        float value = 0f;
-
-        GamePadState state = _gamePadStates[playerIndex];
-
-        switch (stick)
-        {
-            case Sticks.LeftStick:
-                value = state.ThumbSticks.Left.Y;
-                break;
-            case Sticks.RightStick:
-                value = state.ThumbSticks.Right.Y;
-                break;
-        }
-
-        return value;
-    }
-
-    #endregion
 }

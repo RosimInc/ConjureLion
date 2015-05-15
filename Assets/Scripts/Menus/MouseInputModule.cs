@@ -29,10 +29,12 @@ public class MouseInputModule : PointerInputModule
     {
         Debug.Log(EventSystem.current.IsPointerOverGameObject());
 
+        /*
+        // Not working for now
         if (InputManager.Instance.GetInputMenuAccept())
         {
             ExecuteEvents.Execute(Buttons[_buttonIndex].gameObject, new BaseEventData(eventSystem), ExecuteEvents.submitHandler);
-        }
+        }*/
     }
 
     private void SelectFirstButton()

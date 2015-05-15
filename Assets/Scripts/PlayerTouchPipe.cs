@@ -16,9 +16,6 @@ public class PlayerTouchPipe : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        float maxTriggerValue = InputManager.Instance.GetInputBreathAction(playerNumber);
-		
-		
 		if(attract)
 			gachette = - gachette;
 			

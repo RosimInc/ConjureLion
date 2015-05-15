@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using InputHandling;
 
 [RequireComponent(typeof(Player))]
 public abstract class Robot : MonoBehaviour
@@ -18,6 +19,8 @@ public abstract class Robot : MonoBehaviour
 
 	private float _targetAngle;
 
+    private float _breathRatio = 0f; // Normalized between 0 and 1
+
 	protected Player _player;
 	
 
@@ -29,10 +32,12 @@ public abstract class Robot : MonoBehaviour
 		_targetAngle = Body.localEulerAngles.z;
 	}
 
-	void Start()
+	protected virtual void Start()
 	{
 		_ballEffect = GetComponent<BallEffect>();
-		
+
+        InputManager.Instance.AddCallback(RobotCallback);
+
 		if(WindParticles == null)
 			Debug.Log ("Bug Particules");
 	}
@@ -69,16 +74,9 @@ public abstract class Robot : MonoBehaviour
 			Body.localEulerAngles = new Vector3(0f, 0f, newAngle);
 		}
 
-		float maxTriggerValue = InputManager.Instance.GetInputBreathAction(_player.Number);
-
-		if (InputManager.Instance.GetInputRotation(_player.Number).magnitude != 0f)
+        if (_breathRatio > 0f)
 		{
-			_targetAngle = -(Mathf.Atan2(InputManager.Instance.GetInputRotation(_player.Number).x, InputManager.Instance.GetInputRotation(_player.Number).y) * Mathf.Rad2Deg);
-		}
-
-		if (maxTriggerValue > 0f)
-		{
-			WindParticles.startSpeed = MinimumParticlesVelocity + maxTriggerValue * (MaximumParticlesVelocity - MinimumParticlesVelocity);
+            WindParticles.startSpeed = MinimumParticlesVelocity + _breathRatio * (MaximumParticlesVelocity - MinimumParticlesVelocity);
 
 			float ratio = WindParticles.startSpeed / _previousParticlesVelocity;
 
@@ -162,4 +160,32 @@ public abstract class Robot : MonoBehaviour
 			MusicManager.Instance.PlayAspiBreathLoop();
 		}
 	}
+
+    // TODO: REMOVE, THIS IS ONLY FOR TESTS (should be put in the player controller Player)
+    private void RobotCallback(MappedInput mappedInput)
+    {
+        // TODO: Find a way to reduce the number of callbacks called by only triggering when it's the correct player (dunno if possible)
+
+        if (mappedInput.PlayerIndex != _player.Number - 1) return;
+
+        if (mappedInput.Ranges.ContainsKey(ActionsConstants.Ranges.Breathe))
+        {
+            _breathRatio = mappedInput.Ranges[ActionsConstants.Ranges.Breathe];
+        }
+
+        float rotationX = 0f;
+        float rotationY = 0f;
+
+        if (mappedInput.Ranges.ContainsKey(ActionsConstants.Ranges.RotateX))
+        {
+            rotationX = mappedInput.Ranges[ActionsConstants.Ranges.RotateX];
+        }
+
+        if (mappedInput.Ranges.ContainsKey(ActionsConstants.Ranges.RotateY))
+        {
+            rotationY = mappedInput.Ranges[ActionsConstants.Ranges.RotateY];
+        }
+
+        _targetAngle = -(Mathf.Atan2(rotationX, rotationY) * Mathf.Rad2Deg);
+    }
 }

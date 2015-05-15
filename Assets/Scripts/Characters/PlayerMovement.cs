@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using InputHandling;
 
 [RequireComponent(typeof(Player))]
 public class PlayerMovement : MonoBehaviour
@@ -21,6 +22,9 @@ public class PlayerMovement : MonoBehaviour
 
     private bool _playWhenPossible;
 
+    private float _movementX;
+    private float _movementY;
+
     private Player _player;
 
     void Awake()
@@ -33,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
     {
 		Vector3 position = spline.GetPoint(progress);
 		transform.localPosition = position;
+        InputManager.Instance.AddCallback(RobotCallback);
 	}
 	
 	private void Update ()
@@ -49,9 +54,7 @@ public class PlayerMovement : MonoBehaviour
         // If the player number is -1, this computer doesn't have the rights to send inputs to this instance
         if (_player.Number != -1)
         {
-            float x = InputManager.Instance.GetInputMovement(_player.Number).x;
-            float y = InputManager.Instance.GetInputMovement(_player.Number).y;
-            Vector3 joystickDir = new Vector3(x, y, 0);
+            Vector3 joystickDir = new Vector3(_movementX, _movementY, 0);
 
             float angle = Vector3.Angle(dir, joystickDir);
 
@@ -61,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
                 mod = -1;
             }
 
-            float stuff = Mathf.Sqrt(x * x + y * y);
+            float stuff = Mathf.Sqrt(Mathf.Pow(_movementX, 2) + Mathf.Pow(_movementY, 2));
 
             float movement = mod * Time.deltaTime * 10 * speed * stuff;
 
@@ -99,4 +102,22 @@ public class PlayerMovement : MonoBehaviour
 
         _previousProgress = progress;
 	}
+
+    // TODO: REMOVE, THIS IS ONLY FOR TESTS (should be put in the player controller Player)
+    private void RobotCallback(MappedInput mappedInput)
+    {
+        // TODO: Find a way to reduce the number of callbacks called by only triggering when it's the correct player (dunno if possible)
+
+        if (mappedInput.PlayerIndex != _player.Number - 1) return;
+
+        if (mappedInput.Ranges.ContainsKey(ActionsConstants.Ranges.MoveX))
+        {
+            _movementX = mappedInput.Ranges[ActionsConstants.Ranges.MoveX];
+        }
+
+        if (mappedInput.Ranges.ContainsKey(ActionsConstants.Ranges.MoveY))
+        {
+            _movementY = mappedInput.Ranges[ActionsConstants.Ranges.MoveY];
+        }
+    }
 }

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using InputHandling;
 
 public class GameManager : MonoBehaviour
 {
@@ -72,15 +73,13 @@ public class GameManager : MonoBehaviour
         if (_levelIndex == 0)
         {
             MenusManager.Instance.ShowMenu("MainMenu");
+            InputManager.Instance.SetContext(new MainMenuContext());
         }
     }
 
-    void Update()
+    void Start()
     {
-        if (!_isPaused && _levelIndex >= FIRST_PLAYABLE_LEVEL_INDEX && InputManager.Instance.GetInputPauseMenu())
-        {
-            MenusManager.Instance.ShowMenu("PauseMenu");
-        }
+        InputManager.Instance.AddCallback(GameManagerCallback);
     }
 
     public void SetSouffliPlayerNumber(int number)
@@ -136,6 +135,20 @@ public class GameManager : MonoBehaviour
 
     void OnLevelWasLoaded(int levelIndex)
     {
+        if (levelIndex == 0)
+        {
+            InputManager.Instance.SetContext(new MainMenuContext());
+        }
+        else if (levelIndex == FIRST_PLAYABLE_LEVEL_INDEX - 1)
+        {
+            InputManager.Instance.SetContext(new CharacterSelectionContext());
+        }
+        else
+        {
+            InputManager.Instance.SetContext(new GameplayContext());
+        }
+        
+
         // If we just loaded the main menu
         if (levelIndex == 0)
         {
@@ -211,5 +224,14 @@ public class GameManager : MonoBehaviour
     void OnApplicationFocus(bool focusStatus)
     {
         _isInBackground = !focusStatus;
+    }
+
+    private void GameManagerCallback(MappedInput mappedInput)
+    {
+        if (!_isPaused && _levelIndex >= FIRST_PLAYABLE_LEVEL_INDEX && mappedInput.Actions[ActionsConstants.Actions.OpenPauseMenu])
+        {
+            MenusManager.Instance.ShowMenu("PauseMenu");
+            InputManager.Instance.SetContext(new PauseMenuContext());
+        }
     }
 }

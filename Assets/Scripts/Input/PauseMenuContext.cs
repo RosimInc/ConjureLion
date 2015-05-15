@@ -6,16 +6,17 @@ namespace InputHandling
     // Specific to the game
     public class PauseMenuContext : InputContext
     {
-        // TODO: Pull that data from a config or XML file for easy configuration
+        // TODO: Pull that data from a config or XML file for easy configuration and load the file in InputContext instead of having inheritance
 
-        public override void MapButton(InputConstants.Buttons button, bool pressed)
+        public PauseMenuContext() : base()
         {
-            // TODO: Pass the MappedInput to all registered callbacks
-        }
+            _mappedButtons.Add(InputConstants.Buttons.A, ActionsConstants.Actions.AcceptMenuOption);
+            _mappedButtons.Add(InputConstants.Buttons.B, ActionsConstants.Actions.GoToPreviousMenu);
+            _mappedButtons.Add(InputConstants.Buttons.DPadUp, ActionsConstants.Actions.SelectPreviousMenuOption);
+            _mappedButtons.Add(InputConstants.Buttons.DPadDown, ActionsConstants.Actions.SelectNextMenuOption);
+            _mappedButtons.Add(InputConstants.Buttons.Start, ActionsConstants.Actions.ClosePauseMenu);
 
-        public override void MapAxis(InputConstants.Axis axis, float value)
-        {
-            // TODO: Pass the MappedInput to all registered callbacks
+            _mappedAxis.Add(InputConstants.Axis.LeftStickY, ActionsConstants.Ranges.ChangeMenuOption);
         }
     }
 }

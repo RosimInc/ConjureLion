@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using InputHandling;
 
 public class OnlineGamesBrowser : Menu
 {
@@ -8,6 +9,11 @@ public class OnlineGamesBrowser : Menu
     public MenuInputModule InputModule;
 
     private const float DISTANCE_BETWEEN_BUTTONS = 0.12f;
+
+    void Start()
+    {
+        InputManager.Instance.AddCallback(OnlineGamesBrowserCallback);
+    }
 
     public override void Open()
     {
@@ -62,9 +68,11 @@ public class OnlineGamesBrowser : Menu
         NetworkManager.Instance.JoinGame(game, GameManager.Instance.LoadNextLevel);
     }
 
-    void Update()
+    private void OnlineGamesBrowserCallback(MappedInput mappedInput)
     {
-        if (InputManager.Instance.GetInputMenuBack())
+        // TODO: Should be handled in the menu manager
+
+        if (mappedInput.Actions[ActionsConstants.Actions.GoToPreviousMenu])
         {
             MenusManager.Instance.ShowMenu("OnlineOptionsMenu");
         }

@@ -17,57 +17,79 @@ namespace InputHandling
             set { _currentContext = value; }
         }
 
-        // For other types of games, we might want to add a States enum
-
-        private Dictionary<InputConstants.Buttons, bool>[] _buttonInputs;
-        private Dictionary<InputConstants.Axis, float>[] _rangeInputs;
+        private List<Action<MappedInput>> _callbacks;
+        private MappedInput[] _mappedInputs;
 
         public InputMapper(int maxPlayers)
         {
-            _buttonInputs = new Dictionary<InputConstants.Buttons, bool>[maxPlayers];
-            _rangeInputs = new Dictionary<InputConstants.Axis, float>[maxPlayers];
+            _mappedInputs = new MappedInput[maxPlayers];
+            _callbacks = new List<Action<MappedInput>>();
 
             for (int i = 0; i < maxPlayers; i++)
             {
-                _buttonInputs[i] = new Dictionary<InputConstants.Buttons, bool>();
-                _rangeInputs[i] = new Dictionary<InputConstants.Axis, float>();
+                _mappedInputs[i] = new MappedInput(i);
             }
         }
 
         public void Dispatch()
         {
-            // TODO: Verify which contexts are active and map the input accordingly
-
-            for (int i = 0; i < _buttonInputs.Length; i++)
-			{
-                foreach (KeyValuePair<InputConstants.Buttons, bool> kvp in _buttonInputs[i])
-                {
-                    _currentContext.MapButton(kvp.Key, kvp.Value);
-                }
-
-                foreach (KeyValuePair<InputConstants.Axis, float> kvp in _rangeInputs[i])
-                {
-                    _currentContext.MapAxis(kvp.Key, kvp.Value);
-                }
-			}
-
-            foreach (Action<MappedInput> action in _currentContext.Actions)
+            foreach (Action<MappedInput> callback in _callbacks)
             {
-                action(_currentContext.MappedInput);
+                for (int i = 0; i < _mappedInputs.Length; i++)
+                {
+                    callback(_mappedInputs[i]);
+                }
             }
         }
 
         // TODO: Maybe the player handling shouldn't be handled here, but at a higher level (like the contexts) ?
-
         public void MapButton(int playerIndex, InputConstants.Buttons button, bool pressed)
         {
-            _buttonInputs[playerIndex][button] = pressed;
+            ActionsConstants.Actions action = _currentContext.GetActionForButton(button);
+            _mappedInputs[playerIndex].Actions[action] = pressed;
         }
 
         public void MapAxis(int playerIndex, InputConstants.Axis axis, float value)
         {
-            _rangeInputs[playerIndex][axis] = value;
+            ActionsConstants.Ranges range = _currentContext.GetActionForAxis(axis);
+
+            
+            if (_mappedInputs[playerIndex].Ranges.ContainsKey(range))
+            {
+                if (Mathf.Abs(value) > Mathf.Abs(_mappedInputs[playerIndex].Ranges[range]))
+                {
+                    _mappedInputs[playerIndex].Ranges[range] = value;
+                }
+            }
+            else
+            {
+                _mappedInputs[playerIndex].Ranges[range] = value;
+            }
+
+            //_mappedInputs[playerIndex].Ranges[range] = value;
+        }
+
+        public void AddCallback(Action<MappedInput> callback)
+        {
+            _callbacks.Add(callback);
+        }
+
+        public void SetContext(InputContext context)
+        {
+            // TODO: Don't clear the callbacks here since we don't know for sure that the context is created before
+
+            _callbacks.Clear();
+
+            _currentContext = context;
+        }
+
+        // TODO: TEMPORARY!!! Will remove when we add the "multiple inputs for one action" handling
+        public void ResetInputs()
+        {
+            for (int i = 0; i < _mappedInputs.Length; i++)
+            {
+                _mappedInputs[i].Clear();
+            }
         }
     }
-
 }

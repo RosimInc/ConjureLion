@@ -1,55 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System;
 
 namespace InputHandling
 {
     // Specific to the game
     public class MainMenuContext : InputContext
     {
-        // TODO: Pull that data from a config or XML file for easy configuration
+        // TODO: Pull that data from a config or XML file for easy configuration and load the file in InputContext instead of having inheritance
 
-        public override void MapButton(InputConstants.Buttons button, bool pressed)
+        public MainMenuContext() : base()
         {
-            // TODO: Verify if the callbacks are null or not before calling them
+            _mappedButtons.Add(InputConstants.Buttons.A, ActionsConstants.Actions.AcceptMenuOption);
+            _mappedButtons.Add(InputConstants.Buttons.B, ActionsConstants.Actions.GoToPreviousMenu);
+            _mappedButtons.Add(InputConstants.Buttons.DPadUp, ActionsConstants.Actions.SelectPreviousMenuOption);
+            _mappedButtons.Add(InputConstants.Buttons.DPadDown, ActionsConstants.Actions.SelectNextMenuOption);
 
-            /*
-            switch (button)
-            {
-                case InputMapper.Buttons.A:
-                    _mappedInput.SetButtonForAction(button, OnAcceptChoice);
-                    break;
-                case InputMapper.Buttons.B:
-                    _mappedInput.SetButtonForAction(button, OnGoToPreviousMenu);
-                    break;
-                case InputMapper.Buttons.DPadUp:
-                    _mappedInput.SetButtonForAction(button, OnSelectPreviousChoice);
-                    break;
-                case InputMapper.Buttons.DPadDown:
-                    _mappedInput.SetButtonForAction(button, OnSelectNextChoice);
-                    break;
-            }*/
-
-            // TODO: Pass the MappedInput to all registered callbacks
-        }
-
-        public override void MapAxis(InputConstants.Axis axis, float value)
-        {/*
-            switch (axis)
-            {
-                case InputMapper.Axis.LeftStickY:
-                    if (value > 0)
-                    {
-                        _mappedInput.SetAxisForAction(axis, OnSelectPreviousChoice);
-                    }
-                    else if (value < 0)
-                    {
-                        _mappedInput.SetAxisForAction(axis, OnSelectNextChoice);
-                    }
-                    break;
-            }*/
-
-            // TODO: Pass the MappedInput to all registered callbacks
+            _mappedAxis.Add(InputConstants.Axis.LeftStickY, ActionsConstants.Ranges.ChangeMenuOption);
         }
     }
 }

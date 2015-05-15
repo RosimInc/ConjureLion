@@ -9,27 +9,22 @@ namespace InputHandling
 {
     public abstract class InputContext
     {
-        protected MappedInput _mappedInput;
-        private Dictionary<ActionsConstants.Actions, Action<MappedInput>> _mappedActions;
-
-        public Dictionary<ActionsConstants.Actions, Action<MappedInput>> MappedActions
-        {
-            get { return _mappedActions; }
-        }
-
-        public MappedInput MappedInput
-        {
-            get { return _mappedInput; }
-        }
-
+        protected Dictionary<InputConstants.Buttons, ActionsConstants.Actions> _mappedButtons;
+        protected Dictionary<InputConstants.Axis, ActionsConstants.Ranges> _mappedAxis;
 
         public InputContext()
         {
-            _mappedActions = new Dictionary<ActionsConstants.Actions, Action<InputHandling.MappedInput>>();
-            _mappedInput = new MappedInput();
+            _mappedButtons = new Dictionary<InputConstants.Buttons, ActionsConstants.Actions>();
+            _mappedAxis = new Dictionary<InputConstants.Axis, ActionsConstants.Ranges>();
         }
 
-        public abstract void MapButton(InputConstants.Buttons button, bool pressed);
-        public abstract void MapAxis(InputConstants.Axis button, float value);
+        public ActionsConstants.Actions GetActionForButton(InputConstants.Buttons button)
+        {
+            return _mappedButtons.ContainsKey(button) ? _mappedButtons[button] : ActionsConstants.Actions.None;
+        }
+        public ActionsConstants.Ranges GetActionForAxis(InputConstants.Axis axis)
+        {
+            return _mappedAxis.ContainsKey(axis) ? _mappedAxis[axis] : ActionsConstants.Ranges.None;
+        }
     }
 }

@@ -10,6 +10,8 @@ public class Aspi : Robot
 	
 	// Use this for initialization
 	void Start () {
+        base.Start();
+
         if (ball == null) return;
 
 		ball = GameObject.FindGameObjectWithTag("Ball");

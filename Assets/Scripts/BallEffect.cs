@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using InputHandling;
 
 [RequireComponent(typeof(Player))]
 public class BallEffect : MonoBehaviour
@@ -17,6 +18,8 @@ public class BallEffect : MonoBehaviour
 
     private bool _stayStatic = false;
     private bool _pullBlocked = false;
+
+    private float _breathRatio = 0f; // Normalized between 0 and 1
 
     private Player _player;
 
@@ -36,6 +39,8 @@ public class BallEffect : MonoBehaviour
         {
             ball = GameObject.FindGameObjectWithTag("Ball").GetComponent<Ball>();
         }
+
+        InputManager.Instance.AddCallback(BallEffectCallback);
 	}
 
     void Update()
@@ -105,10 +110,8 @@ public class BallEffect : MonoBehaviour
 
 			//Debug.Log(string.Format("force {0} \nradius {1} \nmagnitude {2} ", force, radius, dirHit.magnitude));
 
-            float stuff = InputManager.Instance.GetInputBreathAction(_player.Number);
-			
 			float forceFF = forceSide * force * 50f *
-					(radius - dirHit.magnitude) / radius * delta * stuff;
+					(radius - dirHit.magnitude) / radius * delta * _breathRatio;
 			platform.rigidbody2D.AddTorque(forceFF, ForceMode2D.Force);
 		}
 	}
@@ -156,11 +159,9 @@ public class BallEffect : MonoBehaviour
 				return;
 			}
 
-            float maxTriggerValue = InputManager.Instance.GetInputBreathAction(_player.Number);
-
 			ball.rigidbody2D.AddForce(force * mod * toBall.normalized *
 					(radius - distance) / radius * delta *
-                    maxTriggerValue, ForceMode2D.Force);
+                    _breathRatio, ForceMode2D.Force);
 		}
 	}
 	
@@ -204,11 +205,9 @@ public class BallEffect : MonoBehaviour
 		{
 			if (hit.collider.gameObject.layer == 8) return;
 
-            float maxTriggerValue = InputManager.Instance.GetInputBreathAction(_player.Number);
-			
 			ball.rigidbody2D.AddForce(force * mod * toBall.normalized *
 			                          (radius - distance) / radius * Time.fixedDeltaTime *
-			                          maxTriggerValue, ForceMode2D.Force);
+			                          _breathRatio, ForceMode2D.Force);
 		}
 	}
 
@@ -244,5 +243,16 @@ public class BallEffect : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         _pullBlocked = false;
+    }
+
+    // TODO: REMOVE, THIS IS ONLY FOR TESTS (should be put in the player controller Player)
+    private void BallEffectCallback(MappedInput mappedInput)
+    {
+        if (mappedInput.PlayerIndex != _player.Number - 1) return;
+
+        if (mappedInput.Ranges.ContainsKey(ActionsConstants.Ranges.Breathe))
+        {
+            _breathRatio = mappedInput.Ranges[ActionsConstants.Ranges.Breathe];
+        }
     }
 }

@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
-using XInputDotNetPure; // Required in C#
+using XInputDotNetPure;
+using InputHandling;
+
+// This class needs some major refactoring
 
 public class CharacterSelector : MonoBehaviour
 {
@@ -37,19 +40,14 @@ public class CharacterSelector : MonoBehaviour
     private const float SOUFFLI_TRESHOLD = 0.1f;
     private const float ASPI_TRESHOLD = 0.9f;
 
+    void Start()
+    {
+        InputManager.Instance.AddCallback(CharacterSelectorCallback);
+    }
+
     void Update()
     {
-        if (_gameIsReady)
-        {
-            if (!_gameIsStarting && (InputManager.Instance.GetInputPauseMenu()))
-            {
-                _gameIsStarting = true;
-
-                MusicManager.Instance.PlayGoalLevel();
-                GameManager.Instance.LoadNextLevel();
-            }
-        }
-        else
+        if (!_gameIsReady)
         {
             // Player1 state
             if (_player1State != PlayerState.PickedSouffli && _player1State != PlayerState.PickedAspi)
@@ -66,19 +64,6 @@ public class CharacterSelector : MonoBehaviour
                     || _previousPlayer1Progress >= ASPI_TRESHOLD && Player1.Progress < ASPI_TRESHOLD)
                 {
                     SetPlayer1State(PlayerState.SelectingNothing);
-                }
-
-                if (InputManager.Instance.GetInputAccept(1))
-                {
-                    switch (_player1State)
-                    {
-                        case PlayerState.SelectingSouffli:
-                            SetPlayer1State(PlayerState.PickedSouffli);
-                            break;
-                        case PlayerState.SelectingAspi:
-                            SetPlayer1State(PlayerState.PickedAspi);
-                            break;
-                    }
                 }
             }
 
@@ -97,19 +82,6 @@ public class CharacterSelector : MonoBehaviour
                     || _previousPlayer2Progress >= ASPI_TRESHOLD && Player2.Progress < ASPI_TRESHOLD)
                 {
                     SetPlayer2State(PlayerState.SelectingNothing);
-                }
-
-                if (InputManager.Instance.GetInputAccept(2))
-                {
-                    switch (_player2State)
-                    {
-                        case PlayerState.SelectingSouffli:
-                            SetPlayer2State(PlayerState.PickedSouffli);
-                            break;
-                        case PlayerState.SelectingAspi:
-                            SetPlayer2State(PlayerState.PickedAspi);
-                            break;
-                    }
                 }
             }
 
@@ -345,5 +317,43 @@ public class CharacterSelector : MonoBehaviour
     {
         StartButton.SetActive(state);
         _gameIsReady = state;
+    }
+
+    private void CharacterSelectorCallback(MappedInput mappedInput)
+    {
+        if (_gameIsReady && mappedInput.Actions[ActionsConstants.Actions.StartPlaying])
+        {
+            _gameIsStarting = true;
+
+            MusicManager.Instance.PlayGoalLevel();
+            GameManager.Instance.LoadNextLevel();
+        }
+        else if (!_gameIsReady && mappedInput.Actions[ActionsConstants.Actions.ChooseCharacter])
+        {
+            if (mappedInput.PlayerIndex == 0 && _player1State != PlayerState.PickedSouffli && _player1State != PlayerState.PickedAspi)
+            {
+                switch (_player1State)
+                {
+                    case PlayerState.SelectingSouffli:
+                        SetPlayer1State(PlayerState.PickedSouffli);
+                        break;
+                    case PlayerState.SelectingAspi:
+                        SetPlayer1State(PlayerState.PickedAspi);
+                        break;
+                }
+            }
+            else if (mappedInput.PlayerIndex == 1 && _player2State != PlayerState.PickedSouffli && _player2State != PlayerState.PickedAspi)
+            {
+                switch (_player2State)
+                {
+                    case PlayerState.SelectingSouffli:
+                        SetPlayer2State(PlayerState.PickedSouffli);
+                        break;
+                    case PlayerState.SelectingAspi:
+                        SetPlayer2State(PlayerState.PickedAspi);
+                        break;
+                }
+            }
+        }
     }
 }

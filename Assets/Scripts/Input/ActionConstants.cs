@@ -7,16 +7,26 @@ namespace InputHandling
     {
         public enum Actions
         {
+            None,
             AcceptMenuOption,
             GoToPreviousMenu,
             SelectPreviousMenuOption,
             SelectNextMenuOption,
             OpenPauseMenu,
             ClosePauseMenu,
+            ChooseCharacter,
+            StartPlaying
+        }
+
+        public enum Ranges
+        {
+            None,
             MoveX,
             MoveY,
-            Rotate,
-            Breathe
+            RotateX,
+            RotateY,
+            Breathe,
+            ChangeMenuOption
         }
     }
 }

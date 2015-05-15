@@ -1,8 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
+using InputHandling;
 
 public class MultiplayerModesMenu : Menu
 {
+    void Start()
+    {
+        InputManager.Instance.AddCallback(MultiplayerModesMenuCallback);
+    }
+
     public override void Open()
     {
         gameObject.SetActive(true);
@@ -23,9 +29,11 @@ public class MultiplayerModesMenu : Menu
         MenusManager.Instance.ShowMenu("OnlineOptionsMenu");
     }
 
-    void Update()
+    private void MultiplayerModesMenuCallback(MappedInput mappedInput)
     {
-        if (InputManager.Instance.GetInputMenuBack())
+        // TODO: Should be handled in the menu manager
+
+        if (mappedInput.Actions[ActionsConstants.Actions.GoToPreviousMenu])
         {
             MenusManager.Instance.ShowMenu("MainMenu");
         }

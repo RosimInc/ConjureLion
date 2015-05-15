@@ -6,60 +6,31 @@ using System;
 namespace InputHandling
 {
     // This is the base class that's going to gather all raw inputs (with the help of XInputDotNet) from the system and parse it to readable booleans and floats
-    public class InputParser : MonoBehaviour
+    public class InputParser
     {
-        /*
-        // Keeping for future configuration with the configuration files
-
-        [Serializable]
-        public struct InputMapping
+        public InputMapper InputMapper
         {
-            public Buttons PauseMenu;
-            public Buttons Accept;
-            public Buttons Back;
-            public Triggers BreathAction;
-            public Sticks Move;
-            public Sticks Rotate;
+            get { return _inputMapper; }
         }
-    
-        public enum Controls { Start, A, B, LeftTrigger, RightTrigger, BothTriggers, LeftStick, RightStick, BothSticks }
-        public enum Buttons { Start, A, B, }
-        public enum Triggers { LeftTrigger, RightTrigger, BothTriggers }
-        public enum Sticks { LeftStick, RightStick }
-
-        public InputMapping Actions;*/
-
-
-
 
         // TODO: This class should be abstract and the inheriting children should handle which type of input is mapped (keyboard + mouse, controller, etc.)
         // TODO: There should be 1 inheretd class by type of controller that we want to support
-
-        public static InputParser Instance
-        {
-            get
-            {
-                return _instance;
-            }
-        }
-
-        private static InputParser _instance;
 
         private bool[] _initialSetupDone;
         private PlayerIndex[] _playerIndexes;
         private GamePadState[] _gamePadPreviousStates;
         private GamePadState[] _gamePadStates;
+        private InputMapper _inputMapper;
 
         private const int PLAYER_AMOUNT = 2;
 
-        void Awake()
+        public InputParser()
         {
-            _instance = this;
-
             _initialSetupDone = new bool[PLAYER_AMOUNT];
             _playerIndexes = new PlayerIndex[PLAYER_AMOUNT];
             _gamePadPreviousStates = new GamePadState[PLAYER_AMOUNT];
             _gamePadStates = new GamePadState[PLAYER_AMOUNT];
+            _inputMapper = new InputMapper(PLAYER_AMOUNT);
 
             for (int i = 0; i < PLAYER_AMOUNT; i++)
             {
@@ -67,11 +38,10 @@ namespace InputHandling
             }
         }
 
-        void Update()
+        // To be called every frame
+        public void ParseRawInput()
         {
             // Every frame, we scan all controllers and put all the input data in an InputMapper object
-
-            InputMapper inputMapper = new InputMapper(PLAYER_AMOUNT);
 
             for (int i = 0; i < PLAYER_AMOUNT; i++)
             {
@@ -92,19 +62,19 @@ namespace InputHandling
 
                 // TODO: Maybe pass direction the game states to the input mapper?
 
-                inputMapper.MapButton(i, InputConstants.Buttons.Start, GetButtonDownState(InputConstants.Buttons.Start, i));
-                inputMapper.MapButton(i, InputConstants.Buttons.A, GetButtonDownState(InputConstants.Buttons.A, i));
-                inputMapper.MapButton(i, InputConstants.Buttons.B, GetButtonDownState(InputConstants.Buttons.B, i));
+                _inputMapper.MapButton(i, InputConstants.Buttons.Start, GetButtonDownState(InputConstants.Buttons.Start, i));
+                _inputMapper.MapButton(i, InputConstants.Buttons.A, GetButtonDownState(InputConstants.Buttons.A, i));
+                _inputMapper.MapButton(i, InputConstants.Buttons.B, GetButtonDownState(InputConstants.Buttons.B, i));
 
-                inputMapper.MapAxis(i, InputConstants.Axis.TriggerLeft, GetRangeValue(InputConstants.Axis.TriggerLeft, i));
-                inputMapper.MapAxis(i, InputConstants.Axis.TriggerRight, GetRangeValue(InputConstants.Axis.TriggerRight, i));
-                inputMapper.MapAxis(i, InputConstants.Axis.LeftStickX, GetRangeValue(InputConstants.Axis.LeftStickX, i));
-                inputMapper.MapAxis(i, InputConstants.Axis.LeftStickY, GetRangeValue(InputConstants.Axis.LeftStickY, i));
-                inputMapper.MapAxis(i, InputConstants.Axis.TriggerLeft, GetRangeValue(InputConstants.Axis.TriggerLeft, i));
-                inputMapper.MapAxis(i, InputConstants.Axis.TriggerRight, GetRangeValue(InputConstants.Axis.TriggerRight, i));
+                _inputMapper.MapAxis(i, InputConstants.Axis.TriggerLeft, GetRangeValue(InputConstants.Axis.TriggerLeft, i));
+                _inputMapper.MapAxis(i, InputConstants.Axis.TriggerRight, GetRangeValue(InputConstants.Axis.TriggerRight, i));
+                _inputMapper.MapAxis(i, InputConstants.Axis.LeftStickX, GetRangeValue(InputConstants.Axis.LeftStickX, i));
+                _inputMapper.MapAxis(i, InputConstants.Axis.LeftStickY, GetRangeValue(InputConstants.Axis.LeftStickY, i));
+                _inputMapper.MapAxis(i, InputConstants.Axis.RightStickX, GetRangeValue(InputConstants.Axis.RightStickX, i));
+                _inputMapper.MapAxis(i, InputConstants.Axis.RightStickY, GetRangeValue(InputConstants.Axis.RightStickY, i));
             }
 
-            inputMapper.Dispatch();
+            _inputMapper.Dispatch();
         }
 
         #region Helper Methods

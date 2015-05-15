@@ -6,27 +6,27 @@ using System;
 namespace InputHandling
 {
     // Specific to the game
-    public class MappedInput : MonoBehaviour
+    public class MappedInput
     {
-        // TODO: Instead of callback maps, do maps of valid actions
+        public Dictionary<ActionsConstants.Actions, bool> Actions = new Dictionary<ActionsConstants.Actions, bool>();
+        public Dictionary<ActionsConstants.Ranges, float> Ranges = new Dictionary<ActionsConstants.Ranges, float>();
 
-        private Dictionary<InputConstants.Buttons, Action> _actionsMap;
-        private Dictionary<InputConstants.Axis, Action> _rangesMap;
+        private int _playerIndex;
 
-        public MappedInput()
+        public int PlayerIndex
         {
-            _actionsMap = new Dictionary<InputConstants.Buttons, Action>();
-            _rangesMap = new Dictionary<InputConstants.Axis, Action>();
+            get { return _playerIndex; }
+        }
+        
+        public MappedInput(int playerIndex)
+        {
+            _playerIndex = playerIndex;
         }
 
-        public void SetButtonForAction(InputConstants.Buttons button, Action action)
+        public void Clear()
         {
-            _actionsMap[button] = action;
-        }
-
-        public void SetAxisForAction(InputConstants.Axis axis, Action action)
-        {
-            _rangesMap[axis] = action;
+            Actions.Clear();
+            Ranges.Clear();
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using InputHandling;
 
 public class MenuInputModule : BaseInputModule
 {
@@ -13,6 +14,15 @@ public class MenuInputModule : BaseInputModule
 
     private GameObject _previousTargettedObject;
 
+    private bool _acceptButtonPressed = false;
+    private bool _menuDownPressed = false;
+    private bool _menuUpPressed = false;
+
+    void Start()
+    {
+        InputManager.Instance.AddCallback(MenuInputModuleCallback);
+    }
+
     public override void ActivateModule()
     {
         base.ActivateModule();
@@ -23,18 +33,18 @@ public class MenuInputModule : BaseInputModule
 
     public override void Process()
     {
-        if (InputManager.Instance.GetInputMenuAccept())
+        if (_acceptButtonPressed)
         {
             ExecuteEvents.Execute(Buttons[_buttonIndex].gameObject, new BaseEventData(eventSystem), ExecuteEvents.submitHandler);
         }
 
         if (_canNavigate)
         {
-            if (InputManager.Instance.GetInputMenuDown())
+            if (_menuDownPressed)
             {
                 SelectNextButton();
             }
-            else if (InputManager.Instance.GetInputMenuUp())
+            else if (_menuUpPressed)
             {
                 SelectPreviousButton();
             }
@@ -132,5 +142,18 @@ public class MenuInputModule : BaseInputModule
         } while (go != null);
 
         return null;
+    }
+
+    private void MenuInputModuleCallback(MappedInput mappedInput)
+    {
+        // TODO: Temporary, until I figure out a better way to handle multiple player inputs for the menus
+        if (mappedInput.PlayerIndex == 1)
+        {
+            return;
+        }
+
+        _acceptButtonPressed = mappedInput.Actions[ActionsConstants.Actions.AcceptMenuOption];
+        _menuDownPressed = mappedInput.Ranges[ActionsConstants.Ranges.ChangeMenuOption] < -0.5f;
+        _menuUpPressed = mappedInput.Ranges[ActionsConstants.Ranges.ChangeMenuOption] > 0.5f;
     }
 }
