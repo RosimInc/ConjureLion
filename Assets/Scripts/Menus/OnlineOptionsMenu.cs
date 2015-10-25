@@ -1,17 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 using InputHandling;
+using MenusHandler;
 
 public class OnlineOptionsMenu : Menu
 {
     public override void Open()
     {
         gameObject.SetActive(true);
-    }
-
-    void Start()
-    {
-        InputManager.Instance.AddCallback(OnlineOptionsMenuCallback);
     }
 
     public override void Close()
@@ -31,13 +27,8 @@ public class OnlineOptionsMenu : Menu
         MenusManager.Instance.ShowMenu("OnlineGamesBrowser");
     }
 
-    private void OnlineOptionsMenuCallback(MappedInput mappedInput)
+    public void GoBack()
     {
-        // TODO: Should be handled in the menu manager
-
-        if (mappedInput.Actions[ActionsConstants.Actions.GoToPreviousMenu])
-        {
-            MenusManager.Instance.ShowMenu("MultiplayerModesMenu");
-        }
+        MenusManager.Instance.ShowMenu("MultiplayerModesMenu");
     }
 }

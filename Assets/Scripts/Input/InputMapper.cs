@@ -3,70 +3,56 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
+/*
+    Strongly inspired from Mike Lewis' excellent post about input handling
+    http://www.gamedev.net/blog/355/entry-2250186-designing-a-robust-input-handling-system-for-games/
+*/
+
 namespace InputHandling
 {
     public class InputMapper
     {
-        // TODO: This class should be abstract and the inheriting children should handle which type of input is mapped (keyboard + mouse, controller, etc.)
-        // TODO: Add a list of active contexts instead of only one (but one should work now for our needs)
-        private InputContext _currentContext;
-
-        public InputContext CurrentContext
-        {
-            get { return _currentContext; }
-            set { _currentContext = value; }
-        }
+        // Right now, the only active context is the peek of the stack, but when we will need multiple contexts at once, this is going to be useful
+        private Stack<InputContext> _activeContexts;
 
         private List<Action<MappedInput>> _callbacks;
-        private MappedInput[] _mappedInputs;
 
-        public InputMapper(int maxPlayers)
+        private MappedInput _currentFrameMappedInput;
+
+        public InputMapper()
         {
-            _mappedInputs = new MappedInput[maxPlayers];
             _callbacks = new List<Action<MappedInput>>();
-
-            for (int i = 0; i < maxPlayers; i++)
-            {
-                _mappedInputs[i] = new MappedInput(i);
-            }
+            _activeContexts = new Stack<InputContext>();
+            _currentFrameMappedInput = new MappedInput();
         }
 
         public void Dispatch()
         {
             foreach (Action<MappedInput> callback in _callbacks)
             {
-                for (int i = 0; i < _mappedInputs.Length; i++)
-                {
-                    callback(_mappedInputs[i]);
-                }
+                callback(_currentFrameMappedInput);
             }
         }
 
-        // TODO: Maybe the player handling shouldn't be handled here, but at a higher level (like the contexts) ?
-        public void MapButton(int playerIndex, InputConstants.Buttons button, bool pressed)
+        public void PushContext(InputContext context)
         {
-            ActionsConstants.Actions action = _currentContext.GetActionForButton(button);
-            _mappedInputs[playerIndex].Actions[action] = pressed;
+            if (_activeContexts.Count == 0 || _activeContexts.Peek().GetType() != context.GetType())
+            {
+                _activeContexts.Push(context);
+            }
         }
 
-        public void MapAxis(int playerIndex, InputConstants.Axis axis, float value)
+        public void PopContext()
         {
-            ActionsConstants.Ranges range = _currentContext.GetActionForAxis(axis);
-
-            
-            if (_mappedInputs[playerIndex].Ranges.ContainsKey(range))
+            if (_activeContexts.Count != 0)
             {
-                if (Mathf.Abs(value) > Mathf.Abs(_mappedInputs[playerIndex].Ranges[range]))
-                {
-                    _mappedInputs[playerIndex].Ranges[range] = value;
-                }
+                _activeContexts.Pop();
             }
-            else
-            {
-                _mappedInputs[playerIndex].Ranges[range] = value;
-            }
+        }
 
-            //_mappedInputs[playerIndex].Ranges[range] = value;
+        public void ClearContexts()
+        {
+            _activeContexts.Clear();
         }
 
         public void AddCallback(Action<MappedInput> callback)
@@ -74,22 +60,139 @@ namespace InputHandling
             _callbacks.Add(callback);
         }
 
-        public void SetContext(InputContext context)
+        public void SetRawButtonState(RawInputConstants.Buttons button, bool pressed, bool previouslyPressed)
         {
-            // TODO: Don't clear the callbacks here since we don't know for sure that the context is created before
+            string action = GetActionForButton(button);
+            string state = GetStateForButton(button);
 
-            _callbacks.Clear();
+            if (pressed)
+            {
+                if (!previouslyPressed && action != null)
+                {
+                    _currentFrameMappedInput.Actions.Add(action);
+                    return;
+                }
 
-            _currentContext = context;
+                if (state != null)
+                {
+                    _currentFrameMappedInput.States.Add(state);
+                    return;
+                }
+            }
+
+            // Uncomment if we start to have problems
+            //RemoveButtonFromLists(button);
         }
 
-        // TODO: TEMPORARY!!! Will remove when we add the "multiple inputs for one action" handling
-        public void ResetInputs()
+        public void SetRawAxisValue(RawInputConstants.Axis axis, float value)
         {
-            for (int i = 0; i < _mappedInputs.Length; i++)
+            // TODO: Have contexts for every single player?
+
+            // TODO: Use the commented code below instead when we will want multiple contexts to be available at the same time (maybe for when the player holds a weapon?). We'll keep it simple for now.
+
+            /*
+            foreach (InputContext activeContext in _activeContexts)
             {
-                _mappedInputs[i].Clear();
+                InputConstants.Ranges range = activeContext.GetRangeForAxis(axis);
+
+                if (range != InputConstants.Ranges.None)
+                {
+                    // We only want the first active "range behaviour" of the player to handle the ranges values, since we don't want multiple actions to react to it
+                    _mappedInputs[playerIndex].Ranges[range] = value;
+                    break;
+                }
+            }*/
+
+            string range = null;
+
+            if (_activeContexts.Count != 0)
+            {
+                range = _activeContexts.Peek().GetRangeForAxis(axis);
+            }
+
+            if (range != null)
+            {
+                _currentFrameMappedInput.Ranges[range] = value;
             }
         }
+
+        public void ResetInputs()
+        {
+            _currentFrameMappedInput.Clear();
+        }
+
+        #region Helper methods
+
+        private string GetActionForButton(RawInputConstants.Buttons button)
+        {
+            // TODO: Have contexts for every single player?
+
+            // TODO: Use the commented code below instead when we will want multiple contexts to be available at the same time (maybe for when the player holds a weapon?). We'll keep it simple for now.
+
+            /*
+            foreach (InputContext activeContext in _activeContexts)
+            {
+                InputConstants.Actions action = activeContext.GetActionForButton(button);
+
+                if (action != InputConstants.Actions.None)
+                {
+                    return action;
+                }
+            }*/
+
+            string action = null;
+
+            if (_activeContexts.Count != 0)
+            {
+                action = _activeContexts.Peek().GetActionForButton(button);
+            }
+
+            return action;
+        }
+
+        private string GetStateForButton(RawInputConstants.Buttons button)
+        {
+            // TODO: Have contexts for every single player?
+
+            // TODO: Use the commented code below instead when we will want multiple contexts to be available at the same time (maybe for when the player holds a weapon?). We'll keep it simple for now.
+
+            /*
+            foreach (InputContext activeContext in _activeContexts)
+            {
+                InputConstants.States state = activeContext.GetStateForButton(button);
+
+                if (state != InputConstants.States.None)
+                {
+                    return state;
+                }
+            }*/
+
+            string state = null;
+
+            if (_activeContexts.Count != 0)
+            {
+                state = _activeContexts.Peek().GetStateForButton(button);
+            }
+
+            return state;
+        }
+
+        private void RemoveButtonFromLists(RawInputConstants.Buttons button)
+        {
+            string action = GetActionForButton(button);
+            string state = GetStateForButton(button);
+
+            if (action != null)
+            {
+                _currentFrameMappedInput.Actions.Remove(action);
+            }
+
+            if (state != null)
+            {
+                _currentFrameMappedInput.States.Remove(state);
+            }
+        }
+
+        #endregion
     }
 }

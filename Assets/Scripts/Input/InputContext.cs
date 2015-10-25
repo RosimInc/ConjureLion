@@ -1,30 +1,36 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using XInputDotNetPure;
 using System;
-
 
 namespace InputHandling
 {
     public abstract class InputContext
     {
-        protected Dictionary<InputConstants.Buttons, ActionsConstants.Actions> _mappedButtons;
-        protected Dictionary<InputConstants.Axis, ActionsConstants.Ranges> _mappedAxis;
+        protected Dictionary<RawInputConstants.Buttons, string> _mappedButtons;
+        protected Dictionary<RawInputConstants.Buttons, string> _mappedStates;
+        protected Dictionary<RawInputConstants.Axis, string> _mappedAxis;
 
         public InputContext()
         {
-            _mappedButtons = new Dictionary<InputConstants.Buttons, ActionsConstants.Actions>();
-            _mappedAxis = new Dictionary<InputConstants.Axis, ActionsConstants.Ranges>();
+            _mappedButtons = new Dictionary<RawInputConstants.Buttons, string>();
+            _mappedStates = new Dictionary<RawInputConstants.Buttons, string>();
+            _mappedAxis = new Dictionary<RawInputConstants.Axis, string>();
         }
 
-        public ActionsConstants.Actions GetActionForButton(InputConstants.Buttons button)
+        public string GetActionForButton(RawInputConstants.Buttons button)
         {
-            return _mappedButtons.ContainsKey(button) ? _mappedButtons[button] : ActionsConstants.Actions.None;
+            return _mappedButtons.ContainsKey(button) ? _mappedButtons[button] : null;
         }
-        public ActionsConstants.Ranges GetActionForAxis(InputConstants.Axis axis)
+
+        public string GetStateForButton(RawInputConstants.Buttons button)
         {
-            return _mappedAxis.ContainsKey(axis) ? _mappedAxis[axis] : ActionsConstants.Ranges.None;
+            return _mappedStates.ContainsKey(button) ? _mappedStates[button] : null;
+        }
+
+        public string GetRangeForAxis(RawInputConstants.Axis axis)
+        {
+            return _mappedAxis.ContainsKey(axis) ? _mappedAxis[axis] : null;
         }
     }
 }

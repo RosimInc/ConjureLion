@@ -42,7 +42,7 @@ public class SplineDecorator : MonoBehaviour {
 		}
 		
 		//Line Int
-		lineIntRend = this.gameObject.AddComponent("LineRenderer") as LineRenderer;
+		lineIntRend = this.gameObject.AddComponent<LineRenderer>() as LineRenderer;
 		lineIntRend.useWorldSpace = true;
 		lineIntRend.SetWidth(lineOptions.lineIntWidth, lineOptions.lineIntWidth);
 		lineIntRend.material = lineOptions.lineIntMaterial;

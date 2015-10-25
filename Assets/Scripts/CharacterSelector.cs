@@ -42,7 +42,8 @@ public class CharacterSelector : MonoBehaviour
 
     void Start()
     {
-        InputManager.Instance.AddCallback(CharacterSelectorCallback);
+        InputManager.Instance.AddCallback(0, Character1SelectorCallback);
+        InputManager.Instance.AddCallback(1, Character2SelectorCallback);
     }
 
     void Update()
@@ -319,40 +320,48 @@ public class CharacterSelector : MonoBehaviour
         _gameIsReady = state;
     }
 
-    private void CharacterSelectorCallback(MappedInput mappedInput)
+    private void Character1SelectorCallback(MappedInput mappedInput)
     {
-        if (_gameIsReady && mappedInput.Actions[ActionsConstants.Actions.StartPlaying])
+        if (_gameIsReady && mappedInput.Actions.Contains(InputConstants.START_PLAYING))
         {
             _gameIsStarting = true;
 
             MusicManager.Instance.PlayGoalLevel();
             GameManager.Instance.LoadNextLevel();
         }
-        else if (!_gameIsReady && mappedInput.Actions[ActionsConstants.Actions.ChooseCharacter])
+        else if (!_gameIsReady && mappedInput.Actions.Contains(InputConstants.CHOOSE_CHARACTER))
         {
-            if (mappedInput.PlayerIndex == 0 && _player1State != PlayerState.PickedSouffli && _player1State != PlayerState.PickedAspi)
+            switch (_player1State)
             {
-                switch (_player1State)
-                {
-                    case PlayerState.SelectingSouffli:
-                        SetPlayer1State(PlayerState.PickedSouffli);
-                        break;
-                    case PlayerState.SelectingAspi:
-                        SetPlayer1State(PlayerState.PickedAspi);
-                        break;
-                }
+                case PlayerState.SelectingSouffli:
+                    SetPlayer1State(PlayerState.PickedSouffli);
+                    break;
+                case PlayerState.SelectingAspi:
+                    SetPlayer1State(PlayerState.PickedAspi);
+                    break;
             }
-            else if (mappedInput.PlayerIndex == 1 && _player2State != PlayerState.PickedSouffli && _player2State != PlayerState.PickedAspi)
+        }
+    }
+
+    private void Character2SelectorCallback(MappedInput mappedInput)
+    {
+        if (_gameIsReady && mappedInput.Actions.Contains(InputConstants.START_PLAYING))
+        {
+            _gameIsStarting = true;
+
+            MusicManager.Instance.PlayGoalLevel();
+            GameManager.Instance.LoadNextLevel();
+        }
+        else if (!_gameIsReady && mappedInput.Actions.Contains(InputConstants.CHOOSE_CHARACTER))
+        {
+            switch (_player2State)
             {
-                switch (_player2State)
-                {
-                    case PlayerState.SelectingSouffli:
-                        SetPlayer2State(PlayerState.PickedSouffli);
-                        break;
-                    case PlayerState.SelectingAspi:
-                        SetPlayer2State(PlayerState.PickedAspi);
-                        break;
-                }
+                case PlayerState.SelectingSouffli:
+                    SetPlayer2State(PlayerState.PickedSouffli);
+                    break;
+                case PlayerState.SelectingAspi:
+                    SetPlayer2State(PlayerState.PickedAspi);
+                    break;
             }
         }
     }

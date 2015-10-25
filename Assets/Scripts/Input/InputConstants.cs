@@ -1,37 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace InputHandling
+public class InputConstants
 {
-    public class InputConstants
-    {
-        public enum Buttons
-        {
-            A,
-            B,
-            Back,
-            Guide,
-            LeftShoulder,
-            LeftStick,
-            RightShoulder,
-            RightStick,
-            Start,
-            X,
-            Y,
-            DPadLeft,
-            DPadUp,
-            DPadRight,
-            DPadDown
-        }
-
-        public enum Axis
-        {
-            LeftStickX,
-            LeftStickY,
-            RightStickX,
-            RightStickY,
-            TriggerLeft,
-            TriggerRight
-        }
-    }
+    public const string ACCEPT_MENU_OPTION = "AcceptMenuOption";
+    public const string BACK_MENU_OPTION = "BackMenuOption";
+    public const string CHANGE_MENU_OPTION_VERTICAL = "ChangeMenuOptionVertical";
+    public const string PAUSE = "Pause";
+    public const string CHOOSE_CHARACTER = "ChooseCharacter";
+    public const string START_PLAYING = "StartPlaying";
+    public const string MOVE_X = "MoveX";
+    public const string MOVE_Y = "MoveY";
+    public const string ROTATE_X = "RotateX";
+    public const string ROTATE_Y = "RotateY";
+    public const string BREATHE = "Breathe";
 }

@@ -36,7 +36,11 @@ public abstract class Robot : MonoBehaviour
 	{
 		_ballEffect = GetComponent<BallEffect>();
 
-        InputManager.Instance.AddCallback(RobotCallback);
+        // If the player number is negative, it is controlled by the network player
+        if (_player.Number > 0)
+        {
+            InputManager.Instance.AddCallback(_player.Number - 1, RobotCallback);
+        }
 
 		if(WindParticles == null)
 			Debug.Log ("Bug Particules");
@@ -164,26 +168,22 @@ public abstract class Robot : MonoBehaviour
     // TODO: REMOVE, THIS IS ONLY FOR TESTS (should be put in the player controller Player)
     private void RobotCallback(MappedInput mappedInput)
     {
-        // TODO: Find a way to reduce the number of callbacks called by only triggering when it's the correct player (dunno if possible)
-
-        if (mappedInput.PlayerIndex != _player.Number - 1) return;
-
-        if (mappedInput.Ranges.ContainsKey(ActionsConstants.Ranges.Breathe))
+        if (mappedInput.Ranges.ContainsKey(InputConstants.BREATHE))
         {
-            _breathRatio = mappedInput.Ranges[ActionsConstants.Ranges.Breathe];
+            _breathRatio = mappedInput.Ranges[InputConstants.BREATHE];
         }
 
         float rotationX = 0f;
         float rotationY = 0f;
 
-        if (mappedInput.Ranges.ContainsKey(ActionsConstants.Ranges.RotateX))
+        if (mappedInput.Ranges.ContainsKey(InputConstants.ROTATE_X))
         {
-            rotationX = mappedInput.Ranges[ActionsConstants.Ranges.RotateX];
+            rotationX = mappedInput.Ranges[InputConstants.ROTATE_X];
         }
 
-        if (mappedInput.Ranges.ContainsKey(ActionsConstants.Ranges.RotateY))
+        if (mappedInput.Ranges.ContainsKey(InputConstants.ROTATE_Y))
         {
-            rotationY = mappedInput.Ranges[ActionsConstants.Ranges.RotateY];
+            rotationY = mappedInput.Ranges[InputConstants.ROTATE_Y];
         }
 
         _targetAngle = -(Mathf.Atan2(rotationX, rotationY) * Mathf.Rad2Deg);

@@ -2,14 +2,10 @@
 using System.Collections;
 using UnityEngine.UI;
 using InputHandling;
+using MenusHandler;
 
 public class PauseMenu : Menu
 {
-    void Start()
-    {
-        InputManager.Instance.AddCallback(PauseMenuCallback);
-    }
-
     public override void Open()
     {
         gameObject.SetActive(true);
@@ -34,14 +30,5 @@ public class PauseMenu : Menu
     {
         Close();
         GameManager.Instance.LoadMainMenu();
-    }
-
-    private void PauseMenuCallback(MappedInput mappedInput)
-    {
-        if (mappedInput.Actions[ActionsConstants.Actions.ClosePauseMenu])
-        {
-            // TODO: Call the close by the MenusManager so it can manage its current menu and everything else
-            Close();
-        }
     }
 }

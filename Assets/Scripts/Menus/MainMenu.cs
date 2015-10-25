@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using MenusHandler;
 
 public class MainMenu : Menu
 {
@@ -15,7 +16,11 @@ public class MainMenu : Menu
 
     public void ShowMultiplayerModes()
     {
-        MenusManager.Instance.ShowMenu("MultiplayerModesMenu");
+        GameManager.Instance.LoadNextLevel();
+
+        // Removed for demo only
+
+        //MenusManager.Instance.ShowMenu("MultiplayerModesMenu");
     }
 
     public void ShowControlsMenu()

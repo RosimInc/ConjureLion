@@ -39,13 +39,13 @@ public class SelectorCursor : MonoBehaviour
         {
             case CursorPosition.Left:
                 _position = CursorPosition.Middle;
-                LeftArrow.renderer.enabled = true;
+                LeftArrow.GetComponent<Renderer>().enabled = true;
 
                 StartCoroutine(MoveToPosition(_middlePosition));
                 break;
             case CursorPosition.Middle:
                 _position = CursorPosition.Right;
-                RightArrow.renderer.enabled = false;
+                RightArrow.GetComponent<Renderer>().enabled = false;
 
                 StartCoroutine(MoveToPosition(_rightPosition));
                 break;
@@ -64,13 +64,13 @@ public class SelectorCursor : MonoBehaviour
                 break;
             case CursorPosition.Middle:
                 _position = CursorPosition.Left;
-                LeftArrow.renderer.enabled = false;
+                LeftArrow.GetComponent<Renderer>().enabled = false;
 
                 StartCoroutine(MoveToPosition(_leftPosition));
                 break;
             case CursorPosition.Right:
                 _position = CursorPosition.Middle;
-                RightArrow.renderer.enabled = true;
+                RightArrow.GetComponent<Renderer>().enabled = true;
 
                 StartCoroutine(MoveToPosition(_middlePosition));
                 break;

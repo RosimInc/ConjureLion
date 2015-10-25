@@ -1,9 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
-public abstract class Menu : MonoBehaviour
+namespace MenusHandler
 {
-    public abstract void Open();
+    [RequireComponent(typeof(MenuInputModule))]
+    public abstract class Menu : MonoBehaviour
+    {
+        private MenuInputModule _inputModule;
 
-    public abstract void Close();
+        public MenuInputModule InputModule
+        {
+            get { return _inputModule; }
+        }
+
+        void Awake()
+        {
+            _inputModule = GetComponent<MenuInputModule>();
+        }
+
+        protected virtual void Start() { }
+
+        public virtual void Open() { }
+
+        public virtual void Close() { }
+    }
 }

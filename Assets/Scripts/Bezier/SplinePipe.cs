@@ -247,7 +247,7 @@ public class SplinePipe : MonoBehaviour {
 				coef = 150;
 			}
 			Vector2 force = direction * blowIntensity * coef* powerBlow* Time.deltaTime; //150 pour aspirer
-			ball.rigidbody2D.AddForce( force );
+			ball.GetComponent<Rigidbody2D>().AddForce( force );
 			Debug.Log("Apply blow itnensity "+blowIntensity + " force "+force.x+" y "+force.y);
 			
 		}

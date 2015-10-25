@@ -17,8 +17,8 @@ public class DeadZone : MonoBehaviour {
 			return;
 		
 		coll.transform.position = ballOrigin;
-		coll.rigidbody2D.velocity = new Vector2(0,0);
-		coll.rigidbody2D.inertia = 0f;
+		coll.GetComponent<Rigidbody2D>().velocity = new Vector2(0,0);
+		coll.GetComponent<Rigidbody2D>().inertia = 0f;
 	}
 	
 	

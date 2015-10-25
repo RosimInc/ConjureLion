@@ -40,7 +40,11 @@ public class BallEffect : MonoBehaviour
             ball = GameObject.FindGameObjectWithTag("Ball").GetComponent<Ball>();
         }
 
-        InputManager.Instance.AddCallback(BallEffectCallback);
+        // If the player number is negative, it is controlled by the network player
+        if (_player.Number > 0)
+        {
+            InputManager.Instance.AddCallback(_player.Number - 1, BallEffectCallback);
+        }
 	}
 
     void Update()
@@ -53,12 +57,12 @@ public class BallEffect : MonoBehaviour
         if (_stayStatic)
         {
             ball.transform.position = staticDetection.transform.position;
-            ball.rigidbody2D.gravityScale = 0f;
-            ball.rigidbody2D.velocity = Vector3.zero;
+            ball.GetComponent<Rigidbody2D>().gravityScale = 0f;
+            ball.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
         }
         else
         {
-            ball.rigidbody2D.gravityScale = 0.5f;
+            ball.GetComponent<Rigidbody2D>().gravityScale = 0.5f;
         }
     }
 
@@ -112,7 +116,7 @@ public class BallEffect : MonoBehaviour
 
 			float forceFF = forceSide * force * 50f *
 					(radius - dirHit.magnitude) / radius * delta * _breathRatio;
-			platform.rigidbody2D.AddTorque(forceFF, ForceMode2D.Force);
+			platform.GetComponent<Rigidbody2D>().AddTorque(forceFF, ForceMode2D.Force);
 		}
 	}
 
@@ -159,7 +163,7 @@ public class BallEffect : MonoBehaviour
 				return;
 			}
 
-			ball.rigidbody2D.AddForce(force * mod * toBall.normalized *
+			ball.GetComponent<Rigidbody2D>().AddForce(force * mod * toBall.normalized *
 					(radius - distance) / radius * delta *
                     _breathRatio, ForceMode2D.Force);
 		}
@@ -205,7 +209,7 @@ public class BallEffect : MonoBehaviour
 		{
 			if (hit.collider.gameObject.layer == 8) return;
 
-			ball.rigidbody2D.AddForce(force * mod * toBall.normalized *
+			ball.GetComponent<Rigidbody2D>().AddForce(force * mod * toBall.normalized *
 			                          (radius - distance) / radius * Time.fixedDeltaTime *
 			                          _breathRatio, ForceMode2D.Force);
 		}
@@ -248,11 +252,9 @@ public class BallEffect : MonoBehaviour
     // TODO: REMOVE, THIS IS ONLY FOR TESTS (should be put in the player controller Player)
     private void BallEffectCallback(MappedInput mappedInput)
     {
-        if (mappedInput.PlayerIndex != _player.Number - 1) return;
-
-        if (mappedInput.Ranges.ContainsKey(ActionsConstants.Ranges.Breathe))
+        if (mappedInput.Ranges.ContainsKey(InputConstants.BREATHE))
         {
-            _breathRatio = mappedInput.Ranges[ActionsConstants.Ranges.Breathe];
+            _breathRatio = mappedInput.Ranges[InputConstants.BREATHE];
         }
     }
 }

@@ -75,7 +75,7 @@ public class NetworkManager : MonoBehaviour
 
     public void ChangeOwnership(int computerID, NetworkViewID viewID)
     {
-        networkView.RPC("ChangeOwnershipRPC", RPCMode.OthersBuffered, computerID, viewID);
+        GetComponent<NetworkView>().RPC("ChangeOwnershipRPC", RPCMode.OthersBuffered, computerID, viewID);
     }
 
     [RPC]
@@ -87,7 +87,7 @@ public class NetworkManager : MonoBehaviour
         {
             if (snapshot.Player.ComputerID == computerID)
             {
-                snapshot.networkView.viewID = viewID;
+                snapshot.GetComponent<NetworkView>().viewID = viewID;
             }
         }
     }
@@ -160,17 +160,17 @@ public class NetworkManager : MonoBehaviour
     // Wrapper so that only NetworkManager interacts directly with the RPC interface
     public void SendJumpMessage(int playerID)
     {
-        networkView.RPC("OnJumpInput", RPCMode.AllBuffered, playerID);
+        GetComponent<NetworkView>().RPC("OnJumpInput", RPCMode.AllBuffered, playerID);
     }
 
     public void SendHorizontalMoveMessage(int playerID, float direction)
     {
-        networkView.RPC("OnHorizontalMoveInput", RPCMode.AllBuffered, playerID, direction);
+        GetComponent<NetworkView>().RPC("OnHorizontalMoveInput", RPCMode.AllBuffered, playerID, direction);
     }
 
     public void SendAttackMessage(int playerID)
     {
-        networkView.RPC("OnAttackInput", RPCMode.AllBuffered, playerID);
+        GetComponent<NetworkView>().RPC("OnAttackInput", RPCMode.AllBuffered, playerID);
     }
 
     /*

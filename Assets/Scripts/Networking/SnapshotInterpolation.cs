@@ -39,9 +39,9 @@ public abstract class SnapshotInterpolation : MonoBehaviour
     protected abstract void SendData(BitStream stream);
     protected abstract Snapshot ParseReceivedData(BitStream stream);
 
-    void Awake()
+    protected virtual void Awake()
     {
-        if (networkView == null)
+        if (GetComponent<NetworkView>() == null)
         {
             gameObject.AddComponent<NetworkView>();
         }
@@ -49,8 +49,8 @@ public abstract class SnapshotInterpolation : MonoBehaviour
         // We send the data 60 times per second
         Network.sendRate = 60;
 
-        networkView.observed = this;
-        networkView.stateSynchronization = NetworkStateSynchronization.Unreliable;
+        GetComponent<NetworkView>().observed = this;
+        GetComponent<NetworkView>().stateSynchronization = NetworkStateSynchronization.Unreliable;
 
         if (Network.isServer)
         {
@@ -70,10 +70,10 @@ public abstract class SnapshotInterpolation : MonoBehaviour
         {
             if (Player.Number == 2)
             {
-                networkView.viewID = Network.AllocateViewID();
+                GetComponent<NetworkView>().viewID = Network.AllocateViewID();
                 Player.Number = 1;
                 Player.ComputerID = 1;
-                NetworkManager.Instance.ChangeOwnership(Player.ComputerID, networkView.viewID);
+                NetworkManager.Instance.ChangeOwnership(Player.ComputerID, GetComponent<NetworkView>().viewID);
             }
             else
             {
@@ -97,7 +97,7 @@ public abstract class SnapshotInterpolation : MonoBehaviour
             InterpolateBufferSnapshots();
         }*/
 
-        if (!networkView.isMine)
+        if (!GetComponent<NetworkView>().isMine)
         {
             InterpolateBufferSnapshots();
         }

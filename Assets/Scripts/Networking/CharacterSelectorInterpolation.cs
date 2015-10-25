@@ -1,13 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Reflection;
+using System;
 
+[RequireComponent(typeof(PlayerMovement))]
 public class CharacterSelectorInterpolation : SnapshotInterpolation
 {
-    public PlayerMovement PlayerMovement;
-
     public class CharacterSelectorSnapshot : SnapshotInterpolation.Snapshot
     {
         public float progress;
+    }
+
+    private PlayerMovement _playerMovement;
+    private CharacterSelectorSnapshot _snapshot;
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        _playerMovement = GetComponent<PlayerMovement>();
+        _snapshot = new CharacterSelectorSnapshot();
     }
 
     protected override void UpdateData(Snapshot olderSnapshot, Snapshot recentSnapshot, float interpolationRatio)
@@ -19,25 +31,20 @@ public class CharacterSelectorInterpolation : SnapshotInterpolation
 
         interpolatedSnapshot.progress = Mathf.Lerp(olderCharacterSnapshot.progress, recentCharacterSnapshot.progress, interpolationRatio);
 
-        PlayerMovement.Progress = interpolatedSnapshot.progress;
+        _playerMovement.Progress = interpolatedSnapshot.progress;
     }
 
     protected override void SendData(BitStream stream)
     {
-        float progress = PlayerMovement.Progress;
+        float progress = _playerMovement.Progress;
 
         stream.Serialize(ref progress);
     }
 
     protected override SnapshotInterpolation.Snapshot ParseReceivedData(BitStream stream)
     {
-        float progress = 0f;
+        stream.Serialize(ref _snapshot.progress);
 
-        stream.Serialize(ref progress);
-
-        CharacterSelectorSnapshot snapshot = new CharacterSelectorSnapshot();
-        snapshot.progress = progress;
-
-        return snapshot;
+        return _snapshot;
     }
 }

@@ -42,7 +42,7 @@ public class FloatingArrow : MonoBehaviour
         {
             Vector3 initialPosition = transform.position;
 
-            Vector3 size = new Vector3(renderer.bounds.extents.x * 2, renderer.bounds.extents.y * 2, 0f);
+            Vector3 size = new Vector3(GetComponent<Renderer>().bounds.extents.x * 2, GetComponent<Renderer>().bounds.extents.y * 2, 0f);
 
             Gizmos.color = Color.green;
 

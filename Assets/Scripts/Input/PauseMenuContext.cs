@@ -10,13 +10,12 @@ namespace InputHandling
 
         public PauseMenuContext() : base()
         {
-            _mappedButtons.Add(InputConstants.Buttons.A, ActionsConstants.Actions.AcceptMenuOption);
-            _mappedButtons.Add(InputConstants.Buttons.B, ActionsConstants.Actions.GoToPreviousMenu);
-            _mappedButtons.Add(InputConstants.Buttons.DPadUp, ActionsConstants.Actions.SelectPreviousMenuOption);
-            _mappedButtons.Add(InputConstants.Buttons.DPadDown, ActionsConstants.Actions.SelectNextMenuOption);
-            _mappedButtons.Add(InputConstants.Buttons.Start, ActionsConstants.Actions.ClosePauseMenu);
+            _mappedButtons.Add(RawInputConstants.Buttons.Button1, InputConstants.PAUSE);
+            _mappedButtons.Add(RawInputConstants.Buttons.Button2, InputConstants.ACCEPT_MENU_OPTION);
+            _mappedButtons.Add(RawInputConstants.Buttons.Button3, InputConstants.BACK_MENU_OPTION);
+            
 
-            _mappedAxis.Add(InputConstants.Axis.LeftStickY, ActionsConstants.Ranges.ChangeMenuOption);
+            _mappedAxis.Add(RawInputConstants.Axis.Axis2, InputConstants.CHANGE_MENU_OPTION_VERTICAL);
         }
     }
 }

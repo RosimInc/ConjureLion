@@ -11,14 +11,14 @@ namespace InputHandling
 
         public GameplayContext() : base()
         {
-            _mappedButtons.Add(InputConstants.Buttons.Start, ActionsConstants.Actions.OpenPauseMenu);
+            _mappedButtons.Add(RawInputConstants.Buttons.Button1, InputConstants.PAUSE);
 
-            _mappedAxis.Add(InputConstants.Axis.LeftStickX, ActionsConstants.Ranges.MoveX);
-            _mappedAxis.Add(InputConstants.Axis.LeftStickY, ActionsConstants.Ranges.MoveY);
-            _mappedAxis.Add(InputConstants.Axis.RightStickX, ActionsConstants.Ranges.RotateX);
-            _mappedAxis.Add(InputConstants.Axis.RightStickY, ActionsConstants.Ranges.RotateY);
-            _mappedAxis.Add(InputConstants.Axis.TriggerLeft, ActionsConstants.Ranges.Breathe);
-            _mappedAxis.Add(InputConstants.Axis.TriggerRight, ActionsConstants.Ranges.Breathe);
+            _mappedAxis.Add(RawInputConstants.Axis.Axis1, InputConstants.MOVE_X);
+            _mappedAxis.Add(RawInputConstants.Axis.Axis2, InputConstants.MOVE_Y);
+            _mappedAxis.Add(RawInputConstants.Axis.Axis3, InputConstants.ROTATE_X);
+            _mappedAxis.Add(RawInputConstants.Axis.Axis4, InputConstants.ROTATE_Y);
+            _mappedAxis.Add(RawInputConstants.Axis.Axis5, InputConstants.BREATHE);
+            _mappedAxis.Add(RawInputConstants.Axis.Axis6, InputConstants.BREATHE);
         }
     }
 }

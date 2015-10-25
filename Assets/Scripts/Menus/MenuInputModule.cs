@@ -2,158 +2,168 @@
 using System.Collections;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using InputHandling;
+using System;
+using UnityEngine.Events;
 
-public class MenuInputModule : BaseInputModule
+namespace MenusHandler
 {
-    public MenuButton[] Buttons;
-
-    private int _buttonIndex = 0;
-
-    private bool _canNavigate = true;
-
-    private GameObject _previousTargettedObject;
-
-    private bool _acceptButtonPressed = false;
-    private bool _menuDownPressed = false;
-    private bool _menuUpPressed = false;
-
-    void Start()
+    [RequireComponent(typeof(EventSystem))]
+    public class MenuInputModule : BaseInputModule
     {
-        InputManager.Instance.AddCallback(MenuInputModuleCallback);
-    }
+        public float Delay = 0.2f;
+        public float DeadZone = 0.5f;
 
-    public override void ActivateModule()
-    {
-        base.ActivateModule();
-        
-        SelectFirstButton();
-        _canNavigate = true;
-    }
+        public UnityEvent BackButtonEvent;
 
-    public override void Process()
-    {
-        if (_acceptButtonPressed)
+        private EventSystem _eventSystem;
+
+        private bool _canNavigate = true;
+
+        private GameObject _previousTargettedObject;
+
+        private bool _acceptButtonPressed = false;
+        private bool _backButtonPressed = false;
+        private bool _menuDownPressed = false;
+        private bool _menuUpPressed = false;
+        private bool _menuRightPressed = false;
+        private bool _menuLeftPressed = false;
+
+        protected override void Start()
         {
-            ExecuteEvents.Execute(Buttons[_buttonIndex].gameObject, new BaseEventData(eventSystem), ExecuteEvents.submitHandler);
+            base.Start();
+
+            _eventSystem = GetComponent<EventSystem>();
         }
 
-        if (_canNavigate)
+        public override void ActivateModule()
         {
-            if (_menuDownPressed)
+            base.ActivateModule();
+
+            SelectFirstButton();
+            _canNavigate = true;
+        }
+
+        public override void Process()
+        {
+            if (_acceptButtonPressed)
             {
-                SelectNextButton();
+                ExecuteEvents.Execute(_eventSystem.currentSelectedGameObject.gameObject, new BaseEventData(eventSystem), ExecuteEvents.submitHandler);
             }
-            else if (_menuUpPressed)
+            else if (_backButtonPressed)
             {
-                SelectPreviousButton();
+                BackButtonEvent.Invoke();
+            }
+            else if (_canNavigate)
+            {
+                if (_menuRightPressed)
+                {
+                    SelectRightButton();
+                }
+                else if (_menuLeftPressed)
+                {
+                    SelectLeftButton();
+                }
+                else if (_menuDownPressed)
+                {
+                    SelectDownButton();
+                }
+                else if (_menuUpPressed)
+                {
+                    SelectUpButton();
+                }
             }
         }
 
-        ProcessMouseSelect();
-    }
-
-    public void SelectFirstButton()
-    {
-        if (Buttons.Length == 0) return;
-
-        if (_buttonIndex != 0)
+        public void SetFirstButton(Selectable button)
         {
-            ExecuteEvents.Execute(Buttons[_buttonIndex].gameObject, new BaseEventData(eventSystem), ExecuteEvents.deselectHandler);
-
-            _buttonIndex = 0;
+            _eventSystem.firstSelectedGameObject = button.gameObject;
         }
 
-        ExecuteEvents.Execute(Buttons[_buttonIndex].gameObject, new BaseEventData(eventSystem), ExecuteEvents.selectHandler);
-    }
-
-    private void SelectPreviousButton()
-    {
-        ExecuteEvents.Execute(Buttons[_buttonIndex].gameObject, new BaseEventData(eventSystem), ExecuteEvents.deselectHandler);
-
-        _buttonIndex = _buttonIndex == 0 ? Buttons.Length - 1 : _buttonIndex - 1;
-
-        ExecuteEvents.Execute(Buttons[_buttonIndex].gameObject, new BaseEventData(eventSystem), ExecuteEvents.selectHandler);
-
-        StartCoroutine(PauseNavigation());
-    }
-
-    private void SelectNextButton()
-    {
-        ExecuteEvents.Execute(Buttons[_buttonIndex].gameObject, new BaseEventData(eventSystem), ExecuteEvents.deselectHandler);
-
-        _buttonIndex = _buttonIndex == Buttons.Length - 1 ? 0 : _buttonIndex + 1;
-
-        ExecuteEvents.Execute(Buttons[_buttonIndex].gameObject, new BaseEventData(eventSystem), ExecuteEvents.selectHandler);
-
-        StartCoroutine("PauseNavigation");
-    }
-
-    private IEnumerator PauseNavigation()
-    {
-        _canNavigate = false;
-
-        float elapsedTime = 0f;
-
-        // Since the game can be paused, we can't do "yield return new WaitForSeconds(0.2f);"
-        while (elapsedTime < 0.2f)
+        public void SelectFirstButton()
         {
-            elapsedTime += Time.unscaledDeltaTime;
+            if (_eventSystem.firstSelectedGameObject == null) return;
 
-            yield return null;
-        }
-        
-        _canNavigate = true;
-    }
-
-    private void ProcessMouseSelect()
-    {
-        /*
-        MouseState mouseData = GetMousePointerEventData();
-        
-        ButtonState mouseState = mouseData.GetButtonState(PointerEventData.InputButton.Left);
-
-        GameObject targettedObject = GetButtonParent(mouseState.eventData.buttonData.pointerCurrentRaycast.gameObject);
-
-        if (targettedObject != _previousTargettedObject)
-        {
-            ExecuteEvents.ExecuteHierarchy(_previousTargettedObject, new BaseEventData(eventSystem), ExecuteEvents.deselectHandler);
-        }
-        
-        ExecuteEvents.Execute(targettedObject, new BaseEventData(eventSystem), ExecuteEvents.selectHandler);
-        
-        _previousTargettedObject = targettedObject;*/
-    }
-
-    private GameObject GetButtonParent(GameObject child)
-    {
-        if (child == null) return null;
-
-        Transform go = child.transform;
-
-        do
-        {
-            if (go.GetComponent<Button>() != null)
+            if (_eventSystem.currentSelectedGameObject != _eventSystem.firstSelectedGameObject)
             {
-                return go.gameObject;
+                ExecuteEvents.Execute(_eventSystem.currentSelectedGameObject, new BaseEventData(eventSystem), ExecuteEvents.deselectHandler);
             }
 
-            go = go.parent;
-        } while (go != null);
+            ExecuteEvents.Execute(_eventSystem.firstSelectedGameObject, new BaseEventData(eventSystem), ExecuteEvents.selectHandler);
+            _eventSystem.SetSelectedGameObject(_eventSystem.firstSelectedGameObject);
 
-        return null;
-    }
-
-    private void MenuInputModuleCallback(MappedInput mappedInput)
-    {
-        // TODO: Temporary, until I figure out a better way to handle multiple player inputs for the menus
-        if (mappedInput.PlayerIndex == 1)
-        {
-            return;
+            //ExecuteEvents.Execute(_eventSystem.firstSelectedGameObject, new BaseEventData(eventSystem), ExecuteEvents.selectHandler);
         }
 
-        _acceptButtonPressed = mappedInput.Actions[ActionsConstants.Actions.AcceptMenuOption];
-        _menuDownPressed = mappedInput.Ranges[ActionsConstants.Ranges.ChangeMenuOption] < -0.5f;
-        _menuUpPressed = mappedInput.Ranges[ActionsConstants.Ranges.ChangeMenuOption] > 0.5f;
+        private void SelectLeftButton()
+        {
+            Selectable toBeSelected = _eventSystem.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnLeft();
+
+            if (toBeSelected != null)
+            {
+                _eventSystem.SetSelectedGameObject(toBeSelected.gameObject);
+                StartCoroutine("PauseNavigation");
+            }
+        }
+
+        private void SelectRightButton()
+        {
+            Selectable toBeSelected = _eventSystem.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnRight();
+
+            if (toBeSelected != null)
+            {
+                _eventSystem.SetSelectedGameObject(toBeSelected.gameObject);
+                StartCoroutine("PauseNavigation");
+            }
+        }
+
+        private void SelectUpButton()
+        {
+            Selectable toBeSelected = _eventSystem.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnUp();
+
+            if (toBeSelected != null)
+            {
+                _eventSystem.SetSelectedGameObject(toBeSelected.gameObject);
+                StartCoroutine("PauseNavigation");
+            }
+        }
+
+        private void SelectDownButton()
+        {
+            Selectable toBeSelected = _eventSystem.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnDown();
+
+            if (toBeSelected != null)
+            {
+                _eventSystem.SetSelectedGameObject(toBeSelected.gameObject);
+                StartCoroutine("PauseNavigation");
+            }
+        }
+
+        // Adds a delay before we can switch options again
+        private IEnumerator PauseNavigation()
+        {
+            _canNavigate = false;
+
+            float elapsedTime = 0f;
+
+            // Since the game might be paused here, we can't do "yield return new WaitForSeconds(0.2f);"
+            while (elapsedTime < Delay)
+            {
+                elapsedTime += Time.unscaledDeltaTime;
+
+                yield return null;
+            }
+
+            _canNavigate = true;
+        }
+
+        public void SetInputValues(bool acceptButton, bool backButton, float horizontalAxis, float verticalAxis)
+        {
+            _acceptButtonPressed = acceptButton;
+            _backButtonPressed = backButton;
+            _menuDownPressed = verticalAxis < -DeadZone;
+            _menuUpPressed = verticalAxis > DeadZone;
+            _menuRightPressed = horizontalAxis > DeadZone;
+            _menuLeftPressed = horizontalAxis < -DeadZone;
+        }
     }
 }

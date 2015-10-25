@@ -37,7 +37,12 @@ public class PlayerMovement : MonoBehaviour
     {
 		Vector3 position = spline.GetPoint(progress);
 		transform.localPosition = position;
-        InputManager.Instance.AddCallback(RobotCallback);
+
+        // If the player number is negative, it is controlled by the network player
+        if (_player.Number > 0)
+        {
+            InputManager.Instance.AddCallback(_player.Number - 1, RobotCallback);
+        }
 	}
 	
 	private void Update ()
@@ -106,18 +111,14 @@ public class PlayerMovement : MonoBehaviour
     // TODO: REMOVE, THIS IS ONLY FOR TESTS (should be put in the player controller Player)
     private void RobotCallback(MappedInput mappedInput)
     {
-        // TODO: Find a way to reduce the number of callbacks called by only triggering when it's the correct player (dunno if possible)
-
-        if (mappedInput.PlayerIndex != _player.Number - 1) return;
-
-        if (mappedInput.Ranges.ContainsKey(ActionsConstants.Ranges.MoveX))
+        if (mappedInput.Ranges.ContainsKey(InputConstants.MOVE_X))
         {
-            _movementX = mappedInput.Ranges[ActionsConstants.Ranges.MoveX];
+            _movementX = mappedInput.Ranges[InputConstants.MOVE_X];
         }
 
-        if (mappedInput.Ranges.ContainsKey(ActionsConstants.Ranges.MoveY))
+        if (mappedInput.Ranges.ContainsKey(InputConstants.MOVE_Y))
         {
-            _movementY = mappedInput.Ranges[ActionsConstants.Ranges.MoveY];
+            _movementY = mappedInput.Ranges[InputConstants.MOVE_Y];
         }
     }
 }

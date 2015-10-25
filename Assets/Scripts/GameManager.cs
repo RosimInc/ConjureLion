@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using InputHandling;
+using MenusHandler;
 
 public class GameManager : MonoBehaviour
 {
@@ -67,19 +68,19 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        Application.runInBackground = true;
+        Application.runInBackground = false;
 
         // If the manager got created in the main menu scene, we load the menu
         if (_levelIndex == 0)
         {
             MenusManager.Instance.ShowMenu("MainMenu");
-            InputManager.Instance.SetContext(new MainMenuContext());
+            InputManager.Instance.PushContext(new MainMenuContext());
         }
     }
 
     void Start()
     {
-        InputManager.Instance.AddCallback(GameManagerCallback);
+        InputManager.Instance.AddCallback(0, GameManagerCallback);
     }
 
     public void SetSouffliPlayerNumber(int number)
@@ -137,15 +138,15 @@ public class GameManager : MonoBehaviour
     {
         if (levelIndex == 0)
         {
-            InputManager.Instance.SetContext(new MainMenuContext());
+            InputManager.Instance.PushContext(new MainMenuContext());
         }
         else if (levelIndex == FIRST_PLAYABLE_LEVEL_INDEX - 1)
         {
-            InputManager.Instance.SetContext(new CharacterSelectionContext());
+            InputManager.Instance.PushContext(new CharacterSelectionContext());
         }
         else
         {
-            InputManager.Instance.SetContext(new GameplayContext());
+            InputManager.Instance.PushContext(new GameplayContext());
         }
         
 
@@ -228,10 +229,17 @@ public class GameManager : MonoBehaviour
 
     private void GameManagerCallback(MappedInput mappedInput)
     {
-        if (!_isPaused && _levelIndex >= FIRST_PLAYABLE_LEVEL_INDEX && mappedInput.Actions[ActionsConstants.Actions.OpenPauseMenu])
+        bool acceptButtonPressed = mappedInput.Actions.Contains(InputConstants.ACCEPT_MENU_OPTION);
+        bool backButonPressed = mappedInput.Actions.Contains(InputConstants.BACK_MENU_OPTION);
+        float horizontalAxis = 0f;
+        float verticalAxis = !mappedInput.Ranges.ContainsKey(InputConstants.CHANGE_MENU_OPTION_VERTICAL) ? 0f : mappedInput.Ranges[InputConstants.CHANGE_MENU_OPTION_VERTICAL];
+
+        MenusManager.Instance.SetInputValues(acceptButtonPressed, backButonPressed, horizontalAxis, verticalAxis);
+
+        if (!_isPaused && _levelIndex >= FIRST_PLAYABLE_LEVEL_INDEX && mappedInput.Actions.Contains(InputConstants.PAUSE))
         {
             MenusManager.Instance.ShowMenu("PauseMenu");
-            InputManager.Instance.SetContext(new PauseMenuContext());
+            InputManager.Instance.PushContext(new PauseMenuContext());
         }
     }
 }
